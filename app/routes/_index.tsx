@@ -5,9 +5,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from "~/components/ui/card";
-import type { Route } from "./+types/_index";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
 	return [
 		{ title: "รวมมิตรเครื่องมือ" },
 		{
@@ -20,20 +19,38 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
 	return (
 		<>
-			<h1 className="text-2xl font-bold mb-2">รวมมิตรเครื่องมือ</h1>
-			<p className="mb-4">
-				เว็บไซต์ที่รวบรวมเครื่องมือต่างๆ ที่ช่วยให้ชีวิตของคุณง่ายขึ้นโดยไม่เสียค่าใช้จ่าย
-			</p>
-			<Link to="/random/number">
-				<Card>
-					<CardHeader>
-						<CardTitle>สุ่มตัวเลข</CardTitle>
-						<CardDescription>
-							เครื่องมือนี้ช่วยให้คุณสามารถสร้างตัวเลขสุ่มระหว่างช่วงที่กำหนดได้อย่างง่ายดาย
-						</CardDescription>
-					</CardHeader>
-				</Card>
-			</Link>
+			<div className="mb-8">
+				<h1 className="text-2xl font-bold">รวมมิตรเครื่องมือ</h1>
+				<p>เว็บไซต์ที่รวบรวมเครื่องมือต่างๆ ที่ช่วยให้ชีวิตของคุณง่ายขึ้นโดยไม่เสียค่าใช้จ่าย</p>
+			</div>
+			<ul className="space-y-4">
+				<li>
+					<Link to="/random/number">
+						<Card>
+							<CardHeader>
+								<CardTitle>สุ่มตัวเลข - Random Number</CardTitle>
+								<CardDescription>
+									เครื่องมือนี้ช่วยให้คุณสามารถสร้างตัวเลขสุ่มระหว่างช่วงที่กำหนดได้อย่างง่ายดาย.
+									ใช้งานง่ายและรวดเร็ว.
+								</CardDescription>
+							</CardHeader>
+						</Card>
+					</Link>
+				</li>
+				<li>
+					<Link to="/random/name">
+						<Card>
+							<CardHeader>
+								<CardTitle>สุ่มชื่อ - Random Name</CardTitle>
+								<CardDescription>
+									เครื่องมือนี้ช่วยให้คุณสามารถสร้างชื่อสุ่มจากข้อมูลที่กำหนดได้อย่างง่ายดาย
+									ใช้งานง่ายและรวดเร็ว
+								</CardDescription>
+							</CardHeader>
+						</Card>
+					</Link>
+				</li>
+			</ul>
 		</>
 	);
 }
