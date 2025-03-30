@@ -61,11 +61,9 @@ export default function App() {
 	return (
 		<>
 			<Header />
-			<main className="px-4 py-16 flex-1">
-				<div className="container mx-auto">
-					<Outlet />
-				</div>
-			</main>
+			<div className="flex-1 flex flex-col">
+				<Outlet />
+			</div>
 			<Footer />
 		</>
 	);

@@ -1,17 +1,17 @@
+import NumberFlow from "@number-flow/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState } from "react";
 
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
-import { cn } from "~/lib/utils";
 
+const MotionNumberFlow = motion(NumberFlow);
 const DEFAULT_RANGE = {
 	from: 0,
 	to: 100,
 };
-const ANIMATION = { duration: 1000, interval: 50 };
 const DIGIT_OPTIONS = [
 	{ value: "custom", label: "กำหนดเอง" },
 	{ value: "2", label: "สุ่มตัวเลข 2 หลัก" },
@@ -19,20 +19,9 @@ const DIGIT_OPTIONS = [
 	{ value: "6", label: "สุ่มตัวเลข 6 หลัก" },
 ];
 
-const getRandomNumber = (min: number, max: number) =>
-	Math.floor(Math.random() * (max - min + 1)) + min;
-const getRangeFromDigitOption = (option: string) => {
-	if (option === "custom") return null;
-	const digits = Number.parseInt(option);
-	return {
-		min: 10 ** (digits - 1),
-		max: 10 ** digits - 1,
-	};
-};
-
 export function meta() {
 	return [
-		{ title: "สุ่มตัวเลข - Random Number" },
+		{ title: "สุ่มตัวเลข" },
 		{
 			name: "description",
 			content:
@@ -41,79 +30,12 @@ export function meta() {
 	];
 }
 
-const RangeInputs = ({
-	fromRef,
-	toRef,
-}: {
-	fromRef: React.RefObject<HTMLInputElement | null>;
-	toRef: React.RefObject<HTMLInputElement | null>;
-}) => (
-	<div className="flex gap-4 justify-center">
-		<div className="flex flex-col gap-2">
-			<Label htmlFor="from">เริ่มจาก (Minimum Value)</Label>
-			<Input
-				type="number"
-				ref={fromRef}
-				id="from"
-				placeholder="กรุณาใส่ตัวเลขเริ่มต้น"
-				defaultValue={DEFAULT_RANGE.from}
-			/>
-		</div>
-		<div className="flex flex-col gap-2">
-			<Label htmlFor="to">ถึง (Maximum Value)</Label>
-			<Input
-				type="number"
-				ref={toRef}
-				id="to"
-				placeholder="กรุณาใส่ตัวเลขสิ้นสุด"
-				defaultValue={DEFAULT_RANGE.to}
-			/>
-		</div>
-	</div>
-);
-
-const Instructions = () => (
-	<Card className="max-w-md">
-		<CardHeader>
-			<h2 className="font-bold">วิธีการใช้งานสุ่มตัวเลข - Random Number:</h2>
-		</CardHeader>
-		<CardContent>
-			<ol className="list-decimal list-inside space-y-1">
-				<li>เลือกโหมดการสุ่ม (กำหนดเองหรือจำนวนหลัก)</li>
-				<li>ถ้ากำหนดเอง: ใส่ตัวเลขเริ่มต้นในช่อง "เริ่มจาก"</li>
-				<li>ถ้ากำหนดเอง: ใส่ตัวเลขสิ้นสุดในช่อง "ถึง"</li>
-				<li>กดปุ่ม "สุ่มตัวเลข" เพื่อสร้างตัวเลขสุ่ม</li>
-				<li>ตัวเลขที่สุ่มได้จะแสดงด้านล่าง</li>
-			</ol>
-		</CardContent>
-	</Card>
-);
-
 export default function RandomNumber() {
 	const fromRef = useRef<HTMLInputElement>(null);
 	const toRef = useRef<HTMLInputElement>(null);
-	const [isAnimating, setIsAnimating] = useState(false);
-	const [displayNumber, setDisplayNumber] = useState<number | null>(null);
+	const [number, setNumber] = useState<number>(0);
 	const [selectedOption, setSelectedOption] = useState("custom");
-
-	const startAnimation = (min: number, max: number) => {
-		setIsAnimating(true);
-		const interval = setInterval(
-			() => setDisplayNumber(getRandomNumber(min, max)),
-			ANIMATION.interval,
-		);
-
-		setTimeout(() => {
-			clearInterval(interval);
-			setDisplayNumber(getRandomNumber(min, max));
-			setIsAnimating(false);
-		}, ANIMATION.duration);
-	};
-
-	const getDisplayPlaceholder = () =>
-		selectedOption === "custom"
-			? "?"
-			: "?".repeat(Number.parseInt(selectedOption));
+	const [isRandomized, setIsRandomized] = useState(false);
 
 	const handleGenerateClick = () => {
 		const range = getRangeFromDigitOption(selectedOption);
@@ -124,42 +46,154 @@ export default function RandomNumber() {
 			? range.max
 			: Number.parseInt(toRef.current?.value || String(DEFAULT_RANGE.to));
 
-		startAnimation(min, max);
+		setNumber(getRandomNumber(min, max));
+		setIsRandomized(true);
 	};
 
 	return (
-		<div className="flex flex-col items-center gap-6">
-			<header className="text-center">
-				<h1 className="text-4xl font-bold mb-4">สุ่มตัวเลข - Random Number</h1>
-				<p>เครื่องมือนี้ช่วยให้คุณสามารถสร้างตัวเลขสุ่มระหว่างช่วงที่กำหนดได้อย่างง่ายดาย</p>
-			</header>
-
-			<RadioGroup
-				className="flex gap-4"
-				value={selectedOption}
-				onValueChange={(value) => setSelectedOption(value)}
-			>
-				{DIGIT_OPTIONS.map(({ value, label }) => (
-					<div key={value} className="flex items-center gap-2">
-						<RadioGroupItem value={value} id={value} />
-						<Label htmlFor={value}>{label}</Label>
-					</div>
-				))}
-			</RadioGroup>
-
-			{selectedOption === "custom" && (
-				<RangeInputs fromRef={fromRef} toRef={toRef} />
-			)}
-
-			<h2 className={cn("text-8xl font-mono", isAnimating && "text-blue-500")}>
-				{displayNumber ?? getDisplayPlaceholder()}
-			</h2>
-
-			<Button onClick={handleGenerateClick} disabled={isAnimating}>
-				{isAnimating ? "กำลังสุ่มตัวเลข..." : "สุ่มตัวเลข"}
-			</Button>
-
+		<>
+			<div className="p-4 space-y-8 flex py-16 flex-col items-center">
+				<Header />
+				<DigitOptions
+					selectedOption={selectedOption}
+					setSelectedOption={setSelectedOption}
+				/>
+				{selectedOption === "custom" && (
+					<RangeInputs fromRef={fromRef} toRef={toRef} />
+				)}
+				<NumberDisplay
+					number={number}
+					isRandomized={isRandomized}
+					selectedOption={selectedOption}
+				/>
+				<Button onClick={handleGenerateClick}>สุ่มตัวเลข</Button>
+			</div>
 			<Instructions />
+		</>
+	);
+}
+
+function Header() {
+	return (
+		<header className="text-center space-y-4">
+			<h1 className="text-4xl font-medium">สุ่มตัวเลข</h1>
+			<p>เครื่องมือนี้ช่วยให้คุณสามารถสร้างตัวเลขสุ่มระหว่างช่วงที่กำหนดได้อย่างง่ายดาย</p>
+		</header>
+	);
+}
+
+function DigitOptions(props: {
+	selectedOption: string;
+	setSelectedOption: (value: string) => void;
+}) {
+	return (
+		<RadioGroup
+			className="flex gap-4"
+			value={props.selectedOption}
+			onValueChange={(value) => props.setSelectedOption(value)}
+		>
+			{DIGIT_OPTIONS.map(({ value, label }) => (
+				<div key={value} className="flex items-center gap-2">
+					<RadioGroupItem value={value} id={value} />
+					<Label htmlFor={value}>{label}</Label>
+				</div>
+			))}
+		</RadioGroup>
+	);
+}
+
+function RangeInputs({
+	fromRef,
+	toRef,
+}: {
+	fromRef: React.RefObject<HTMLInputElement | null>;
+	toRef: React.RefObject<HTMLInputElement | null>;
+}) {
+	return (
+		<div className="flex gap-4 justify-center">
+			<div className="flex flex-col gap-2">
+				<Label htmlFor="from">เริ่มจาก</Label>
+				<Input
+					type="number"
+					ref={fromRef}
+					id="from"
+					placeholder="กรุณาใส่ตัวเลขเริ่มต้น"
+					defaultValue={DEFAULT_RANGE.from}
+				/>
+			</div>
+			<div className="flex flex-col gap-2">
+				<Label htmlFor="to">ถึง</Label>
+				<Input
+					type="number"
+					ref={toRef}
+					id="to"
+					placeholder="กรุณาใส่ตัวเลขสิ้นสุด"
+					defaultValue={DEFAULT_RANGE.to}
+				/>
+			</div>
 		</div>
 	);
+}
+
+function NumberDisplay(props: {
+	number: number;
+	isRandomized: boolean;
+	selectedOption: string;
+}) {
+	const placeholder =
+		props.selectedOption === "custom"
+			? "?"
+			: "?".repeat(Number.parseInt(props.selectedOption));
+
+	return (
+		<div className="text-8xl relative">
+			<MotionNumberFlow
+				format={{
+					useGrouping: false,
+				}}
+				initial={{ opacity: 0 }}
+				animate={{
+					opacity: props.isRandomized ? 1 : 0,
+				}}
+				value={props.number}
+			/>
+			<AnimatePresence>
+				{!props.isRandomized && (
+					<motion.span
+						exit={{ opacity: 0 }}
+						className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+					>
+						{placeholder}
+					</motion.span>
+				)}
+			</AnimatePresence>
+		</div>
+	);
+}
+
+function Instructions() {
+	return (
+		<div className="p-4 space-y-2">
+			<h2 className="font-medium">วิธีการใช้งานสุ่มตัวเลข</h2>
+			<ol className="list-decimal list-inside space-y-1 text-muted-foreground">
+				<li>เลือกโหมดการสุ่มจากตัวเลือกด้านบน</li>
+				<li>ถ้าเลือก "กำหนดเอง" ใส่ช่วงตัวเลขที่ต้องการ</li>
+				<li>กดปุ่ม "สุ่มตัวเลข" เพื่อดูผลลัพธ์</li>
+				<li>สามารถกดซ้ำเพื่อสุ่มตัวเลขใหม่ได้ทันที</li>
+			</ol>
+		</div>
+	);
+}
+
+function getRandomNumber(min: number, max: number) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRangeFromDigitOption(option: string) {
+	if (option === "custom") return null;
+	const digits = Number.parseInt(option);
+	return {
+		min: 10 ** (digits - 1),
+		max: 10 ** digits - 1,
+	};
 }
