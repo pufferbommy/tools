@@ -164,7 +164,7 @@ function NumberDisplay(props: {
 
 function Instructions() {
 	return (
-		<div className="grid md:grid-cols-2 divide-y md:divide-x">
+		<div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x">
 			<div className="space-y-2 p-4">
 				<h2 className="font-medium">คืออะไรใช้ทำอะไร</h2>
 				<ol className="list-decimal list-inside space-y-1 text-muted-foreground">
