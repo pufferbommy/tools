@@ -53,7 +53,7 @@ export default function RandomNumber() {
 	return (
 		<>
 			<div className="p-4 space-y-8 flex py-16 flex-col items-center">
-				<Header />
+				<h1 className="text-4xl text-center font-medium">สุ่มตัวเลข</h1>
 				<DigitOptions
 					selectedOption={selectedOption}
 					setSelectedOption={setSelectedOption}
@@ -73,22 +73,13 @@ export default function RandomNumber() {
 	);
 }
 
-function Header() {
-	return (
-		<header className="text-center space-y-4">
-			<h1 className="text-4xl font-medium">สุ่มตัวเลข</h1>
-			<p>เครื่องมือนี้ช่วยให้คุณสามารถสร้างตัวเลขสุ่มระหว่างช่วงที่กำหนดได้อย่างง่ายดาย</p>
-		</header>
-	);
-}
-
 function DigitOptions(props: {
 	selectedOption: string;
 	setSelectedOption: (value: string) => void;
 }) {
 	return (
 		<RadioGroup
-			className="flex gap-4"
+			className="flex flex-wrap justify-center gap-4"
 			value={props.selectedOption}
 			onValueChange={(value) => props.setSelectedOption(value)}
 		>
@@ -110,9 +101,9 @@ function RangeInputs({
 	toRef: React.RefObject<HTMLInputElement | null>;
 }) {
 	return (
-		<div className="flex gap-4 justify-center">
+		<div className="flex flex-col sm:flex-row gap-4 justify-center">
 			<div className="flex flex-col gap-2">
-				<Label htmlFor="from">เริ่มจาก</Label>
+				<Label htmlFor="from">เริ่ม</Label>
 				<Input
 					type="number"
 					ref={fromRef}
@@ -173,14 +164,25 @@ function NumberDisplay(props: {
 
 function Instructions() {
 	return (
-		<div className="p-4 space-y-2">
-			<h2 className="font-medium">วิธีการใช้งานสุ่มตัวเลข</h2>
-			<ol className="list-decimal list-inside space-y-1 text-muted-foreground">
-				<li>เลือกโหมดการสุ่มจากตัวเลือกด้านบน</li>
-				<li>ถ้าเลือก "กำหนดเอง" ใส่ช่วงตัวเลขที่ต้องการ</li>
-				<li>กดปุ่ม "สุ่มตัวเลข" เพื่อดูผลลัพธ์</li>
-				<li>สามารถกดซ้ำเพื่อสุ่มตัวเลขใหม่ได้ทันที</li>
-			</ol>
+		<div className="grid md:grid-cols-2 divide-y md:divide-x">
+			<div className="space-y-2 p-4">
+				<h2 className="font-medium">คืออะไรใช้ทำอะไร</h2>
+				<ol className="list-decimal list-inside space-y-1 text-muted-foreground">
+					<li>สุ่มตัวเลขเพื่อสร้างตัวเลขที่ไม่ซ้ำกัน</li>
+					<li>สามารถกำหนดช่วงตัวเลขที่ต้องการสุ่มได้</li>
+					<li>กดปุ่มเพื่อดูผลลัพธ์ของตัวเลขที่สุ่มได้</li>
+					<li>สามารถสุ่มใหม่ได้ทันทีเมื่อกดปุ่มอีกครั้ง</li>
+				</ol>
+			</div>
+			<div className="space-y-2 p-4">
+				<h2 className="font-medium">วิธีการใช้งานสุ่มตัวเลข</h2>
+				<ol className="list-decimal list-inside space-y-1 text-muted-foreground">
+					<li>เลือกโหมดการสุ่มจากตัวเลือกด้านบน</li>
+					<li>ถ้าเลือก "กำหนดเอง" ใส่ช่วงตัวเลขที่ต้องการ</li>
+					<li>กดปุ่ม "สุ่มตัวเลข" เพื่อดูผลลัพธ์</li>
+					<li>สามารถกดซ้ำเพื่อสุ่มตัวเลขใหม่ได้ทันที</li>
+				</ol>
+			</div>
 		</div>
 	);
 }
