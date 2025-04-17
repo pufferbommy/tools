@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: winter --default;
+  themes: dark --default;
 }
 
 @theme {
-  --font-sans: 'Noto Sans Thai Variable', sans-serif;
+  --font-sans: "Noto Sans Thai Variable", sans-serif;
 }
