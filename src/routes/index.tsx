@@ -1,10 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shuffle } from "@phosphor-icons/react";
 
-export const Route = createFileRoute("/")({
-  component: Home,
-});
-
 const TOOLS = [
   {
     title: "คำนวณดัชนีมวลกาย (BMI)",
@@ -14,9 +10,19 @@ const TOOLS = [
   },
 ];
 
+export const Route = createFileRoute("/")({
+  component: Home,
+  loader: async () => {
+    const randomIndex = Math.floor(Math.random() * TOOLS.length);
+    const randomTool = TOOLS[randomIndex];
+    return {
+      randomTool,
+    };
+  },
+});
+
 function Home() {
-  const randomIndex = Math.floor(Math.random() * TOOLS.length);
-  const randomTool = TOOLS[randomIndex];
+  const { randomTool } = Route.useLoaderData();
 
   return (
     <main className="py-16 container">
