@@ -75,7 +75,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html data-theme="light">
       <head>
         <HeadContent />
       </head>
