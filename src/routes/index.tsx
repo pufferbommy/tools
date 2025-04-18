@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Shuffle } from "@phosphor-icons/react";
 
 const TOOLS = [
@@ -12,17 +12,10 @@ const TOOLS = [
 
 export const Route = createFileRoute("/")({
   component: Home,
-  loader: async () => {
-    const randomIndex = Math.floor(Math.random() * TOOLS.length);
-    const randomTool = TOOLS[randomIndex];
-    return {
-      randomTool,
-    };
-  },
 });
 
 function Home() {
-  const { randomTool } = Route.useLoaderData();
+  const navigate = useNavigate();
 
   return (
     <main className="py-16 container">
@@ -32,10 +25,19 @@ function Home() {
           เว็บเดียวที่รวมทุกเครื่องมือที่คุณต้องใช้ในชีวิตประจำวัน ทั้งสะดวก
           ใช้ง่าย และฟรี
         </p>
-        <Link to={randomTool.href} className="btn btn-primary">
+        <button
+          onClick={() => {
+            const randomIndex = Math.floor(Math.random() * TOOLS.length);
+            const randomTool = TOOLS[randomIndex];
+            navigate({
+              to: randomTool.href,
+            });
+          }}
+          className="btn btn-primary"
+        >
           <Shuffle />
           สุ่มเครื่องมือ
-        </Link>
+        </button>
       </section>
       <section className="grid grid-cols-4">
         {TOOLS.map((tool) => (
