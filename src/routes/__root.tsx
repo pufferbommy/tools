@@ -11,7 +11,7 @@ import Header from "~/components/Header";
 import { NotFound } from "~/components/NotFound";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
-import "@fontsource-variable/noto-sans-thai";
+import fontsourceVariableNotoSansThaiCss from "@fontsource-variable/noto-sans-thai?url";
 import Footer from "~/components/Footer";
 
 export const Route = createRootRoute({
@@ -32,6 +32,10 @@ export const Route = createRootRoute({
       }),
     ],
     links: [
+      {
+        rel: "stylesheet",
+        href: fontsourceVariableNotoSansThaiCss,
+      },
       { rel: "stylesheet", href: appCss },
       {
         rel: "apple-touch-icon",
