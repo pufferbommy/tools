@@ -6,8 +6,10 @@ yarn.lock
 .cache
 .env
 .vercel
+.netlify
 .output
 .vinxi
+dist
 
 /build/
 /api/
