@@ -35,7 +35,7 @@ function RouteComponent() {
   const [bmi, setBmi] = useState<number | null>(null);
 
   return (
-    <main className="container-sm space-y-8 py-8">
+    <>
       <Breadcrumbs>
         <Breadcrumbs.Item href="/">หน้าแรก</Breadcrumbs.Item>
         <Breadcrumbs.Item href="/tools/calculator">
@@ -51,6 +51,6 @@ function RouteComponent() {
       <BmiTable bmi={bmi} />
       <BmiAdviceAllSections />
       <SocialShare url={url} text="เครื่องมือคำนวณดัชนีมวลกาย (BMI)" />
-    </main>
+    </>
   );
 }

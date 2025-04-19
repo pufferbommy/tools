@@ -6,7 +6,7 @@ export const Route = createFileRoute("/")({
   loader: async () => {
     const TOOLS = [
       {
-        title: "คำนวณดัชนีมวลกาย (BMI)",
+        title: "เครื่องมือคำนวณดัชนีมวลกาย (BMI)",
         description:
           "เครื่องคำนวณ BMI ตรวจสอบน้ำหนักตามส่วนสูงของคุณ พร้อมแนะนำหมวดหมู่สุขภาพ",
         href: "/tools/bmi-calculator",
@@ -23,7 +23,7 @@ function RouteComponent() {
   const { tools, randomToolHref } = Route.useLoaderData();
 
   return (
-    <main className="py-16 container-sm">
+    <main className="container-sm py-16 space-y-8">
       <section className="text-center mb-16 space-y-4">
         <h1 className="text-4xl font-bold">รวมมิตรเครื่องมือสารพัดประโยชน์</h1>
         <p className="text-base-content/75">
