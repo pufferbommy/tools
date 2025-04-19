@@ -10,29 +10,25 @@ import { BmiDisplay } from "~/components/bmi/BmiDisplay";
 import { BmiCalculator } from "~/components/bmi/BmiCalculator";
 import { BmiAdviceAllSections } from "~/components/bmi/BmiAdviceSection";
 
-function getRequestOrigin() {
-  const isClient = typeof window !== "undefined";
+import { createServerFn } from "@tanstack/react-start";
 
-  if (isClient) return window.location.origin;
-
+const getOrigin = createServerFn({ method: "GET" }).handler(async () => {
   const host = getHeader("host");
   const proto = getHeader("x-forwarded-proto") || "http";
   const origin = `${proto}://${host}`;
   return origin;
-}
+});
 
 export const Route = createFileRoute("/tools/bmi-calculator")({
   component: RouteComponent,
-  loader: (context) => {
-    const origin = getRequestOrigin();
-    const pathname = context.location.pathname;
-    const url = `${origin}${pathname}`;
-    return { url };
+  loader: async () => {
+    const origin = await getOrigin();
+    return { origin };
   },
 });
 
 function RouteComponent() {
-  const { url } = Route.useLoaderData();
+  const { origin } = Route.useLoaderData();
 
   const [bmi, setBmi] = useState<number | null>(null);
 
@@ -52,7 +48,7 @@ function RouteComponent() {
       {bmi !== null && <BmiDisplay bmi={bmi} />}
       <BmiTable bmi={bmi} />
       <BmiAdviceAllSections />
-      <SocialShare url={url} text="แชร์เครื่องคำนวณ BMI" />
+      <SocialShare url={origin} text="เครื่องมือคำนวณดัชนีมวลกาย (BMI)" />
     </main>
   );
 }
