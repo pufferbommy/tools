@@ -1,22 +1,10 @@
-import { Shuffle } from "@phosphor-icons/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Shuffle } from "lucide-react";
 
 export const Route = createFileRoute("/")({
-  component: Home,
+  component: RouteComponent,
   loader: async () => {
     const TOOLS = [
-      {
-        title: "คำนวณดัชนีมวลกาย (BMI)",
-        description:
-          "เครื่องคำนวณ BMI ตรวจสอบน้ำหนักตามส่วนสูงของคุณ พร้อมแนะนำหมวดหมู่สุขภาพ",
-        href: "/tools/calculator/bmi",
-      },
-      {
-        title: "คำนวณดัชนีมวลกาย (BMI)",
-        description:
-          "เครื่องคำนวณ BMI ตรวจสอบน้ำหนักตามส่วนสูงของคุณ พร้อมแนะนำหมวดหมู่สุขภาพ",
-        href: "/tools/calculator/bmi",
-      },
       {
         title: "คำนวณดัชนีมวลกาย (BMI)",
         description:
@@ -26,12 +14,13 @@ export const Route = createFileRoute("/")({
     ];
     return {
       tools: TOOLS,
+      randomToolHref: TOOLS[Math.floor(Math.random() * TOOLS.length)].href,
     };
   },
 });
 
-function Home() {
-  const { tools } = Route.useLoaderData();
+function RouteComponent() {
+  const { tools, randomToolHref } = Route.useLoaderData();
 
   return (
     <main className="py-16 container-sm">
@@ -41,19 +30,10 @@ function Home() {
           เว็บเดียวที่รวมทุกเครื่องมือที่คุณต้องใช้ในชีวิตประจำวัน ทั้งสะดวก
           ใช้ง่าย และฟรี
         </p>
-        <button
-          // onClick={() => {
-          //   const randomIndex = Math.floor(Math.random() * TOOLS.length);
-          //   const randomTool = TOOLS[randomIndex];
-          //   navigate({
-          //     to: randomTool.href,
-          //   });
-          // }}
-          className="btn btn-primary"
-        >
-          <Shuffle />
+        <Link to={randomToolHref} className="btn btn-primary">
+          <Shuffle size={16} />
           สุ่มเครื่องมือ
-        </button>
+        </Link>
       </section>
       <section className="grid md:grid-cols-2 gap-4">
         {tools.map(({ href, title, description }) => (
