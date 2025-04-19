@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { cn } from "~/lib/utils";
 
-export function BmiCalculator({
+export function BmiCalculatorSection({
   setBmi,
 }: {
   setBmi: (value: number | null) => void;

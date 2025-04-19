@@ -11,6 +11,12 @@ export const Route = createFileRoute("/")({
           "เครื่องคำนวณ BMI ตรวจสอบน้ำหนักตามส่วนสูงของคุณ พร้อมแนะนำหมวดหมู่สุขภาพ",
         href: "/tools/bmi-calculator",
       },
+      {
+        title: "เครื่องมือคำนวณอัตราการเผาผลาญพลังงานพื้นฐาน (BMR)",
+        description:
+          "เครื่องคำนวณ BMR เพื่อประเมินปริมาณแคลอรี่ที่ร่างกายต้องการในแต่ละวัน ตามเพศ น้ำหนัก ส่วนสูง และอายุ",
+        href: "/tools/bmr-calculator",
+      },
     ];
     return {
       tools: TOOLS,

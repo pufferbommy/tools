@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-export function BmiDisplay({ bmi }: { bmi: number }) {
+export function BmiDisplaySection({ bmi }: { bmi: number }) {
   const bmiCategory = useMemo(() => {
     if (bmi === null) return "";
     if (bmi < 18.5) return "น้ำหนักน้อย / ผอม";

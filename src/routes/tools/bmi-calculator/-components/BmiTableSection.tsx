@@ -1,6 +1,6 @@
 import { cn } from "~/lib/utils";
 
-export function BmiTable({ bmi }: { bmi: number | null }) {
+export function BmiTableSection({ bmi }: { bmi: number | null }) {
   const rows = [
     {
       range: "< 18.5",
