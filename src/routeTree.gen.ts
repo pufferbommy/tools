@@ -13,8 +13,8 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as BlogImport } from './routes/blog'
 import { Route as IndexImport } from './routes/index'
+import { Route as ToolsBmiCalculatorImport } from './routes/tools.bmi-calculator'
 import { Route as ToolsCalculatorIndexImport } from './routes/tools.calculator.index'
-import { Route as ToolsCalculatorBmiImport } from './routes/tools.calculator.bmi'
 
 // Create/Update Routes
 
@@ -30,15 +30,15 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ToolsCalculatorIndexRoute = ToolsCalculatorIndexImport.update({
-  id: '/tools/calculator/',
-  path: '/tools/calculator/',
+const ToolsBmiCalculatorRoute = ToolsBmiCalculatorImport.update({
+  id: '/tools/bmi-calculator',
+  path: '/tools/bmi-calculator',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ToolsCalculatorBmiRoute = ToolsCalculatorBmiImport.update({
-  id: '/tools/calculator/bmi',
-  path: '/tools/calculator/bmi',
+const ToolsCalculatorIndexRoute = ToolsCalculatorIndexImport.update({
+  id: '/tools/calculator/',
+  path: '/tools/calculator/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,11 +60,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogImport
       parentRoute: typeof rootRoute
     }
-    '/tools/calculator/bmi': {
-      id: '/tools/calculator/bmi'
-      path: '/tools/calculator/bmi'
-      fullPath: '/tools/calculator/bmi'
-      preLoaderRoute: typeof ToolsCalculatorBmiImport
+    '/tools/bmi-calculator': {
+      id: '/tools/bmi-calculator'
+      path: '/tools/bmi-calculator'
+      fullPath: '/tools/bmi-calculator'
+      preLoaderRoute: typeof ToolsBmiCalculatorImport
       parentRoute: typeof rootRoute
     }
     '/tools/calculator/': {
@@ -82,14 +82,14 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
-  '/tools/calculator/bmi': typeof ToolsCalculatorBmiRoute
+  '/tools/bmi-calculator': typeof ToolsBmiCalculatorRoute
   '/tools/calculator': typeof ToolsCalculatorIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
-  '/tools/calculator/bmi': typeof ToolsCalculatorBmiRoute
+  '/tools/bmi-calculator': typeof ToolsBmiCalculatorRoute
   '/tools/calculator': typeof ToolsCalculatorIndexRoute
 }
 
@@ -97,20 +97,20 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
-  '/tools/calculator/bmi': typeof ToolsCalculatorBmiRoute
+  '/tools/bmi-calculator': typeof ToolsBmiCalculatorRoute
   '/tools/calculator/': typeof ToolsCalculatorIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/blog' | '/tools/calculator/bmi' | '/tools/calculator'
+  fullPaths: '/' | '/blog' | '/tools/bmi-calculator' | '/tools/calculator'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/blog' | '/tools/calculator/bmi' | '/tools/calculator'
+  to: '/' | '/blog' | '/tools/bmi-calculator' | '/tools/calculator'
   id:
     | '__root__'
     | '/'
     | '/blog'
-    | '/tools/calculator/bmi'
+    | '/tools/bmi-calculator'
     | '/tools/calculator/'
   fileRoutesById: FileRoutesById
 }
@@ -118,14 +118,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlogRoute: typeof BlogRoute
-  ToolsCalculatorBmiRoute: typeof ToolsCalculatorBmiRoute
+  ToolsBmiCalculatorRoute: typeof ToolsBmiCalculatorRoute
   ToolsCalculatorIndexRoute: typeof ToolsCalculatorIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlogRoute: BlogRoute,
-  ToolsCalculatorBmiRoute: ToolsCalculatorBmiRoute,
+  ToolsBmiCalculatorRoute: ToolsBmiCalculatorRoute,
   ToolsCalculatorIndexRoute: ToolsCalculatorIndexRoute,
 }
 
@@ -141,7 +141,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/blog",
-        "/tools/calculator/bmi",
+        "/tools/bmi-calculator",
         "/tools/calculator/"
       ]
     },
@@ -151,8 +151,8 @@ export const routeTree = rootRoute
     "/blog": {
       "filePath": "blog.tsx"
     },
-    "/tools/calculator/bmi": {
-      "filePath": "tools.calculator.bmi.tsx"
+    "/tools/bmi-calculator": {
+      "filePath": "tools.bmi-calculator.tsx"
     },
     "/tools/calculator/": {
       "filePath": "tools.calculator.index.tsx"

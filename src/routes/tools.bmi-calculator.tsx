@@ -1,19 +1,39 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { getHeader } from "@tanstack/react-start/server";
 
-import { BmiAdviceAllSections } from "~/components/bmi/BmiAdviceSection";
-import { BmiCalculator } from "~/components/bmi/BmiCalculator";
-import { BmiDisplay } from "~/components/bmi/BmiDisplay";
 import { BmiIntro } from "~/components/bmi/BmiIntro";
 import { BmiTable } from "~/components/bmi/BmiTable";
 import { SocialShare } from "~/components/SocialShare";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
+import { BmiDisplay } from "~/components/bmi/BmiDisplay";
+import { BmiCalculator } from "~/components/bmi/BmiCalculator";
+import { BmiAdviceAllSections } from "~/components/bmi/BmiAdviceSection";
 
-export const Route = createFileRoute("/tools/calculator/bmi")({
+function getRequestOrigin() {
+  const isClient = typeof window !== "undefined";
+
+  if (isClient) return window.location.origin;
+
+  const host = getHeader("host");
+  const proto = getHeader("x-forwarded-proto") || "http";
+  const origin = `${proto}://${host}`;
+  return origin;
+}
+
+export const Route = createFileRoute("/tools/bmi-calculator")({
   component: RouteComponent,
+  loader: (context) => {
+    const origin = getRequestOrigin();
+    const pathname = context.location.pathname;
+    const url = `${origin}${pathname}`;
+    return { url };
+  },
 });
 
 function RouteComponent() {
+  const { url } = Route.useLoaderData();
+
   const [bmi, setBmi] = useState<number | null>(null);
 
   return (
@@ -32,7 +52,7 @@ function RouteComponent() {
       {bmi !== null && <BmiDisplay bmi={bmi} />}
       <BmiTable bmi={bmi} />
       <BmiAdviceAllSections />
-      <SocialShare />
+      <SocialShare url={url} text="แชร์เครื่องคำนวณ BMI" />
     </main>
   );
 }

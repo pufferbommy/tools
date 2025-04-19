@@ -9,7 +9,7 @@ export const Route = createFileRoute("/")({
         title: "คำนวณดัชนีมวลกาย (BMI)",
         description:
           "เครื่องคำนวณ BMI ตรวจสอบน้ำหนักตามส่วนสูงของคุณ พร้อมแนะนำหมวดหมู่สุขภาพ",
-        href: "/tools/calculator/bmi",
+        href: "/tools/bmi-calculator",
       },
     ];
     return {
