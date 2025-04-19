@@ -21,14 +21,16 @@ const getOrigin = createServerFn({ method: "GET" }).handler(async () => {
 
 export const Route = createFileRoute("/tools/bmi-calculator")({
   component: RouteComponent,
-  loader: async () => {
+  loader: async (context) => {
     const origin = await getOrigin();
-    return { origin };
+    const pathname = context.location.pathname;
+    const url = `${origin}${pathname}`;
+    return { url };
   },
 });
 
 function RouteComponent() {
-  const { origin } = Route.useLoaderData();
+  const { url } = Route.useLoaderData();
 
   const [bmi, setBmi] = useState<number | null>(null);
 
@@ -48,7 +50,7 @@ function RouteComponent() {
       {bmi !== null && <BmiDisplay bmi={bmi} />}
       <BmiTable bmi={bmi} />
       <BmiAdviceAllSections />
-      <SocialShare url={origin} text="เครื่องมือคำนวณดัชนีมวลกาย (BMI)" />
+      <SocialShare url={url} text="เครื่องมือคำนวณดัชนีมวลกาย (BMI)" />
     </main>
   );
 }
