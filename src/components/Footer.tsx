@@ -1,9 +1,10 @@
+import Logo from "./Logo";
+
 export default function Footer() {
   return (
     <footer className="border-t border-base-300">
       <div className="container footer sm:footer-horizontal p-4">
         <aside className="grid-flow-col items-center gap-2">
-          <img src="/logo.png" width={32} alt="logo" />
           <p className="text-sm">
             © {new Date().getFullYear()} รวมมิตรเครื่องมือ — Made with{" "}
             <span role="img" aria-label="love" className="text-red-500">
