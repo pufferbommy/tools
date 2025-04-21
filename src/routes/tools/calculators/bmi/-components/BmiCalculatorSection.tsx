@@ -41,7 +41,7 @@ export function BmiCalculatorSection({
   return (
     <section>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="block">น้ำหนัก</label>
             <div className={cn("w-full join", errors.weight && "input-error")}>

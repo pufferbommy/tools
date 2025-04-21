@@ -1,19 +1,6 @@
-import { Mars, Venus } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
+import { GENDERS } from "~/constants";
 import { cn } from "~/lib/utils";
-
-const GENDERS = [
-  {
-    value: "male",
-    name: "ชาย",
-    icon: <Mars size={16} />,
-  },
-  {
-    value: "female",
-    name: "หญิง",
-    icon: <Venus size={16} />,
-  },
-];
 
 export function BmrCalculatorSection({
   setBmr,
@@ -88,7 +75,7 @@ export function BmrCalculatorSection({
             )}
           />
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <label className="block">อายุ</label>
             <div className={cn("input w-full", errors.age && "input-error")}>

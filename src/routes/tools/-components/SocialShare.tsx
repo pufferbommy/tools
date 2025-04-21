@@ -73,7 +73,7 @@ export function SocialShare({ url, text }: { url: string; text: string }) {
   ];
 
   return (
-    <details className="dropdown dropdown-bottom dropdown-end shrink-0">
+    <details className="dropdown dropdown-bottom md:dropdown-end shrink-0">
       <summary className="btn btn-outline rounded-full btn-sm">
         <Share size={16} />
         แชร์

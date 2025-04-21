@@ -15,6 +15,7 @@ import Footer from "~/components/Footer";
 import appCss from "~/styles/app.css?url";
 import { NotFound } from "~/components/NotFound";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
+import { TOOL_CATEGORIES } from "~/constants";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -68,25 +69,6 @@ export const Route = createRootRoute({
     );
   },
   loader: async () => {
-    const TOOL_CATEGORIES = [
-      {
-        category: "เครื่องคำนวณ",
-        items: [
-          {
-            title: "คำนวณดัชนีมวลกาย (BMI)",
-            href: "/tools/calculators/bmi",
-          },
-          {
-            title: "คำนวณการเผาผลาญพลังงาน (BMR)",
-            href: "/tools/calculators/bmr",
-          },
-          {
-            title: "คำนวณพลังงานต่อวัน (TDEE)",
-            href: "/tools/calculators/tdee",
-          },
-        ],
-      },
-    ];
     return {
       categories: TOOL_CATEGORIES,
     };
@@ -114,7 +96,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className="grid grid-rows-[auto_1fr] h-dvh">
         <Header />
         <main className="flex h-full overflow-auto">
-          <div className="shrink-0 sticky shadow-sm top-0 w-80 border-r border-base-300 p-8">
+          <div className="shrink-0 sticky shadow-sm hidden xl:block top-0 w-80 border-r border-base-300 p-4">
             <ul className="menu w-full p-0">
               <li>
                 <Link to="/">หน้าแรก</Link>
@@ -136,7 +118,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             </ul>
           </div>
           <div className="flex-1 flex flex-col">
-            <div className="flex-1 p-16">
+            <div className="flex-1 p-8">
               <div className="container-sm space-y-8">{children}</div>
             </div>
             <Footer />
