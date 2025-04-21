@@ -25,3 +25,7 @@
 .card-border {
   @apply border-base-300;
 }
+
+.card-title {
+  @apply text-base font-medium;
+}

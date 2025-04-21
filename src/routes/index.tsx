@@ -43,7 +43,9 @@ function RouteComponent() {
       <section>
         {tools.map(({ category, items }) => (
           <div className="space-y-4">
-            <h2 className="font-bold text-lg">{category}</h2>
+            <h2 className="font-bold text-lg">
+              {category} ({items.length})
+            </h2>
             <div className="grid md:grid-cols-3 gap-4">
               {items.map((tool) => (
                 <Link
@@ -53,7 +55,7 @@ function RouteComponent() {
                 >
                   <div className="card-body">
                     <h2 className="card-title">{tool.title}</h2>
-                    <p>{tool.description}</p>
+                    <p className="text-base-content/75">{tool.description}</p>
                   </div>
                 </Link>
               ))}
