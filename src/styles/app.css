@@ -1,15 +1,11 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default;
+  themes: lofi;
 }
 @plugin "daisyui/theme" {
-  name: "light";
-  default: true;
+  name: "lofi";
+  --color-primary: rgb(200, 80, 120);
   --radius-field: 0.5rem;
-}
-
-.card-border {
-  @apply border-base-300;
 }
 
 @theme {
@@ -18,14 +14,15 @@
 
 @utility container {
   margin-inline: auto;
-  padding-inline: 2rem;
+  padding-inline: 1rem;
 }
 
 @utility container-sm {
   margin-inline: auto;
-  padding-inline: 2rem;
+  padding-inline: 1rem;
+  max-width: 1000px;
+}
 
-  @variant sm {
-    max-width: 50rem;
-  }
+.card-border {
+  @apply border-base-300;
 }

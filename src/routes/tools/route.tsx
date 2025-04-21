@@ -5,9 +5,5 @@ export const Route = createFileRoute("/tools")({
 });
 
 function RouteComponent() {
-  return (
-    <main className="container-sm py-8 space-y-8">
-      <Outlet />
-    </main>
-  );
+  return <Outlet />;
 }

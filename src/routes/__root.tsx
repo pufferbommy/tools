@@ -1,5 +1,6 @@
 import {
   HeadContent,
+  Link,
   Outlet,
   Scripts,
   createRootRoute,
@@ -66,6 +67,30 @@ export const Route = createRootRoute({
       </RootDocument>
     );
   },
+  loader: async () => {
+    const TOOL_CATEGORIES = [
+      {
+        category: "เครื่องคำนวณ",
+        items: [
+          {
+            title: "คำนวณดัชนีมวลกาย (BMI)",
+            href: "/tools/calculators/bmi",
+          },
+          {
+            title: "คำนวณการเผาผลาญพลังงาน (BMR)",
+            href: "/tools/calculators/bmr",
+          },
+          {
+            title: "คำนวณพลังงานต่อวัน (TDEE)",
+            href: "/tools/calculators/tdee",
+          },
+        ],
+      },
+    ];
+    return {
+      categories: TOOL_CATEGORIES,
+    };
+  },
   notFoundComponent: () => <NotFound />,
   component: RootComponent,
 });
@@ -79,15 +104,44 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { categories } = Route.useLoaderData();
+
   return (
-    <html data-theme="light">
+    <html data-theme="lofi" lang="th">
       <head>
         <HeadContent />
       </head>
-      <body className="grid grid-rows-[auto_1fr_auto] min-h-dvh">
+      <body className="grid grid-rows-[auto_1fr] h-dvh">
         <Header />
-        {children}
-        <Footer />
+        <main className="flex h-full overflow-auto">
+          <div className="shrink-0 sticky shadow-sm top-0 w-80 border-r border-base-300 p-8">
+            <ul className="menu w-full p-0">
+              <li>
+                <Link to="/">หน้าแรก</Link>
+              </li>
+              {categories.map((cat) => (
+                <li key={cat.category}>
+                  <details open>
+                    <summary>{cat.category}</summary>
+                    <ul>
+                      {cat.items.map((tool) => (
+                        <li key={tool.href}>
+                          <Link to={tool.href}>{tool.title}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex-1 flex flex-col">
+            <div className="flex-1 p-16">
+              <div className="container-sm space-y-8">{children}</div>
+            </div>
+            <Footer />
+          </div>
+        </main>
         <TanStackRouterDevtools position="bottom-right" />
         <Scripts />
       </body>
