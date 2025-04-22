@@ -3,7 +3,8 @@ export function BmrDisplaySection({ bmr }: { bmr: number | null }) {
     <section className="space-y-4">
       <p>
         ค่าการเผาผลาญพลังงาน (BMR) ของคุณคือ{" "}
-        <strong>{bmr?.toFixed(1) || "?"}</strong> แคลอรี่ต่อวัน
+        <strong className="text-primary">{bmr?.toFixed(1) || "?"}</strong>{" "}
+        แคลอรี่ต่อวัน
       </p>
       <p>
         ค่านี้แสดงถึงจำนวนแคลอรี่ที่ร่างกายต้องใช้ในแต่ละวันเพื่อทำงานพื้นฐาน

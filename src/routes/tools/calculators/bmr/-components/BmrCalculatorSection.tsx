@@ -56,7 +56,7 @@ export function BmrCalculatorSection({
             control={control}
             name="gender"
             render={({ field: { value, onChange } }) => (
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid sm:grid-cols-2 gap-2">
                 {GENDERS.map((gender) => (
                   <button
                     key={gender.value}

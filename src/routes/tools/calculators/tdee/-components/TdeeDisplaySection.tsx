@@ -3,7 +3,8 @@ export function TdeeDisplaySection({ tdee }: { tdee: number | null }) {
     <section className="space-y-4">
       <p>
         ค่าพลังงานที่ร่างกายคุณต้องการต่อวัน (TDEE) คือ{" "}
-        <strong>{tdee?.toFixed(1) || "?"}</strong> แคลอรี่
+        <strong className="text-primary">{tdee?.toFixed(1) || "?"}</strong>{" "}
+        แคลอรี่
       </p>
       <p>
         TDEE คือจำนวนพลังงานทั้งหมดที่ร่างกายคุณใช้ในแต่ละวัน

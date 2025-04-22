@@ -13,8 +13,10 @@ export function BmiDisplaySection({ bmi }: { bmi: number | null }) {
   return (
     <section>
       <p>
-        ค่าดัชนีมวลกาย (BMI) ของคุณคือ <strong>{bmi?.toFixed(1) || "?"}</strong>{" "}
-        kg/m<sup>2</sup> อยู่ในเกณฑ์ <strong>{bmiCategory || "?"}</strong>
+        ค่าดัชนีมวลกาย (BMI) ของคุณคือ{" "}
+        <strong className="text-primary">{bmi?.toFixed(1) || "?"}</strong> kg/m
+        <sup>2</sup> อยู่ในเกณฑ์{" "}
+        <strong className="text-primary">{bmiCategory || "?"}</strong>
       </p>
     </section>
   );

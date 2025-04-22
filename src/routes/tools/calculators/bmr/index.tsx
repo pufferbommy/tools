@@ -1,18 +1,10 @@
-import { createServerFn } from "@tanstack/react-start";
 import { createFileRoute } from "@tanstack/react-router";
-import { getHeader } from "@tanstack/react-start/server";
 
 import { IntroSection } from "../../-components/IntroSection";
 import { BmrCalculatorSection } from "./-components/BmrCalculatorSection";
 import { useState } from "react";
 import { BmrDisplaySection } from "./-components/BmrDisplaySection";
-
-const getOrigin = createServerFn({ method: "GET" }).handler(async () => {
-  const host = getHeader("host");
-  const proto = getHeader("x-forwarded-proto") || "http";
-  const origin = `${proto}://${host}`;
-  return origin;
-});
+import { getOrigin } from "~/lib/get-origin";
 
 export const Route = createFileRoute("/tools/calculators/bmr/")({
   component: RouteComponent,

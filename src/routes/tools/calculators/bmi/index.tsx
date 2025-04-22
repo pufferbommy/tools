@@ -1,20 +1,11 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { getHeader } from "@tanstack/react-start/server";
 
+import { getOrigin } from "~/lib/get-origin";
 import { BmiTableSection } from "~/routes/tools/calculators/bmi/-components/BmiTableSection";
 import { BmiDisplaySection } from "~/routes/tools/calculators/bmi/-components/BmiDisplaySection";
 import { BmiCalculatorSection } from "~/routes/tools/calculators/bmi/-components/BmiCalculatorSection";
-
-import { createServerFn } from "@tanstack/react-start";
 import { IntroSection } from "../../-components/IntroSection";
-
-const getOrigin = createServerFn({ method: "GET" }).handler(async () => {
-  const host = getHeader("host");
-  const proto = getHeader("x-forwarded-proto") || "http";
-  const origin = `${proto}://${host}`;
-  return origin;
-});
 
 export const Route = createFileRoute("/tools/calculators/bmi/")({
   component: RouteComponent,

@@ -1,18 +1,10 @@
-import { createServerFn } from "@tanstack/react-start";
 import { createFileRoute } from "@tanstack/react-router";
-import { getHeader } from "@tanstack/react-start/server";
 
 import { IntroSection } from "../../-components/IntroSection";
 import { TdeeCalculatorSection } from "./-components/TdeeCalculatorSection";
 import { useState } from "react";
 import { TdeeDisplaySection } from "./-components/TdeeDisplaySection";
-
-const getOrigin = createServerFn({ method: "GET" }).handler(async () => {
-  const host = getHeader("host");
-  const proto = getHeader("x-forwarded-proto") || "http";
-  const origin = `${proto}://${host}`;
-  return origin;
-});
+import { getOrigin } from "~/lib/get-origin";
 
 export const Route = createFileRoute("/tools/calculators/tdee/")({
   component: RouteComponent,

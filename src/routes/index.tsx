@@ -40,9 +40,9 @@ function RouteComponent() {
           สุ่มเครื่องมือ
         </Link>
       </section>
-      <section>
+      <section className="space-y-4">
         {tools.map(({ category, items }) => (
-          <div className="space-y-4">
+          <div className="space-y-2">
             <h2 className="font-bold text-lg">
               {category} ({items.length})
             </h2>

@@ -1,6 +1,5 @@
 import {
   HeadContent,
-  Link,
   Outlet,
   Scripts,
   createRootRoute,
@@ -14,8 +13,9 @@ import Header from "~/components/Header";
 import Footer from "~/components/Footer";
 import appCss from "~/styles/app.css?url";
 import { NotFound } from "~/components/NotFound";
+import Sidebar from "~/components/Sidebar";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
-import { TOOL_CATEGORIES } from "~/constants";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -68,11 +68,6 @@ export const Route = createRootRoute({
       </RootDocument>
     );
   },
-  loader: async () => {
-    return {
-      categories: TOOL_CATEGORIES,
-    };
-  },
   notFoundComponent: () => <NotFound />,
   component: RootComponent,
 });
@@ -85,9 +80,9 @@ function RootComponent() {
   );
 }
 
-function RootDocument({ children }: { children: React.ReactNode }) {
-  const { categories } = Route.useLoaderData();
+const queryClient = new QueryClient();
 
+function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html data-theme="lofi" lang="th">
       <head>
@@ -96,33 +91,17 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className="grid grid-rows-[auto_1fr] h-dvh">
         <Header />
         <main className="flex h-full overflow-auto">
-          <div className="shrink-0 sticky shadow-sm hidden xl:block top-0 w-80 border-r border-base-300 p-4">
-            <ul className="menu w-full p-0">
-              <li>
-                <Link to="/">หน้าแรก</Link>
-              </li>
-              {categories.map((cat) => (
-                <li key={cat.category}>
-                  <details open>
-                    <summary>{cat.category}</summary>
-                    <ul>
-                      {cat.items.map((tool) => (
-                        <li key={tool.href}>
-                          <Link to={tool.href}>{tool.title}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="flex-1 flex flex-col">
+          <Sidebar />
+          <section className="flex-1 flex flex-col">
             <div className="flex-1 p-8">
-              <div className="container-sm space-y-8">{children}</div>
+              <div className="container-sm space-y-8">
+                <QueryClientProvider client={queryClient}>
+                  {children}
+                </QueryClientProvider>
+              </div>
             </div>
             <Footer />
-          </div>
+          </section>
         </main>
         <TanStackRouterDevtools position="bottom-right" />
         <Scripts />
