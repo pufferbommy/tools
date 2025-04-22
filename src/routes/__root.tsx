@@ -107,7 +107,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <Footer />
           </section>
         </main>
-        <TanStackRouterDevtools position="bottom-right" />
+        <TanStackRouterDevtools position="bottom-left" />
         <Scripts />
       </body>
     </html>

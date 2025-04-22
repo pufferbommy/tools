@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shuffle } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+
 import { TOOL_CATEGORIES } from "~/constants";
 
 export const Route = createFileRoute("/")({
@@ -42,7 +43,7 @@ function RouteComponent() {
       </section>
       <section className="space-y-4">
         {tools.map(({ category, items }) => (
-          <div className="space-y-2">
+          <div key={category} className="space-y-2">
             <h2 className="font-bold text-lg">
               {category} ({items.length})
             </h2>
