@@ -21,6 +21,10 @@ export const Route = createRootRoute({
   head: () => ({
     meta: [
       {
+        name: "google-site-verification",
+        content: "UFeKauilMRHMBOV8BZuRGctqwkJzU5M7CT28zQ3d80g",
+      },
+      {
         charSet: "utf-8",
       },
       {
