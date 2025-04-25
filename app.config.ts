@@ -3,14 +3,14 @@ import { generateSitemap } from "tanstack-router-sitemap";
 import tsConfigPaths from "vite-tsconfig-paths";
 
 // import the sitemap you defined earlier
-import { sitemap } from "./src/utils/sitemap";
+import { sitemap } from "./app/utils/sitemap";
 
 export default defineConfig({
   server: {
     preset: "netlify",
   },
   tsr: {
-    appDirectory: "src",
+    appDirectory: "app",
   },
   vite: {
     plugins: [
