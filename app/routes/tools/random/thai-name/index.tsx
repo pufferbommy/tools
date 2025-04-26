@@ -2,10 +2,9 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { getOrigin } from "@/lib/get-origin";
-import { IntroSection } from "../../-components/IntroSection";
 import { FormSection } from "./-components/FormSection";
 import ResultSection from "./-components/ResultSection";
-import { SocialShare } from "../../-components/SocialShare";
+import ToolLayout from "@/components/ToolLayout";
 
 export interface Result {
   name: string;
@@ -13,7 +12,7 @@ export interface Result {
   nickname: string;
 }
 
-export const Route = createFileRoute("/tools/random/person-name/")({
+export const Route = createFileRoute("/tools/random/thai-name/")({
   component: RouteComponent,
   loader: async (context) => {
     const origin = await getOrigin();
@@ -29,14 +28,23 @@ function RouteComponent() {
   const [results, setResults] = useState<Result[]>([]);
 
   return (
-    <div className="space-y-8">
-      <IntroSection
-        title="สุ่มชื่อคน"
-        description="สุ่มชื่อคนแบบง่ายๆ ใช้ได้ทันที ไม่ต้องคิดเอง"
-      />
+    <ToolLayout
+      url={url}
+      title="สุ่มชื่อไทย"
+      description="สุ่มชื่อไทยแบบง่ายๆ ใช้ได้ทันที ไม่ต้องคิดเอง"
+      breadcrumbs={[
+        {
+          label: "เครื่องสุ่ม",
+          href: "/tools/random",
+        },
+        {
+          label: "สุ่มชื่อไทย",
+          href: "/tools/random/thai-name",
+        },
+      ]}
+    >
       <FormSection setResults={setResults} />
       {results.length > 0 && <ResultSection results={results} />}
-      <SocialShare url={url} text="สุ่มชื่อคน" />
-    </div>
+    </ToolLayout>
   );
 }

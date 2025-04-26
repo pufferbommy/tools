@@ -1,11 +1,39 @@
+import { useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { getOrigin } from "@/lib/get-origin";
-import { IntroSection } from "../../-components/IntroSection";
-import { FormSection } from "./-components/FormSection";
-import { useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { SocialShare } from "../../-components/SocialShare";
+import { FormSchema, FormSection } from "./-components/FormSection";
+
+import RandomResultCard from "./-components/RandomResultCard";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import ToolLayout from "@/components/ToolLayout";
+
+const items = [
+  {
+    id: "1",
+    title: "สุ่มตัวเลขคืออะไร",
+    content: `การสุ่มตัวเลขคือการเลือกลำดับหรือค่าตัวเลขอย่างไม่เจาะจงจากช่วงที่กำหนด 
+    ใช้เพื่อความสนุก การตัดสินใจ หรือสร้างความยุติธรรม 
+    เช่น การจับฉลาก การเลือกคำตอบ หรือสร้างข้อมูลจำลอง`,
+  },
+  {
+    id: "2",
+    title: "วิธีใช้งานสุ่มตัวเลข",
+    content: (
+      <ol className="list-decimal list-inside space-y-2">
+        <li>กรอกช่วงตัวเลขที่ต้องการ</li>
+        <li>กด “สุ่ม” เพื่อรับเลขใหม่</li>
+        <li>คัดลอกเลขที่ได้จากปุ่มคัดลอก</li>
+        <li>ดูประวัติเลขที่สุ่มได้ด้านล่าง</li>
+      </ol>
+    ),
+  },
+];
 
 export const Route = createFileRoute("/tools/random/number/")({
   component: RouteComponent,
@@ -21,41 +49,82 @@ function RouteComponent() {
   const { url } = Route.useLoaderData();
 
   const [number, setNumber] = useState<number | null>(null);
+  const [isRandomizing, setIsRandomizing] = useState(false);
+  const [histories, setHistories] = useState<number[]>([]);
 
-  const [isCopyed, setIsCopyed] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const animationFrameId = useRef<number | null>(null);
 
-  const handleCopyClick = () => {
-    if (number === null) return;
+  const handleSubmit = (data: FormSchema) => {
+    setIsRandomizing(true);
 
-    setIsCopyed(true);
+    if (animationFrameId.current) {
+      cancelAnimationFrame(animationFrameId.current);
+    }
 
-    navigator.clipboard.writeText(number.toString());
+    let start: number | null = null;
+    let duration = 1000;
 
-    // Clear the previous timeout if it exists
-    // This prevents multiple timeouts from being set if the button is clicked multiple times
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    const animate = (timestamp: number) => {
+      if (start === null) start = timestamp;
+      const elapsed = timestamp - start;
 
-    timeoutRef.current = setTimeout(() => setIsCopyed(false), 1000);
+      const randomNumber =
+        Math.floor(Math.random() * (data.max - data.min + 1)) + data.min;
+      setNumber(randomNumber);
+
+      if (elapsed < duration) {
+        animationFrameId.current = requestAnimationFrame(animate);
+      } else {
+        setIsRandomizing(false);
+        setHistories((prev) => [...prev, randomNumber]);
+      }
+    };
+
+    animationFrameId.current = requestAnimationFrame(animate);
   };
 
   return (
-    <div className="space-y-8">
-      <IntroSection
-        title="สุ่มเลข"
-        description="สุ่มตัวเลขแบบง่าย ๆ ในช่วงที่คุณกำหนด"
+    <ToolLayout
+      url={url}
+      title="สุ่มตัวเลข"
+      description="เครื่องมือนี้ช่วยสุ่มตัวเลขในช่วงที่คุณต้องการได้อย่างง่ายดาย ไม่ว่าจะใช้สำหรับการเล่นเกม การจับฉลาก หรือการเลือกตัวเลขแบบสุ่มโดยไม่ต้องคิดเอง เพียงแค่กำหนดตัวเลขต่ำสุดกับตัวเลขสูงสุด แล้วเราจะช่วยสุ่มตัวเลขให้คุณทันที"
+      breadcrumbs={[
+        {
+          label: "เครื่องสุ่ม",
+          href: "/tools/random",
+        },
+        {
+          label: "สุ่มตัวเลข",
+          href: "/tools/random/number",
+        },
+      ]}
+    >
+      <FormSection onSubmit={handleSubmit} />
+      <RandomResultCard
+        number={number}
+        histories={histories}
+        isRandomizing={isRandomizing}
       />
-      <FormSection setNumber={setNumber} />
-      <div className="flex items-center gap-4">
-        <div>
-          เลขที่สุ่มได้คือ{" "}
-          <strong className="text-primary">{number || "?"}</strong>
-        </div>
-        <Button disabled={number === null} onClick={handleCopyClick} size="sm">
-          {isCopyed ? "คัดลอกแล้ว" : "คัดลอก"}
-        </Button>
-      </div>
-      <SocialShare url={url} text="สุ่มเลข" />
-    </div>
+      <Accordion
+        type="single"
+        defaultValue="1"
+        collapsible
+        className="-space-y-px"
+      >
+        {items.map((item) => (
+          <AccordionItem
+            value={item.id}
+            className="has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative border px-4 py-1 outline-none first:rounded-t-md last:rounded-b-md last:border-b has-focus-visible:z-10 has-focus-visible:ring-[3px]"
+          >
+            <AccordionTrigger className="py-2 leading-6 hover:no-underline focus-visible:ring-0">
+              {item.title}
+            </AccordionTrigger>
+            <AccordionContent className="text-muted-foreground pb-2">
+              {item.content}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </ToolLayout>
   );
 }

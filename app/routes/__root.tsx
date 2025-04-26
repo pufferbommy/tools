@@ -9,12 +9,11 @@ import fontsourceVariableNotoSansThaiCss from "@fontsource-variable/noto-sans-th
 
 import { seo } from "@/utils/seo";
 import appCss from "@/styles/app.css?url";
-import Footer from "@/components/Footer";
+import SiteFooter from "@/components/SiteFooter";
 import { NotFound } from "@/components/NotFound";
-import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { SiteHeader } from "@/components/site-header";
-import { AppSidebar } from "@/components/app-sidebar";
+import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
+import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -89,17 +88,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
-        <SidebarProvider className="flex flex-col [--header-height:55px]">
-          <SiteHeader />
-          <div className="flex flex-1">
-            <AppSidebar />
-            <SidebarInset className="min-w-0 pt-(--header-height)">
-              <div className="flex-1">{children}</div>
-              <Footer />
-            </SidebarInset>
-          </div>
-        </SidebarProvider>
+      <body className="min-h-dvh flex flex-col">
+        <SiteHeader />
+        <div className="flex-1 flex flex-col">{children}</div>
+        <SiteFooter />
+        <Toaster />
         <TanStackRouterDevtools position="bottom-left" />
         <Scripts />
       </body>

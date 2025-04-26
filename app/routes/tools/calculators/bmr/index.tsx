@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { IntroSection } from "../../-components/IntroSection";
-import { BmrCalculatorSection } from "./-components/BmrCalculatorSection";
-import { BmrDisplaySection } from "./-components/BmrDisplaySection";
-import { SocialShare } from "../../-components/SocialShare";
 import { getOrigin } from "@/lib/get-origin";
+import ToolLayout from "@/components/ToolLayout";
+import { BmrDisplaySection } from "./-components/BmrDisplaySection";
+import { BmrCalculatorSection } from "./-components/BmrCalculatorSection";
 
 export const Route = createFileRoute("/tools/calculators/bmr/")({
   component: RouteComponent,
@@ -23,14 +22,23 @@ function RouteComponent() {
   const [bmr, setBmr] = useState<number | null>(null);
 
   return (
-    <div className="space-y-8">
-      <IntroSection
-        title="คำนวณการเผาผลาญพลังงาน (BMR)"
-        description="ใส่ข้อมูลพื้นฐาน แล้วมาดูกันว่า… แค่หายใจก็เผาผลาญพลังงานไปเท่าไหร่!"
-      />
+    <ToolLayout
+      breadcrumbs={[
+        {
+          label: "เครื่องคำนวณ",
+          href: "/tools/calculators",
+        },
+        {
+          label: "คำนวณการเผาผลาญพลังงาน (BMR)",
+          href: "/tools/calculators/bmi",
+        },
+      ]}
+      title="คำนวณการเผาผลาญพลังงาน (BMR)"
+      description="กรอกส่วนสูงและน้ำหนักแล้วมาดูกันว่าได้ค่า BMI เท่าไหร่ และอยู่ในเกณฑ์ไหน พร้อมคำแนะนำสุขภาพง่ายๆ 💪"
+      url={url}
+    >
       <BmrCalculatorSection setBmr={setBmr} />
       <BmrDisplaySection bmr={bmr} />
-      <SocialShare url={url} text="เครื่องคำนวณดัชนีมวลกาย (BMI)" />
-    </div>
+    </ToolLayout>
   );
 }

@@ -1,10 +1,16 @@
-export default function Logo(props: React.SVGProps<SVGSVGElement>) {
+import { cn } from "@/lib/utils";
+
+export default function Logo({
+  className,
+  ...props
+}: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={33}
       height={30}
       fill="none"
+      className={cn("shrink-0", className)}
       {...props}
     >
       <title>Logo</title>

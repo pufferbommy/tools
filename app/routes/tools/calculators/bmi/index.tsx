@@ -2,11 +2,10 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { getOrigin } from "@/lib/get-origin";
+import ToolLayout from "@/components/ToolLayout";
 import { BmiTableSection } from "@/routes/tools/calculators/bmi/-components/BmiTableSection";
 import { BmiDisplaySection } from "@/routes/tools/calculators/bmi/-components/BmiDisplaySection";
 import { BmiCalculatorSection } from "@/routes/tools/calculators/bmi/-components/BmiCalculatorSection";
-import { IntroSection } from "../../-components/IntroSection";
-import { SocialShare } from "../../-components/SocialShare";
 
 export const Route = createFileRoute("/tools/calculators/bmi/")({
   component: RouteComponent,
@@ -24,15 +23,24 @@ function RouteComponent() {
   const [bmi, setBmi] = useState<number | null>(null);
 
   return (
-    <div className="space-y-8">
-      <IntroSection
-        title="เครื่องคำนวณดัชนีมวลกาย (BMI)"
-        description="กรอกส่วนสูงและน้ำหนักแล้วมาดูกันว่าได้ค่า BMI เท่าไหร่ และอยู่ในเกณฑ์ไหน พร้อมคำแนะนำสุขภาพง่ายๆ 💪"
-      />
+    <ToolLayout
+      breadcrumbs={[
+        {
+          label: "เครื่องคำนวณ",
+          href: "/tools/calculators",
+        },
+        {
+          label: "คำนวณดัชนีมวลกาย (BMI)",
+          href: "/tools/calculators/bmi",
+        },
+      ]}
+      title="เครื่องคำนวณดัชนีมวลกาย (BMI)"
+      description="กรอกส่วนสูงและน้ำหนักแล้วมาดูกันว่าได้ค่า BMI เท่าไหร่ และอยู่ในเกณฑ์ไหน พร้อมคำแนะนำสุขภาพง่ายๆ 💪"
+      url={url}
+    >
       <BmiCalculatorSection setBmi={setBmi} />
       <BmiDisplaySection bmi={bmi} />
       <BmiTableSection bmi={bmi} />
-      <SocialShare url={url} text="เครื่องคำนวณดัชนีมวลกาย (BMI)" />
-    </div>
+    </ToolLayout>
   );
 }

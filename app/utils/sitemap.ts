@@ -29,7 +29,7 @@ export const sitemap: Sitemap<TRoutes> = {
       priority: 0.8,
       changeFrequency: "monthly",
     },
-    "/tools/random/person-name": {
+    "/tools/random/thai-name": {
       priority: 0.8,
       changeFrequency: "monthly",
     },

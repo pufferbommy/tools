@@ -15,7 +15,7 @@ export const GENDERS = [
 
 interface Category {
   name: string;
-  icon: LucideIcon;
+  url: string;
   items: {
     title: string;
     url: string;
@@ -26,23 +26,24 @@ interface Category {
 export const TOOL_CATEGORIES: Category[] = [
   {
     name: "เครื่องสุ่ม",
-    icon: Dices,
+    url: "/tools/random",
     items: [
       {
-        title: "สุ่มเลข",
+        title: "สุ่มตัวเลข",
         url: "/tools/random/number",
-        description: "สุ่มตัวเลขแบบง่าย ๆ ในช่วงที่คุณกำหนด",
+        description:
+          "สุ่มตัวเลขในช่วงที่คุณกำหนด เหมาะสำหรับจับฉลาก เล่นเกม หรือเลือกเลขแบบสุ่มง่าย ๆ",
       },
       {
-        title: "สุ่มชื่อคน",
-        url: "/tools/random/person-name",
-        description: "สุ่มชื่อคนแบบง่ายๆ ใช้ได้ทันที ไม่ต้องคิดเอง",
+        title: "สุ่มชื่อไทย",
+        url: "/tools/random/thai-name",
+        description: "สุ่มชื่อไทยแบบง่ายๆ ใช้ได้ทันที ไม่ต้องคิดเอง",
       },
     ],
   },
   {
     name: "เครื่องคำนวณ",
-    icon: Calculator,
+    url: "/tools/calculators",
     items: [
       {
         title: "คำนวณดัชนีมวลกาย (BMI)",

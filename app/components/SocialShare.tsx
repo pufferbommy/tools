@@ -1,5 +1,7 @@
+import { toast } from "sonner";
+import { Clipboard } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function SocialShare({ url, text }: { url: string; text: string }) {
   const SOCIALS = [
@@ -74,16 +76,17 @@ export function SocialShare({ url, text }: { url: string; text: string }) {
   ];
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>แชร์เครื่องมือนี้ให้เพื่อน</CardTitle>
-      </CardHeader>
-      <CardContent className="space-x-2">
+    <div>
+      <p className="mb-2 text-sm">แชร์ไปยัง</p>
+      <div className="space-x-2">
         {SOCIALS.map((social) => (
           <Button
+            key={social.link}
             size="icon"
+            variant="outline"
             style={{
-              backgroundColor: social.color,
+              color: social.color,
+              borderColor: social.color,
             }}
             asChild
           >
@@ -92,7 +95,21 @@ export function SocialShare({ url, text }: { url: string; text: string }) {
             </a>
           </Button>
         ))}
-      </CardContent>
-    </Card>
+        <Button
+          size="icon"
+          variant="outline"
+          style={{
+            color: "#998767",
+            borderColor: "#998767",
+          }}
+          onClick={() => {
+            navigator.clipboard.writeText(url);
+            toast.success("คัดลอกลิงก์เรียบร้อย");
+          }}
+        >
+          <Clipboard />
+        </Button>
+      </div>
+    </div>
   );
 }
