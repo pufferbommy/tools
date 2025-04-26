@@ -14,6 +14,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 const FormSchema = z.object({
   gender: z.enum(["male", "female"]),
@@ -70,25 +72,27 @@ export function BmrCalculatorSection({
               <FormItem>
                 <FormLabel>เพศ</FormLabel>
                 <FormControl>
-                  <div className="grid sm:grid-cols-2 gap-2">
+                  <RadioGroup
+                    onValueChange={onChange}
+                    defaultValue={value}
+                    className="flex gap-4"
+                  >
                     {GENDERS.map((gender) => (
-                      <Button
-                        key={gender.value}
-                        variant={value === gender.value ? "default" : "outline"}
-                        onClick={() => onChange(gender.value)}
-                        type="button"
-                      >
-                        {gender.icon}
-                        {gender.name}
-                      </Button>
+                      <div className="flex items-center gap-2">
+                        <RadioGroupItem
+                          value={gender.value}
+                          id={gender.value}
+                        />
+                        <Label htmlFor={gender.value}>{gender.name}</Label>
+                      </div>
                     ))}
-                  </div>
+                  </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             <FormField
               control={form.control}
               name="age"

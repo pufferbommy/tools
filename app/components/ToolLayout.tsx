@@ -54,11 +54,9 @@ export default function ToolLayout(props: ToolLayoutProps) {
         </Breadcrumb>
       </div>
       <div className="container flex-1 py-8 space-y-8">
-        <section className="mb-8">
-          <h1 className="text-2xl font-semibold mb-4">{props.title}</h1>
-          <p className="bg-secondary p-4 rounded-md text-muted-foreground">
-            {props.description}
-          </p>
+        <section>
+          <h1 className="text-2xl font-semibold mb-2">{props.title}</h1>
+          <p className="text-muted-foreground">{props.description}</p>
         </section>
         {props.children}
         <SocialShare url={props.url} text={props.title} />

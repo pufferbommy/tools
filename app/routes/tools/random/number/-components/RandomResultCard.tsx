@@ -35,7 +35,7 @@ export default function RandomResultCard(props: {
       <CardHeader>
         <CardTitle>ตัวเลขที่สุ่มได้</CardTitle>
       </CardHeader>
-      <CardContent className="">
+      <CardContent>
         <p
           className={cn(
             "text-8xl text-primary overflow-x-auto overflow-y-hidden",
@@ -52,7 +52,7 @@ export default function RandomResultCard(props: {
       </CardFooter>
       <Button
         size="icon"
-        className="absolute top-2 right-2 invisible group-hover:visible"
+        className="absolute top-2 right-2"
         variant="ghost"
         onClick={handleCopyClick}
         disabled={!props.number || props.isRandomizing}

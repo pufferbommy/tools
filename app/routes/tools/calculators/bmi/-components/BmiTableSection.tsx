@@ -61,7 +61,11 @@ export function BmiTableSection({ bmi }: { bmi: number | null }) {
         </TableHeader>
         <TableBody>
           {bmiRows.map((row) => (
-            <TableRow key={row.range}>
+            <TableRow
+              key={row.range}
+              data-state={row.isHighlighted(bmi) ? "selected" : ""}
+              className={cn(row.isHighlighted(bmi) && "bg-accent")}
+            >
               <TableCell>{row.range}</TableCell>
               <TableCell>{row.label}</TableCell>
               <TableCell>{row.desc}</TableCell>

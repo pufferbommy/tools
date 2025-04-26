@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { GENDERS } from "@/constants";
@@ -15,6 +15,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 
 const TYPES = [
   {
@@ -31,12 +34,24 @@ const TYPES = [
   },
 ];
 
+const LANGUAGES = [
+  {
+    id: "th",
+    name: "ไทย",
+  },
+  {
+    id: "en",
+    name: "อังกฤษ",
+  },
+];
+
 const FormSchema = z.object({
-  genders: z.array(z.string()).min(1, {
-    message: "กรุณาเลือกเพศอย่างน้อย 1 เพศ",
-  }),
+  gender: z.enum(["both", ...GENDERS.map((gender) => gender.value)]),
   types: z.array(z.string()).min(1, {
     message: "กรุณาเลือกประเภทอย่างน้อย 1 ประเภท",
+  }),
+  languages: z.array(z.string()).min(1, {
+    message: "กรุณาเลือกภาษาอย่างน้อย 1 ภาษา",
   }),
   amount: z.coerce.number({
     message: "กรุณากรอกจำนวน",
@@ -50,153 +65,220 @@ export function FormSection({
 }: {
   setResults: (value: any[]) => void;
 }) {
-  const form = useForm({
+  const form = useForm<FormSchema>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      genders: ["male", "female"],
+      gender: "both",
       types: ["name", "last-name", "nickname"],
+      languages: ["th", "en"],
       amount: 5,
     },
   });
 
-  const onSubmit = ({ types, amount, genders }: FormSchema) => {
-    const items = Array.from({ length: amount }, () => {
-      const lastName = types.includes("last-name")
-        ? PERSON_NAMES.lastNames[
-            Math.floor(Math.random() * PERSON_NAMES.lastNames.length)
-          ]
-        : "";
+  const onSubmit = (data: FormSchema) => {
+    const items = Array.from({ length: data.amount }, () => {
+      const gender =
+        data.gender === "both"
+          ? GENDERS[Math.floor(Math.random() * GENDERS.length)].value
+          : data.gender;
 
-      const gender = genders[Math.floor(Math.random() * genders.length)];
+      const randomLastName =
+        PERSON_NAMES.lastNames[
+          Math.floor(Math.random() * PERSON_NAMES.lastNames.length)
+        ];
+      const lastName = data.types.includes("last-name")
+        ? {
+            th: data.languages.includes("th") ? randomLastName.th : "",
+            en: data.languages.includes("en") ? randomLastName.en : "",
+          }
+        : null;
 
       if (gender === "male") {
+        const maleName =
+          PERSON_NAMES.maleNames[
+            Math.floor(Math.random() * PERSON_NAMES.maleNames.length)
+          ];
+        const maleNickname =
+          PERSON_NAMES.maleNicknames[
+            Math.floor(Math.random() * PERSON_NAMES.maleNicknames.length)
+          ];
         return {
-          name: types.includes("name")
-            ? PERSON_NAMES.maleNames[
-                Math.floor(Math.random() * PERSON_NAMES.maleNames.length)
-              ]
-            : "",
+          name: data.types.includes("name")
+            ? {
+                th: data.languages.includes("th") ? maleName.th : "",
+                en: data.languages.includes("en") ? maleName.en : "",
+              }
+            : null,
           lastName,
-          nickname: types.includes("nickname")
-            ? PERSON_NAMES.maleNicknames[
-                Math.floor(Math.random() * PERSON_NAMES.maleNicknames.length)
-              ]
-            : "",
+          nickname: data.types.includes("nickname")
+            ? {
+                th: data.languages.includes("th") ? maleNickname.th : "",
+                en: data.languages.includes("en") ? maleNickname.en : "",
+              }
+            : null,
         };
       }
+
+      const femaleName =
+        PERSON_NAMES.femaleNames[
+          Math.floor(Math.random() * PERSON_NAMES.femaleNames.length)
+        ];
+      const femaleNickname =
+        PERSON_NAMES.femaleNicknames[
+          Math.floor(Math.random() * PERSON_NAMES.femaleNicknames.length)
+        ];
       return {
-        name: types.includes("name")
-          ? PERSON_NAMES.femaleNames[
-              Math.floor(Math.random() * PERSON_NAMES.femaleNames.length)
-            ]
-          : "",
+        name: data.types.includes("name")
+          ? {
+              th: data.languages.includes("th") ? femaleName.th : "",
+              en: data.languages.includes("en") ? femaleName.en : "",
+            }
+          : null,
         lastName,
-        nickname: types.includes("nickname")
-          ? PERSON_NAMES.femaleNicknames[
-              Math.floor(Math.random() * PERSON_NAMES.femaleNicknames.length)
-            ]
-          : "",
+        nickname: data.types.includes("nickname")
+          ? {
+              th: data.languages.includes("th") ? femaleNickname.th : "",
+              en: data.languages.includes("en") ? femaleNickname.en : "",
+            }
+          : null,
       };
     });
     setResults(items);
-  };
-
-  const handleResetClick = () => {
-    form.reset();
-    setResults([]);
   };
 
   return (
     <section>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="genders"
-            render={({ field: { value, onChange } }) => (
-              <FormItem>
-                <FormLabel>เพศ</FormLabel>
-                <FormControl>
-                  <div className="grid sm:grid-cols-2 gap-2">
-                    {GENDERS.map((gender) => (
-                      <Button
-                        key={gender.value}
-                        variant={
-                          value.includes(gender.value) ? "default" : "outline"
-                        }
-                        onClick={() => {
-                          if (value.includes(gender.value)) {
-                            onChange(value.filter((v) => v !== gender.value));
-                          } else {
-                            onChange([...value, gender.value]);
-                          }
-                        }}
-                        type="button"
-                      >
-                        {gender.icon}
-                        {gender.name}
-                      </Button>
-                    ))}
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="types"
-            render={({ field: { value, onChange } }) => (
-              <FormItem>
-                <FormLabel>ประเภท</FormLabel>
-                <FormControl>
-                  <div className="flex gap-4">
-                    {TYPES.map((type) => (
-                      <div key={type.id} className="space-x-2">
-                        <Checkbox
-                          id={type.id}
-                          checked={value.includes(type.id)}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              onChange([...value, type.id]);
-                            } else {
-                              onChange(value.filter((v) => v !== type.id));
-                            }
-                          }}
-                        />
-                        <label htmlFor={type.id}>{type.name}</label>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 items-start gap-4">
+            <FormField
+              control={form.control}
+              name="gender"
+              render={({ field: { value, onChange } }) => (
+                <FormItem>
+                  <FormLabel>เพศ</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={onChange}
+                      defaultValue={value}
+                      className="flex gap-4"
+                    >
+                      <div className="flex items-center gap-2">
+                        <RadioGroupItem value="both" id="both" />
+                        <Label htmlFor="both">ทั้งคู่</Label>
                       </div>
-                    ))}
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="amount"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>จำนวน</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    min={1}
-                    {...field}
-                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="space-x-2">
-            <Button>สุ่ม</Button>
-            <Button type="button" variant="outline" onClick={handleResetClick}>
-              รีเซ็ต
-            </Button>
+                      {GENDERS.map((gender) => (
+                        <div className="flex items-center gap-2">
+                          <RadioGroupItem
+                            value={gender.value}
+                            id={gender.value}
+                          />
+                          <Label htmlFor={gender.value}>{gender.name}</Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="types"
+              render={({ field: { value, onChange } }) => (
+                <FormItem>
+                  <FormLabel>ประเภท</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-4">
+                      {TYPES.map((type) => (
+                        <div key={type.id} className="flex gap-2 items-center">
+                          <Checkbox
+                            id={type.id}
+                            checked={value.includes(type.id)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                onChange([...value, type.id]);
+                              } else {
+                                onChange(value.filter((v) => v !== type.id));
+                              }
+                            }}
+                          />
+                          <Label htmlFor={type.id}>{type.name}</Label>
+                        </div>
+                      ))}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="languages"
+              render={({ field: { value, onChange } }) => (
+                <FormItem>
+                  <FormLabel>ภาษา</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-4">
+                      {LANGUAGES.map((language) => (
+                        <div
+                          key={language.id}
+                          className="flex gap-2 items-center"
+                        >
+                          <Checkbox
+                            id={language.id}
+                            checked={value.includes(language.id)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                onChange([...value, language.id]);
+                              } else {
+                                onChange(
+                                  value.filter((v) => v !== language.id)
+                                );
+                              }
+                            }}
+                          />
+                          <Label htmlFor={language.id}>{language.name}</Label>
+                        </div>
+                      ))}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="amount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>จำนวน</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2">
+                      <Input
+                        className="w-auto"
+                        type="number"
+                        min={1}
+                        max={25}
+                        {...field}
+                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                      />
+                      <Slider
+                        defaultValue={[field.value]}
+                        onValueChange={(value) =>
+                          field.onChange(Number(value[0]))
+                        }
+                        min={1}
+                        max={25}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
+          <Button>สุ่มชื่อ</Button>
         </form>
       </Form>
     </section>
