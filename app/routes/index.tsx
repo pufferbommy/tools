@@ -1,10 +1,9 @@
-import { SearchIcon, Shuffle } from "lucide-react";
+import { Shuffle } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { TOOL_CATEGORIES } from "@/constants";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { motion, AnimatePresence, Variants } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -36,7 +35,7 @@ function RouteComponent() {
     hidden: {},
     show: {
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.01,
       },
     },
   };

@@ -9,6 +9,13 @@ import {
 } from "./ui/breadcrumb";
 import { Home } from "lucide-react";
 import { SocialShare } from "@/components/SocialShare";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { TOOL_CATEGORIES } from "@/constants";
 
 interface BreadcrumbItem {
   label: string;
@@ -45,7 +52,26 @@ export default function ToolLayout(props: ToolLayoutProps) {
                       <Link to={item.href}>{item.label}</Link>
                     </BreadcrumbLink>
                   ) : (
-                    <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                    <BreadcrumbPage>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>{item.label}</DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          {TOOL_CATEGORIES.some((c) => c.url === item.href)
+                            ? TOOL_CATEGORIES.map((c) => (
+                                <DropdownMenuItem asChild>
+                                  <Link to={c.url}>{c.name}</Link>
+                                </DropdownMenuItem>
+                              ))
+                            : TOOL_CATEGORIES.find((c) =>
+                                c.items.find((i) => i.url === item.href)
+                              )?.items.map((item) => (
+                                <DropdownMenuItem asChild>
+                                  <Link to={item.url}>{item.title}</Link>
+                                </DropdownMenuItem>
+                              ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </BreadcrumbPage>
                   )}
                 </BreadcrumbItem>
               </>
