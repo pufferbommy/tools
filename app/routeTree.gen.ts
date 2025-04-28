@@ -13,6 +13,8 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as BlogImport } from './routes/blog'
 import { Route as IndexImport } from './routes/index'
+import { Route as ToolsRandomIndexImport } from './routes/tools/random/index'
+import { Route as ToolsCalculatorsIndexImport } from './routes/tools/calculators/index'
 import { Route as ToolsRandomThaiNameIndexImport } from './routes/tools/random/thai-name/index'
 import { Route as ToolsRandomNumberIndexImport } from './routes/tools/random/number/index'
 import { Route as ToolsCalculatorsTdeeIndexImport } from './routes/tools/calculators/tdee/index'
@@ -31,6 +33,18 @@ const BlogRoute = BlogImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ToolsRandomIndexRoute = ToolsRandomIndexImport.update({
+  id: '/tools/random/',
+  path: '/tools/random/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ToolsCalculatorsIndexRoute = ToolsCalculatorsIndexImport.update({
+  id: '/tools/calculators/',
+  path: '/tools/calculators/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -88,6 +102,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogImport
       parentRoute: typeof rootRoute
     }
+    '/tools/calculators/': {
+      id: '/tools/calculators/'
+      path: '/tools/calculators'
+      fullPath: '/tools/calculators'
+      preLoaderRoute: typeof ToolsCalculatorsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/tools/random/': {
+      id: '/tools/random/'
+      path: '/tools/random'
+      fullPath: '/tools/random'
+      preLoaderRoute: typeof ToolsRandomIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/tools/calculators/age/': {
       id: '/tools/calculators/age/'
       path: '/tools/calculators/age'
@@ -138,6 +166,8 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
+  '/tools/calculators': typeof ToolsCalculatorsIndexRoute
+  '/tools/random': typeof ToolsRandomIndexRoute
   '/tools/calculators/age': typeof ToolsCalculatorsAgeIndexRoute
   '/tools/calculators/bmi': typeof ToolsCalculatorsBmiIndexRoute
   '/tools/calculators/bmr': typeof ToolsCalculatorsBmrIndexRoute
@@ -149,6 +179,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
+  '/tools/calculators': typeof ToolsCalculatorsIndexRoute
+  '/tools/random': typeof ToolsRandomIndexRoute
   '/tools/calculators/age': typeof ToolsCalculatorsAgeIndexRoute
   '/tools/calculators/bmi': typeof ToolsCalculatorsBmiIndexRoute
   '/tools/calculators/bmr': typeof ToolsCalculatorsBmrIndexRoute
@@ -161,6 +193,8 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
+  '/tools/calculators/': typeof ToolsCalculatorsIndexRoute
+  '/tools/random/': typeof ToolsRandomIndexRoute
   '/tools/calculators/age/': typeof ToolsCalculatorsAgeIndexRoute
   '/tools/calculators/bmi/': typeof ToolsCalculatorsBmiIndexRoute
   '/tools/calculators/bmr/': typeof ToolsCalculatorsBmrIndexRoute
@@ -174,6 +208,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/blog'
+    | '/tools/calculators'
+    | '/tools/random'
     | '/tools/calculators/age'
     | '/tools/calculators/bmi'
     | '/tools/calculators/bmr'
@@ -184,6 +220,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/blog'
+    | '/tools/calculators'
+    | '/tools/random'
     | '/tools/calculators/age'
     | '/tools/calculators/bmi'
     | '/tools/calculators/bmr'
@@ -194,6 +232,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/blog'
+    | '/tools/calculators/'
+    | '/tools/random/'
     | '/tools/calculators/age/'
     | '/tools/calculators/bmi/'
     | '/tools/calculators/bmr/'
@@ -206,6 +246,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlogRoute: typeof BlogRoute
+  ToolsCalculatorsIndexRoute: typeof ToolsCalculatorsIndexRoute
+  ToolsRandomIndexRoute: typeof ToolsRandomIndexRoute
   ToolsCalculatorsAgeIndexRoute: typeof ToolsCalculatorsAgeIndexRoute
   ToolsCalculatorsBmiIndexRoute: typeof ToolsCalculatorsBmiIndexRoute
   ToolsCalculatorsBmrIndexRoute: typeof ToolsCalculatorsBmrIndexRoute
@@ -217,6 +259,8 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlogRoute: BlogRoute,
+  ToolsCalculatorsIndexRoute: ToolsCalculatorsIndexRoute,
+  ToolsRandomIndexRoute: ToolsRandomIndexRoute,
   ToolsCalculatorsAgeIndexRoute: ToolsCalculatorsAgeIndexRoute,
   ToolsCalculatorsBmiIndexRoute: ToolsCalculatorsBmiIndexRoute,
   ToolsCalculatorsBmrIndexRoute: ToolsCalculatorsBmrIndexRoute,
@@ -237,6 +281,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/blog",
+        "/tools/calculators/",
+        "/tools/random/",
         "/tools/calculators/age/",
         "/tools/calculators/bmi/",
         "/tools/calculators/bmr/",
@@ -250,6 +296,12 @@ export const routeTree = rootRoute
     },
     "/blog": {
       "filePath": "blog.tsx"
+    },
+    "/tools/calculators/": {
+      "filePath": "tools/calculators/index.tsx"
+    },
+    "/tools/random/": {
+      "filePath": "tools/random/index.tsx"
     },
     "/tools/calculators/age/": {
       "filePath": "tools/calculators/age/index.tsx"
