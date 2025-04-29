@@ -6,7 +6,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -65,7 +64,7 @@ function RouteComponent() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      dateOfBirth: new Date(),
+      dateOfBirth: new Date(new Date().getFullYear() - 20, 0, 1),
     },
   });
 
@@ -78,15 +77,25 @@ function RouteComponent() {
   const dateOfBirth = form.watch("dateOfBirth");
 
   const onSubmit = (data: FormSchema) => {
-    const now = new Date();
-    const years = now.getFullYear() - data.dateOfBirth.getFullYear();
-    const months = now.getMonth() - data.dateOfBirth.getMonth();
-    const days = now.getDate() - data.dateOfBirth.getDate();
+    const today = new Date();
+    let years = today.getFullYear() - data.dateOfBirth.getFullYear();
+    let months = today.getMonth() - data.dateOfBirth.getMonth();
+    let days = today.getDate() - data.dateOfBirth.getDate();
+
+    if (days < 0) {
+      months--;
+      days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+    }
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
 
     setAge({
-      years: years - (months < 0 || (months === 0 && days < 0) ? 1 : 0),
-      months: (months + 12) % 12,
-      days: (days + 30) % 30,
+      years,
+      months,
+      days,
     });
   };
 
@@ -134,11 +143,11 @@ function RouteComponent() {
         },
         {
           label: "คำนวณอายุ",
-          href: "/tools/calculators/bmr",
+          href: "/tools/calculators/age",
         },
       ]}
       title="คำนวณอายุ"
-      description="เครื่องมือสำหรับคำนวณอายุจากวันเกิด บอกอายุปัจจุบันได้อย่างแม่นยำ"
+      description="เครื่องมือสำหรับคำนวณอายุจากวันเกิด"
       url={url}
     >
       <Form {...form}>
@@ -218,28 +227,28 @@ function RouteComponent() {
               </FormItem>
             )}
           />
-          <Button>คำนวณอายุ</Button>
+          {age && (
+            <div>
+              คุณมีอายุ <span className="text-primary">{age.years}</span> ปี{" "}
+              <span className="text-primary">{age.months}</span> เดือน{" "}
+              <span className="text-primary">{age.days}</span> วัน
+            </div>
+          )}
+          <div className="space-x-2">
+            <Button
+              type="button"
+              onClick={() => {
+                form.reset();
+                setAge(null);
+              }}
+              variant="secondary"
+            >
+              รีเซ็ต
+            </Button>
+            <Button>คำนวณ</Button>
+          </div>
         </form>
       </Form>
-      <Card className="text-center group relative">
-        <CardHeader>
-          <CardTitle>อายุของคุณ</CardTitle>
-        </CardHeader>
-        <CardContent className="text-4xl sm:text-6xl md:text-8xl">
-          <span className="text-primary">
-            {age?.years !== undefined ? age.years : "?"}
-          </span>{" "}
-          ปี{" "}
-          <span className="text-primary">
-            {age?.months !== undefined ? age.months : "?"}
-          </span>{" "}
-          เดือน{" "}
-          <span className="text-primary">
-            {age?.days !== undefined ? age.days : "?"}
-          </span>{" "}
-          วัน
-        </CardContent>
-      </Card>
       <Accordion
         type="single"
         defaultValue="1"

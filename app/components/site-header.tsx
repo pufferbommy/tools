@@ -59,9 +59,12 @@ export function SiteHeader() {
                     {category.items.map((item) => (
                       <li key={item.url}>
                         <NavigationMenuLink asChild>
-                          <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm font-medium">
+                          <Link
+                            to={item.url}
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm font-medium"
+                          >
                             {item.title}
-                          </a>
+                          </Link>
                         </NavigationMenuLink>
                       </li>
                     ))}
