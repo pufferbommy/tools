@@ -5,7 +5,7 @@ import { TOOL_CATEGORIES } from "@/constants";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
-import { motion, AnimatePresence, Variants } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -30,21 +30,6 @@ function RouteComponent() {
   const { tools, randomToolHref } = Route.useLoaderData();
 
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-
-  const containerVariants: Variants = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.01,
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
-    show: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: -10, scale: 0.95 },
-  };
 
   return (
     <>
@@ -93,22 +78,30 @@ function RouteComponent() {
         </div>
       </div>
       <div className="container px-0 flex-1 space-y-8 py-8">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            className="grid px-8 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-            variants={containerVariants}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-          >
+        <div className="grid px-8 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <AnimatePresence>
             {tools
               .filter((category) =>
                 activeCategory === null ? true : category.url === activeCategory
               )
               .map((category) =>
                 category.items.map((tool) => (
-                  <motion.div key={tool.url} layout variants={itemVariants}>
+                  <motion.div
+                    key={tool.url}
+                    layout
+                    initial={{
+                      opacity: 0,
+                      scale: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 0,
+                    }}
+                  >
                     <Link to={tool.url}>
                       <Card className="hover:bg-primary/10 transition-colors hover:border-primary">
                         <CardContent className="font-medium text-center">
@@ -119,8 +112,8 @@ function RouteComponent() {
                   </motion.div>
                 ))
               )}
-          </motion.div>
-        </AnimatePresence>
+          </AnimatePresence>
+        </div>
       </div>
     </>
   );
