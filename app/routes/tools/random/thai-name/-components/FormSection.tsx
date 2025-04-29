@@ -168,7 +168,10 @@ export function FormSection({
                         <Label htmlFor="both">ทั้งคู่</Label>
                       </div>
                       {GENDERS.map((gender) => (
-                        <div className="flex items-center gap-2">
+                        <div
+                          key={gender.value}
+                          className="flex items-center gap-2"
+                        >
                           <RadioGroupItem
                             value={gender.value}
                             id={gender.value}

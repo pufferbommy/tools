@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { TOOL_CATEGORIES } from "@/constants";
+import { Fragment } from "react";
 
 interface BreadcrumbItem {
   label: string;
@@ -44,7 +45,7 @@ export default function ToolLayout(props: ToolLayoutProps) {
               </BreadcrumbLink>
             </BreadcrumbItem>
             {props.breadcrumbs.map((item, i) => (
-              <>
+              <Fragment key={item.href}>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   {i < props.breadcrumbs.length - 1 ? (
@@ -58,14 +59,14 @@ export default function ToolLayout(props: ToolLayoutProps) {
                         <DropdownMenuContent>
                           {TOOL_CATEGORIES.some((c) => c.url === item.href)
                             ? TOOL_CATEGORIES.map((c) => (
-                                <DropdownMenuItem asChild>
+                                <DropdownMenuItem key={c.url} asChild>
                                   <Link to={c.url}>{c.name}</Link>
                                 </DropdownMenuItem>
                               ))
                             : TOOL_CATEGORIES.find((c) =>
                                 c.items.find((i) => i.url === item.href)
                               )?.items.map((item) => (
-                                <DropdownMenuItem asChild>
+                                <DropdownMenuItem key={item.url} asChild>
                                   <Link to={item.url}>{item.title}</Link>
                                 </DropdownMenuItem>
                               ))}
@@ -74,7 +75,7 @@ export default function ToolLayout(props: ToolLayoutProps) {
                     </BreadcrumbPage>
                   )}
                 </BreadcrumbItem>
-              </>
+              </Fragment>
             ))}
           </BreadcrumbList>
         </Breadcrumb>

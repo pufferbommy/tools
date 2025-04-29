@@ -6,6 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -75,6 +76,45 @@ function RouteComponent() {
   } | null>(null);
 
   const dateOfBirth = form.watch("dateOfBirth");
+
+  const nextBirthdayDistance = useMemo(() => {
+    const today = new Date();
+    const nextBirthday = new Date(
+      today.getFullYear(),
+      dateOfBirth.getMonth(),
+      dateOfBirth.getDate()
+    );
+
+    if (nextBirthday < today) {
+      nextBirthday.setFullYear(today.getFullYear() + 1);
+    }
+
+    let years = nextBirthday.getFullYear() - today.getFullYear();
+    let months = nextBirthday.getMonth() - today.getMonth();
+    let days = nextBirthday.getDate() - today.getDate();
+
+    if (days < 0) {
+      months--;
+      const prevMonth = new Date(
+        nextBirthday.getFullYear(),
+        nextBirthday.getMonth(),
+        0
+      ).getDate();
+      days += prevMonth;
+    }
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    return { years, months, days };
+  }, [dateOfBirth]);
+
+  const handleResetClick = () => {
+    form.reset();
+    setAge(null);
+  };
 
   const onSubmit = (data: FormSchema) => {
     const today = new Date();
@@ -175,7 +215,9 @@ function RouteComponent() {
                       </SelectTrigger>
                       <SelectContent>
                         {dates.map((date) => (
-                          <SelectItem value={date}>{date}</SelectItem>
+                          <SelectItem key={date} value={date}>
+                            {date}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -192,7 +234,9 @@ function RouteComponent() {
                       </SelectTrigger>
                       <SelectContent>
                         {months.map((month, i) => (
-                          <SelectItem value={i.toString()}>{month}</SelectItem>
+                          <SelectItem key={month} value={i.toString()}>
+                            {month}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -209,7 +253,7 @@ function RouteComponent() {
                       </SelectTrigger>
                       <SelectContent>
                         {years.map((year) => (
-                          <SelectItem value={year.toString()}>
+                          <SelectItem key={year} value={year.toString()}>
                             {
                               new Date(year, 0, 1)
                                 .toLocaleDateString("th-TH", {
@@ -227,20 +271,10 @@ function RouteComponent() {
               </FormItem>
             )}
           />
-          {age && (
-            <div>
-              คุณมีอายุ <span className="text-primary">{age.years}</span> ปี{" "}
-              <span className="text-primary">{age.months}</span> เดือน{" "}
-              <span className="text-primary">{age.days}</span> วัน
-            </div>
-          )}
           <div className="space-x-2">
             <Button
               type="button"
-              onClick={() => {
-                form.reset();
-                setAge(null);
-              }}
+              onClick={handleResetClick}
               variant="secondary"
             >
               รีเซ็ต
@@ -249,6 +283,35 @@ function RouteComponent() {
           </div>
         </form>
       </Form>
+      {age && (
+        <Card>
+          <CardContent>
+            <p>
+              คุณเกิดเมื่อ{" "}
+              {dateOfBirth.toLocaleDateString("th-TH", {
+                dateStyle: "full",
+              })}
+            </p>
+            <p>
+              ปัจจุบันคุณมีอายุ{" "}
+              <span className="text-primary">{age.years}</span> ปี{" "}
+              <span className="text-primary">{age.months}</span> เดือน{" "}
+              <span className="text-primary">{age.days}</span> วัน
+            </p>
+            <p>
+              วันเกิดถัดไปของคุณอีก{" "}
+              <span className="text-primary">{nextBirthdayDistance.years}</span>{" "}
+              ปี{" "}
+              <span className="text-primary">
+                {nextBirthdayDistance.months}
+              </span>{" "}
+              เดือน{" "}
+              <span className="text-primary">{nextBirthdayDistance.days}</span>{" "}
+              วัน
+            </p>
+          </CardContent>
+        </Card>
+      )}
       <Accordion
         type="single"
         defaultValue="1"
@@ -257,6 +320,7 @@ function RouteComponent() {
       >
         {items.map((item) => (
           <AccordionItem
+            key={item.id}
             value={item.id}
             className="has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative border px-4 py-1 outline-none first:rounded-t-md last:rounded-b-md last:border-b has-focus-visible:z-10 has-focus-visible:ring-[3px]"
           >

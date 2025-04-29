@@ -86,6 +86,7 @@ function RouteComponent() {
         {items.map((item) => (
           <AccordionItem
             value={item.id}
+            key={item.id}
             className="has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative border px-4 py-1 outline-none first:rounded-t-md last:rounded-b-md last:border-b has-focus-visible:z-10 has-focus-visible:ring-[3px]"
           >
             <AccordionTrigger className="py-2 leading-6 hover:no-underline focus-visible:ring-0">
