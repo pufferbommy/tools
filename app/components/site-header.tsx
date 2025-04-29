@@ -53,7 +53,9 @@ export function SiteHeader() {
           <NavigationMenuList>
             {TOOL_CATEGORIES.map((category) => (
               <NavigationMenuItem key={category.url} value={category.url}>
-                <NavigationMenuTrigger>{category.name}</NavigationMenuTrigger>
+                <NavigationMenuTrigger>
+                  <Link to={category.url}>{category.name}</Link>
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                     {category.items.map((item) => (
