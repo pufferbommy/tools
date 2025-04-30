@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getOrigin } from "@/lib/get-origin";
+import { seo } from "@/utils/seo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
@@ -57,6 +58,15 @@ export const Route = createFileRoute("/tools/calculators/age/")({
     const url = `${origin}${pathname}`;
     return { url };
   },
+  head: () => ({
+    meta: [
+      ...seo({
+        title: "คำนวณอายุ - รวมมิตรเครื่องมือ",
+        description: "คำนวณอายุเป็นปี เดือน วัน จากวันเกิด",
+        keywords: "คำนวณอายุ, อายุ, วันเกิด, คำนวณวันเกิด, คำนวณอายุจากวันเกิด",
+      }),
+    ],
+  }),
 });
 
 function RouteComponent() {
@@ -298,13 +308,13 @@ function RouteComponent() {
       {age && nextBirthdayDistance && (
         <Card>
           <CardContent>
-            <p>คุณเกิดเมื่อ {formattedDob}</p>
             <p>
               ปัจจุบันคุณมีอายุ{" "}
               <span className="text-primary">{age.years}</span> ปี{" "}
               <span className="text-primary">{age.months}</span> เดือน{" "}
               <span className="text-primary">{age.days}</span> วัน
             </p>
+            <p>คุณเกิดเมื่อ {formattedDob}</p>
             <p>
               วันเกิดถัดไปของคุณอีก{" "}
               <span className="text-primary">{nextBirthdayDistance.years}</span>{" "}

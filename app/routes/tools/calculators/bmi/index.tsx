@@ -12,6 +12,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { seo } from "@/utils/seo";
 
 const items = [
   {
@@ -37,6 +38,15 @@ export const Route = createFileRoute("/tools/calculators/bmi/")({
     const url = `${origin}${pathname}`;
     return { url };
   },
+  head: () => ({
+    meta: [
+      ...seo({
+        title: "คำนวณดัชนีมวลกาย (BMI) - รวมมิตรเครื่องมือ",
+        description: "คำนวณค่า BMI เพื่อประเมินรูปร่าง",
+        keywords: "BMI, ดัชนีมวลกาย, คำนวณ BMI, เครื่องมือคำนวณ BMI",
+      }),
+    ],
+  }),
 });
 
 function RouteComponent() {

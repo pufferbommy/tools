@@ -11,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { seo } from "@/utils/seo";
 
 const items = [
   {
@@ -37,6 +38,15 @@ export const Route = createFileRoute("/tools/calculators/bmr/")({
     const url = `${origin}${pathname}`;
     return { url };
   },
+  head: () => ({
+    meta: [
+      ...seo({
+        title: "คำนวณการเผาผลาญพลังงาน (BMR) - รวมมิตรเครื่องมือ",
+        description: "คำนวณอัตราเผาผลาญพลังงานพื้นฐาน",
+        keywords: "BMR, คำนวณ BMR, เครื่องมือคำนวณ BMR",
+      }),
+    ],
+  }),
 });
 
 function RouteComponent() {

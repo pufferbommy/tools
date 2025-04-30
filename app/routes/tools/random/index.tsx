@@ -2,6 +2,7 @@ import ToolLayout from "@/components/ToolLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { TOOL_CATEGORIES } from "@/constants";
 import { getOrigin } from "@/lib/get-origin";
+import { seo } from "@/utils/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/tools/random/")({
@@ -12,6 +13,16 @@ export const Route = createFileRoute("/tools/random/")({
     const url = `${origin}${pathname}`;
     return { url, pathname };
   },
+  head: () => ({
+    meta: [
+      ...seo({
+        title: "เครื่องสุ่ม - รวมมิตรเครื่องมือ",
+        description: "เครื่องมือสุ่มแบบต่างๆ",
+        keywords:
+          "สุ่มชื่อ, สุ่มเลข, สุ่มตัวเลข, สุ่มตัวอักษร, สุ่มคำ, สุ่มข้อความ",
+      }),
+    ],
+  }),
 });
 
 function RouteComponent() {

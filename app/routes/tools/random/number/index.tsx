@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ToolLayout from "@/components/ToolLayout";
+import { seo } from "@/utils/seo";
 
 const items = [
   {
@@ -37,6 +38,16 @@ export const Route = createFileRoute("/tools/random/number/")({
     const url = `${origin}${pathname}`;
     return { url };
   },
+  head: () => ({
+    meta: [
+      ...seo({
+        title: "สุ่มตัวเลข - รวมมิตรเครื่องมือ",
+        description: "สร้างตัวเลขสุ่มภายในช่วงที่คุณระบุ",
+        keywords:
+          "สุ่มตัวเลข, เครื่องมือสุ่มตัวเลข, สุ่มหมายเลข, สุ่มหมายเลขสุ่ม",
+      }),
+    ],
+  }),
 });
 
 function RouteComponent() {

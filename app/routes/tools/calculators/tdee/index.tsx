@@ -11,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { seo } from "@/utils/seo";
 
 const items = [
   {
@@ -36,6 +37,15 @@ export const Route = createFileRoute("/tools/calculators/tdee/")({
     const url = `${origin}${pathname}`;
     return { url };
   },
+  head: () => ({
+    meta: [
+      ...seo({
+        title: "คำนวณพลังงานต่อวัน (TDEE) - รวมมิตรเครื่องมือ",
+        description: "คำนวณพลังงานที่ร่างกายต้องการต่อวัน",
+        keywords: "TDEE, คำนวณ TDEE, เครื่องมือคำนวณ TDEE",
+      }),
+    ],
+  }),
 });
 
 function RouteComponent() {

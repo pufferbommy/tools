@@ -2,6 +2,7 @@ import ToolLayout from "@/components/ToolLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { TOOL_CATEGORIES } from "@/constants";
 import { getOrigin } from "@/lib/get-origin";
+import { seo } from "@/utils/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/tools/calculators/")({
@@ -12,6 +13,17 @@ export const Route = createFileRoute("/tools/calculators/")({
     const url = `${origin}${pathname}`;
     return { url, pathname };
   },
+  head: () => ({
+    meta: [
+      ...seo({
+        title: "เครื่องคำนวณ - รวมมิตรเครื่องมือ",
+        description:
+          "เครื่องมือคำนวณที่ช่วยให้คุณทำการคำนวณต่างๆ ได้อย่างง่ายดาย",
+        keywords:
+          "เครื่องคำนวณ, คำนวณ BMI, คำนวณอายุ, คำนวณเปอร์เซ็นต์, คำนวณดอกเบี้ย",
+      }),
+    ],
+  }),
 });
 
 function RouteComponent() {

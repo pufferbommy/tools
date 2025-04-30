@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ToolLayout from "@/components/ToolLayout";
+import { seo } from "@/utils/seo";
 
 const items = [
   {
@@ -52,6 +53,16 @@ export const Route = createFileRoute("/tools/random/thai-name/")({
     const url = `${origin}${pathname}`;
     return { url };
   },
+  head: () => ({
+    meta: [
+      ...seo({
+        title: "สุ่มชื่อไทย - รวมมิตรเครื่องมือ",
+        description: "เครื่องมือสุ่มชื่อจริง ชื่อเล่น หรือนามสกุลไทย",
+        keywords:
+          "สุ่มชื่อไทย, สุ่มชื่อจริง, สุ่มชื่อเล่น, สุ่มนามสกุล, เครื่องมือสุ่มชื่อ",
+      }),
+    ],
+  }),
 });
 
 function RouteComponent() {

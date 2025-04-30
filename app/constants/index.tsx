@@ -19,6 +19,7 @@ interface Category {
   items: {
     title: string;
     url: string;
+    description?: string;
   }[];
 }
 
@@ -30,10 +31,12 @@ export const TOOL_CATEGORIES: Category[] = [
       {
         title: "สุ่มตัวเลข",
         url: "/tools/random/number",
+        description: "สร้างตัวเลขสุ่มภายในช่วงที่คุณระบุ",
       },
       {
         title: "สุ่มชื่อไทย",
         url: "/tools/random/thai-name",
+        description: "สุ่มชื่อไทย",
       },
     ],
   },
@@ -44,18 +47,22 @@ export const TOOL_CATEGORIES: Category[] = [
       {
         title: "คำนวณดัชนีมวลกาย (BMI)",
         url: "/tools/calculators/bmi",
+        description: "คำนวณค่า BMI เพื่อประเมินรูปร่าง",
       },
       {
         title: "คำนวณการเผาผลาญพลังงาน (BMR)",
         url: "/tools/calculators/bmr",
+        description: "คำนวณอัตราเผาผลาญพลังงานพื้นฐาน",
       },
       {
         title: "คำนวณพลังงานต่อวัน (TDEE)",
         url: "/tools/calculators/tdee",
+        description: "คำนวณพลังงานที่ร่างกายต้องการต่อวัน",
       },
       {
         title: "คำนวณอายุ",
         url: "/tools/calculators/age",
+        description: "คำนวณอายุเป็นปี เดือน วัน จากวันเกิด",
       },
     ],
   },
