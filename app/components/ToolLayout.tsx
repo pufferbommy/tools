@@ -24,18 +24,16 @@ import {
 	DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-interface BreadcrumbItem {
-	label: string;
-	href?: string;
-}
-
 interface ToolLayoutProps {
 	title: string;
 	description: string;
 	url: string;
-	breadcrumbs: BreadcrumbItem[];
+	breadcrumbs: {
+		label: string;
+		href?: string;
+	}[];
 	children: React.ReactNode;
-	items: {
+	items?: {
 		id: string;
 		title: string;
 		content: React.ReactNode;
@@ -97,27 +95,29 @@ export default function ToolLayout(props: ToolLayoutProps) {
 					<p className="text-muted-foreground">{props.description}</p>
 				</section>
 				{props.children}
-				<Accordion
-					type="single"
-					defaultValue="1"
-					collapsible
-					className="-space-y-px"
-				>
-					{props.items.map((item) => (
-						<AccordionItem
-							key={item.id}
-							value={item.id}
-							className="has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative border px-4 py-1 outline-none first:rounded-t-md last:rounded-b-md last:border-b has-focus-visible:z-10 has-focus-visible:ring-[3px]"
-						>
-							<AccordionTrigger className="py-2 leading-6 hover:no-underline focus-visible:ring-0">
-								{item.title}
-							</AccordionTrigger>
-							<AccordionContent className="text-muted-foreground pb-2">
-								{item.content}
-							</AccordionContent>
-						</AccordionItem>
-					))}
-				</Accordion>
+				{props.items && (
+					<Accordion
+						type="single"
+						defaultValue="1"
+						collapsible
+						className="-space-y-px"
+					>
+						{props.items.map((item) => (
+							<AccordionItem
+								key={item.id}
+								value={item.id}
+								className="has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative border px-4 py-1 outline-none first:rounded-t-md last:rounded-b-md last:border-b has-focus-visible:z-10 has-focus-visible:ring-[3px]"
+							>
+								<AccordionTrigger className="py-2 leading-6 hover:no-underline focus-visible:ring-0">
+									{item.title}
+								</AccordionTrigger>
+								<AccordionContent className="text-muted-foreground pb-2">
+									{item.content}
+								</AccordionContent>
+							</AccordionItem>
+						))}
+					</Accordion>
+				)}
 				<SocialShare url={props.url} text={props.title} />
 			</div>
 		</>

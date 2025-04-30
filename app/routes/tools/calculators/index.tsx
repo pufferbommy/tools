@@ -43,7 +43,7 @@ function RouteComponent() {
 				{TOOL_CATEGORIES.find(
 					(category) => category.url === pathname,
 				)?.items.map((tool) => (
-					<Link to={tool.url}>
+					<Link key={tool.url} to={tool.url}>
 						<Card className="hover:bg-primary/10 transition-colors hover:border-primary">
 							<CardContent className="font-medium text-center">
 								{tool.title}

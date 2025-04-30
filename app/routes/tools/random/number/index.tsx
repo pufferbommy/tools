@@ -1,34 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 
-import { getOrigin } from "@/lib/get-origin";
-import { type FormSchema, FormSection } from "./-components/FormSection";
-
 import ToolLayout from "@/components/ToolLayout";
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@/components/ui/accordion";
+import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
+import { type FormSchema, FormSection } from "./-components/FormSection";
 import RandomResultCard from "./-components/RandomResultCard";
-
-const items = [
-	{
-		id: "1",
-		title: "วิธีการใช้งาน",
-		content: (
-			<ol className="list-decimal list-inside space-y-2">
-				<li>ระบุช่วงตัวเลขที่ต้องการสุ่ม (ต่ำสุด - สูงสุด)</li>
-				<li>คลิกปุ่ม "สุ่ม" เพื่อสร้างตัวเลขแบบสุ่ม</li>
-				<li>ดูผลลัพธ์ที่แสดงขึ้น</li>
-				<li>คลิกปุ่มไอคอน "คัดลอก" เพื่อคัดลอกตัวเลข</li>
-				<li>ต้องการสุ่มใหม่? กดปุ่ม "สุ่ม" ได้อีกครั้งเลย!</li>
-			</ol>
-		),
-	},
-];
 
 export const Route = createFileRoute("/tools/random/number/")({
 	component: RouteComponent,
@@ -102,6 +79,21 @@ function RouteComponent() {
 					href: "/tools/random/number",
 				},
 			]}
+			items={[
+				{
+					id: "1",
+					title: "วิธีการใช้งาน",
+					content: (
+						<ol className="list-decimal list-inside space-y-2">
+							<li>ระบุช่วงตัวเลขที่ต้องการสุ่ม (ต่ำสุด - สูงสุด)</li>
+							<li>คลิกปุ่ม "สุ่ม" เพื่อสร้างตัวเลขแบบสุ่ม</li>
+							<li>ดูผลลัพธ์ที่แสดงขึ้น</li>
+							<li>คลิกปุ่มไอคอน "คัดลอก" เพื่อคัดลอกตัวเลข</li>
+							<li>ต้องการสุ่มใหม่? กดปุ่ม "สุ่ม" ได้อีกครั้งเลย!</li>
+						</ol>
+					),
+				},
+			]}
 		>
 			<FormSection onSubmit={handleSubmit} />
 			<RandomResultCard
@@ -109,27 +101,6 @@ function RouteComponent() {
 				histories={histories}
 				isRandomizing={isRandomizing}
 			/>
-			<Accordion
-				type="single"
-				defaultValue="1"
-				collapsible
-				className="-space-y-px"
-			>
-				{items.map((item) => (
-					<AccordionItem
-						key={item.id}
-						value={item.id}
-						className="has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative border px-4 py-1 outline-none first:rounded-t-md last:rounded-b-md last:border-b has-focus-visible:z-10 has-focus-visible:ring-[3px]"
-					>
-						<AccordionTrigger className="py-2 leading-6 hover:no-underline focus-visible:ring-0">
-							{item.title}
-						</AccordionTrigger>
-						<AccordionContent className="text-muted-foreground pb-2">
-							{item.content}
-						</AccordionContent>
-					</AccordionItem>
-				))}
-			</Accordion>
 		</ToolLayout>
 	);
 }
