@@ -3,56 +3,55 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TOOL_CATEGORIES } from "@/constants";
 import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/tools/random/")({
-  component: RouteComponent,
-  loader: async (context) => {
-    const origin = await getOrigin();
-    const pathname = context.location.pathname;
-    const url = `${origin}${pathname}`;
-    return { url, pathname };
-  },
-  head: () => ({
-    meta: [
-      ...seo({
-        title: "เครื่องสุ่ม - รวมมิตรเครื่องมือ",
-        description: "เครื่องมือสุ่มแบบต่างๆ",
-        keywords:
-          "สุ่มชื่อ, สุ่มเลข, สุ่มตัวเลข, สุ่มตัวอักษร, สุ่มคำ, สุ่มข้อความ",
-      }),
-    ],
-  }),
+	component: RouteComponent,
+	loader: async (context) => {
+		const origin = await getOrigin();
+		const pathname = context.location.pathname;
+		const url = `${origin}${pathname}`;
+		return { url, pathname };
+	},
+	head: () => ({
+		meta: [
+			...seo({
+				title: "เครื่องสุ่ม - รวมมิตรเครื่องมือ",
+				description: "เครื่องมือสุ่มแบบต่างๆ",
+				keywords: "สุ่มชื่อ, สุ่มเลข, สุ่มตัวเลข, สุ่มตัวอักษร, สุ่มคำ, สุ่มข้อความ",
+			}),
+		],
+	}),
 });
 
 function RouteComponent() {
-  const { url, pathname } = Route.useLoaderData();
+	const { url, pathname } = Route.useLoaderData();
 
-  return (
-    <ToolLayout
-      breadcrumbs={[
-        {
-          label: "เครื่องสุ่ม",
-          href: "/tools/calculators",
-        },
-      ]}
-      title="เครื่องสุ่ม"
-      description="เครื่องมือสุ่มแบบต่างๆ"
-      url={url}
-    >
-      <div className="grid grid-cols-3 gap-4">
-        {TOOL_CATEGORIES.find(
-          (category) => category.url === pathname
-        )?.items.map((tool) => (
-          <Link to={tool.url}>
-            <Card className="hover:bg-primary/10 transition-colors hover:border-primary">
-              <CardContent className="font-medium text-center">
-                {tool.title}
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
-    </ToolLayout>
-  );
+	return (
+		<ToolLayout
+			breadcrumbs={[
+				{
+					label: "เครื่องสุ่ม",
+					href: "/tools/calculators",
+				},
+			]}
+			title="เครื่องสุ่ม"
+			description="เครื่องมือสุ่มแบบต่างๆ"
+			url={url}
+		>
+			<div className="grid grid-cols-3 gap-4">
+				{TOOL_CATEGORIES.find(
+					(category) => category.url === pathname,
+				)?.items.map((tool) => (
+					<Link to={tool.url}>
+						<Card className="hover:bg-primary/10 transition-colors hover:border-primary">
+							<CardContent className="font-medium text-center">
+								{tool.title}
+							</CardContent>
+						</Card>
+					</Link>
+				))}
+			</div>
+		</ToolLayout>
+	);
 }

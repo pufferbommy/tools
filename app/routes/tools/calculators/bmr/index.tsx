@@ -1,98 +1,98 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
-import { getOrigin } from "@/lib/get-origin";
 import ToolLayout from "@/components/ToolLayout";
-import { BmrDisplaySection } from "./-components/BmrDisplaySection";
-import { BmrCalculatorSection } from "./-components/BmrCalculatorSection";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
 } from "@/components/ui/accordion";
+import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
+import { BmrCalculatorSection } from "./-components/BmrCalculatorSection";
+import { BmrDisplaySection } from "./-components/BmrDisplaySection";
 
 const items = [
-  {
-    id: "1",
-    title: "วิธีการใช้งาน",
-    content: (
-      <ol className="list-decimal list-inside space-y-2">
-        <li>เลือกเพศของคุณ (ชาย หรือ หญิง)</li>
-        <li>กรอกอายุของคุณ (ปี)</li>
-        <li>กรอกน้ำหนัก (กิโลกรัม)</li>
-        <li>กรอกส่วนสูง (เซนติเมตร)</li>
-        <li>คลิกปุ่ม "คำนวณ" เพื่อดูผลลัพธ์ค่า BMR</li>
-        <li>อยากคำนวณใหม่? คลิกปุ่ม "รีเซ็ต" เพื่อเริ่มใหม่ได้เลย!</li>
-      </ol>
-    ),
-  },
+	{
+		id: "1",
+		title: "วิธีการใช้งาน",
+		content: (
+			<ol className="list-decimal list-inside space-y-2">
+				<li>เลือกเพศของคุณ (ชาย หรือ หญิง)</li>
+				<li>กรอกอายุของคุณ (ปี)</li>
+				<li>กรอกน้ำหนัก (กิโลกรัม)</li>
+				<li>กรอกส่วนสูง (เซนติเมตร)</li>
+				<li>คลิกปุ่ม "คำนวณ" เพื่อดูผลลัพธ์ค่า BMR</li>
+				<li>อยากคำนวณใหม่? คลิกปุ่ม "รีเซ็ต" เพื่อเริ่มใหม่ได้เลย!</li>
+			</ol>
+		),
+	},
 ];
 
 export const Route = createFileRoute("/tools/calculators/bmr/")({
-  component: RouteComponent,
-  loader: async (context) => {
-    const origin = await getOrigin();
-    const pathname = context.location.pathname;
-    const url = `${origin}${pathname}`;
-    return { url };
-  },
-  head: () => ({
-    meta: [
-      ...seo({
-        title: "คำนวณการเผาผลาญพลังงาน (BMR) - รวมมิตรเครื่องมือ",
-        description: "คำนวณอัตราเผาผลาญพลังงานพื้นฐาน",
-        keywords: "BMR, คำนวณ BMR, เครื่องมือคำนวณ BMR",
-      }),
-    ],
-  }),
+	component: RouteComponent,
+	loader: async (context) => {
+		const origin = await getOrigin();
+		const pathname = context.location.pathname;
+		const url = `${origin}${pathname}`;
+		return { url };
+	},
+	head: () => ({
+		meta: [
+			...seo({
+				title: "คำนวณการเผาผลาญพลังงาน (BMR) - รวมมิตรเครื่องมือ",
+				description: "คำนวณอัตราเผาผลาญพลังงานพื้นฐาน",
+				keywords: "BMR, คำนวณ BMR, เครื่องมือคำนวณ BMR",
+			}),
+		],
+	}),
 });
 
 function RouteComponent() {
-  const { url } = Route.useLoaderData();
+	const { url } = Route.useLoaderData();
 
-  const [bmr, setBmr] = useState<number | null>(null);
+	const [bmr, setBmr] = useState<number | null>(null);
 
-  return (
-    <ToolLayout
-      breadcrumbs={[
-        {
-          label: "เครื่องคำนวณ",
-          href: "/tools/calculators",
-        },
-        {
-          label: "คำนวณการเผาผลาญพลังงาน (BMR)",
-          href: "/tools/calculators/bmr",
-        },
-      ]}
-      title="คำนวณการเผาผลาญพลังงาน (BMR)"
-      description="เครื่องมือสำหรับคำนวณ BMR (Basal Metabolic Rate) ของคุณ เพียงกรอกน้ำหนัก ส่วนสูง อายุ และเพศ เพื่อดูว่าร่างกายเผาผลาญพลังงานพื้นฐานกี่แคลอรี พร้อมวางแผนสุขภาพให้ดียิ่งขึ้นได้เลย ✨"
-      url={url}
-    >
-      <BmrCalculatorSection setBmr={setBmr} />
-      <BmrDisplaySection bmr={bmr} />
-      <Accordion
-        type="single"
-        defaultValue="1"
-        collapsible
-        className="-space-y-px"
-      >
-        {items.map((item) => (
-          <AccordionItem
-            key={item.id}
-            value={item.id}
-            className="has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative border px-4 py-1 outline-none first:rounded-t-md last:rounded-b-md last:border-b has-focus-visible:z-10 has-focus-visible:ring-[3px]"
-          >
-            <AccordionTrigger className="py-2 leading-6 hover:no-underline focus-visible:ring-0">
-              {item.title}
-            </AccordionTrigger>
-            <AccordionContent className="text-muted-foreground pb-2">
-              {item.content}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </ToolLayout>
-  );
+	return (
+		<ToolLayout
+			breadcrumbs={[
+				{
+					label: "เครื่องคำนวณ",
+					href: "/tools/calculators",
+				},
+				{
+					label: "คำนวณการเผาผลาญพลังงาน (BMR)",
+					href: "/tools/calculators/bmr",
+				},
+			]}
+			title="คำนวณการเผาผลาญพลังงาน (BMR)"
+			description="เครื่องมือสำหรับคำนวณ BMR (Basal Metabolic Rate) ของคุณ เพียงกรอกน้ำหนัก ส่วนสูง อายุ และเพศ เพื่อดูว่าร่างกายเผาผลาญพลังงานพื้นฐานกี่แคลอรี พร้อมวางแผนสุขภาพให้ดียิ่งขึ้นได้เลย ✨"
+			url={url}
+		>
+			<BmrCalculatorSection setBmr={setBmr} />
+			<BmrDisplaySection bmr={bmr} />
+			<Accordion
+				type="single"
+				defaultValue="1"
+				collapsible
+				className="-space-y-px"
+			>
+				{items.map((item) => (
+					<AccordionItem
+						key={item.id}
+						value={item.id}
+						className="has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative border px-4 py-1 outline-none first:rounded-t-md last:rounded-b-md last:border-b has-focus-visible:z-10 has-focus-visible:ring-[3px]"
+					>
+						<AccordionTrigger className="py-2 leading-6 hover:no-underline focus-visible:ring-0">
+							{item.title}
+						</AccordionTrigger>
+						<AccordionContent className="text-muted-foreground pb-2">
+							{item.content}
+						</AccordionContent>
+					</AccordionItem>
+				))}
+			</Accordion>
+		</ToolLayout>
+	);
 }

@@ -6,18 +6,18 @@ import tsConfigPaths from "vite-tsconfig-paths";
 import { sitemap } from "./app/utils/sitemap";
 
 export default defineConfig({
-  server: {
-    preset: "netlify",
-  },
-  tsr: {
-    appDirectory: "app",
-  },
-  vite: {
-    plugins: [
-      generateSitemap(sitemap),
-      tsConfigPaths({
-        projects: ["./tsconfig.json"],
-      }),
-    ],
-  },
+	server: {
+		preset: "netlify",
+	},
+	tsr: {
+		appDirectory: "app",
+	},
+	vite: {
+		plugins: [
+			generateSitemap(sitemap),
+			tsConfigPaths({
+				projects: ["./tsconfig.json"],
+			}),
+		],
+	},
 });
