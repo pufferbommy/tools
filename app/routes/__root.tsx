@@ -14,6 +14,7 @@ import { NotFound } from "@/components/NotFound";
 import { SiteHeader } from "@/components/site-header";
 import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
 import { Toaster } from "@/components/ui/sonner";
+import SearchContextProvider from "@/contexts/search";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -89,9 +90,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="min-h-dvh flex flex-col">
-        <SiteHeader />
-        <div className="flex-1 flex flex-col">{children}</div>
-        <SiteFooter />
+        <SearchContextProvider>
+          <SiteHeader />
+          <div className="flex-1 flex flex-col">{children}</div>
+          <SiteFooter />
+        </SearchContextProvider>
         <Toaster />
         <TanStackRouterDevtools position="bottom-left" />
         <Scripts />

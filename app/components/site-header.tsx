@@ -1,9 +1,8 @@
 import { Menu, Search } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import { Fragment, useEffect, useState } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Fragment, useState } from "react";
 
 import Logo from "./Logo";
-import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { TOOL_CATEGORIES } from "@/constants";
 import {
@@ -24,21 +23,12 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { useSearchContext } from "@/contexts/search";
 
 export function SiteHeader() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { isDialogOpen, setIsDialogOpen } = useSearchContext();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setIsSearchOpen((open) => !open);
-      }
-    };
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, []);
+  const navigate = useNavigate();
 
   return (
     <header className="bg-background group sticky top-0 z-50 border-b border-dashed">
@@ -53,8 +43,15 @@ export function SiteHeader() {
           <NavigationMenuList>
             {TOOL_CATEGORIES.map((category) => (
               <NavigationMenuItem key={category.url} value={category.url}>
-                <NavigationMenuTrigger>
-                  <Link to={category.url}>{category.name}</Link>
+                <NavigationMenuTrigger
+                  className="cursor-pointer"
+                  onClick={() => {
+                    navigate({
+                      to: category.url,
+                    });
+                  }}
+                >
+                  {category.name}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
@@ -78,13 +75,13 @@ export function SiteHeader() {
         </NavigationMenu>
         <div className="flex-1 flex justify-end">
           <Button
-            onClick={() => setIsSearchOpen(true)}
+            onClick={() => setIsDialogOpen(true)}
             variant="ghost"
             size="icon"
           >
             <Search />
           </Button>
-          <CommandDialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
+          <CommandDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <CommandInput placeholder="ค้นหาเครื่องมือ..." />
             <CommandList>
               <CommandEmpty>ไม่พบเครื่องมือที่ค้นหา</CommandEmpty>
@@ -96,7 +93,7 @@ export function SiteHeader() {
                       <CommandItem key={item.url} asChild>
                         <Link
                           to={item.url}
-                          onClick={() => setIsSearchOpen(false)}
+                          onClick={() => setIsDialogOpen(false)}
                         >
                           {item.title}
                         </Link>

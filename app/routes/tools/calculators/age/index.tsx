@@ -74,42 +74,14 @@ function RouteComponent() {
     months: number;
     days: number;
   } | null>(null);
+  const [nextBirthdayDistance, setNextBirthdayDistance] = useState<{
+    years: number;
+    months: number;
+    days: number;
+  } | null>(null);
+  const [formattedDob, setFormattedDob] = useState("");
 
   const dateOfBirth = form.watch("dateOfBirth");
-
-  const nextBirthdayDistance = useMemo(() => {
-    const today = new Date();
-    const nextBirthday = new Date(
-      today.getFullYear(),
-      dateOfBirth.getMonth(),
-      dateOfBirth.getDate()
-    );
-
-    if (nextBirthday < today) {
-      nextBirthday.setFullYear(today.getFullYear() + 1);
-    }
-
-    let years = nextBirthday.getFullYear() - today.getFullYear();
-    let months = nextBirthday.getMonth() - today.getMonth();
-    let days = nextBirthday.getDate() - today.getDate();
-
-    if (days < 0) {
-      months--;
-      const prevMonth = new Date(
-        nextBirthday.getFullYear(),
-        nextBirthday.getMonth(),
-        0
-      ).getDate();
-      days += prevMonth;
-    }
-
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
-    return { years, months, days };
-  }, [dateOfBirth]);
 
   const handleResetClick = () => {
     form.reset();
@@ -117,6 +89,11 @@ function RouteComponent() {
   };
 
   const onSubmit = (data: FormSchema) => {
+    setFormattedDob(
+      dateOfBirth.toLocaleDateString("th-TH", {
+        dateStyle: "full",
+      })
+    );
     const today = new Date();
     let years = today.getFullYear() - data.dateOfBirth.getFullYear();
     let months = today.getMonth() - data.dateOfBirth.getMonth();
@@ -136,6 +113,41 @@ function RouteComponent() {
       years,
       months,
       days,
+    });
+
+    const nextBirthday = new Date(
+      today.getFullYear(),
+      dateOfBirth.getMonth(),
+      dateOfBirth.getDate()
+    );
+
+    if (nextBirthday < today) {
+      nextBirthday.setFullYear(today.getFullYear() + 1);
+    }
+
+    let yyears = nextBirthday.getFullYear() - today.getFullYear();
+    let mmonths = nextBirthday.getMonth() - today.getMonth();
+    let ddays = nextBirthday.getDate() - today.getDate();
+
+    if (ddays < 0) {
+      mmonths--;
+      const prevMonth = new Date(
+        nextBirthday.getFullYear(),
+        nextBirthday.getMonth(),
+        0
+      ).getDate();
+      ddays += prevMonth;
+    }
+
+    if (mmonths < 0) {
+      yyears--;
+      mmonths += 12;
+    }
+
+    setNextBirthdayDistance({
+      years: yyears,
+      months: mmonths,
+      days: ddays,
     });
   };
 
@@ -283,15 +295,10 @@ function RouteComponent() {
           </div>
         </form>
       </Form>
-      {age && (
+      {age && nextBirthdayDistance && (
         <Card>
           <CardContent>
-            <p>
-              คุณเกิดเมื่อ{" "}
-              {dateOfBirth.toLocaleDateString("th-TH", {
-                dateStyle: "full",
-              })}
-            </p>
+            <p>คุณเกิดเมื่อ {formattedDob}</p>
             <p>
               ปัจจุบันคุณมีอายุ{" "}
               <span className="text-primary">{age.years}</span> ปี{" "}

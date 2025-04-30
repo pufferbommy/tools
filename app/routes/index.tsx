@@ -1,12 +1,13 @@
-import { Shuffle } from "lucide-react";
+import { useState } from "react";
+import { Search, Shuffle } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
+import { cn } from "@/lib/utils";
 import { TOOL_CATEGORIES } from "@/constants";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { cn } from "@/lib/utils";
+import { useSearchContext } from "@/contexts/search";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -29,6 +30,7 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
   const { tools, randomToolHref } = Route.useLoaderData();
 
+  const { setIsDialogOpen } = useSearchContext();
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   return (
@@ -42,22 +44,36 @@ function RouteComponent() {
             เว็บเดียวที่รวมทุกเครื่องมือที่คุณต้องใช้ในชีวิตประจำวัน ทั้งสะดวก
             ใช้ง่าย และฟรี
           </p>
-          <Button asChild variant="secondary">
-            <Link to={randomToolHref}>
-              <Shuffle />
-              สุ่มเครื่องมือ
-            </Link>
-          </Button>
+          <div className="flex gap-4">
+            <Button asChild>
+              <Link to={randomToolHref}>
+                <Shuffle />
+                สุ่มเครื่องมือ
+              </Link>
+            </Button>
+            <Button
+              onClick={() => setIsDialogOpen(true)}
+              className="w-60 justify-start relative text-muted-foreground hover:text-muted-foreground"
+              variant="outline"
+            >
+              <Search />
+              ค้นหาเครื่องมือ...
+              <kbd className="text-xs ml-auto">
+                <span>⌘</span>K
+              </kbd>
+            </Button>
+          </div>
         </div>
       </section>
       <div className="border-b border-dashed">
         <div className="container py-4 space-x-4 overflow-x-auto whitespace-nowrap">
           <Button
-            variant={activeCategory === null ? "default" : "outline"}
+            variant={activeCategory === null ? "outline" : "secondary"}
             onClick={() => setActiveCategory(null)}
             className={cn(
-              activeCategory === null &&
-                "border-primary border hover:border-primary/90"
+              activeCategory !== null
+                ? "border-secondary border hover:border-secondary/90"
+                : "hover:bg-inherit"
             )}
           >
             ทั้งหมด
@@ -65,11 +81,14 @@ function RouteComponent() {
           {tools.map((category) => (
             <Button
               onClick={() => setActiveCategory(category.url)}
-              variant={activeCategory === category.url ? "default" : "outline"}
+              variant={
+                activeCategory === category.url ? "outline" : "secondary"
+              }
               key={category.url}
               className={cn(
-                activeCategory === category.url &&
-                  "border-primary border hover:border-primary/90"
+                activeCategory !== category.url
+                  ? "border-secondary border hover:border-secondary/90"
+                  : "hover:bg-inherit"
               )}
             >
               {category.name}
