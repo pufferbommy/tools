@@ -1,3 +1,9 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createFileRoute } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import ToolLayout from "@/components/ToolLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,17 +24,18 @@ import {
 } from "@/components/ui/select";
 import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 const FormSchema = z.object({
 	dateOfBirth: z.date(),
 });
 
 type FormSchema = z.infer<typeof FormSchema>;
+
+type AgeResult = {
+	years: number;
+	months: number;
+	days: number;
+};
 
 export const Route = createFileRoute("/tools/calculators/age/")({
 	component: RouteComponent,
@@ -39,13 +46,11 @@ export const Route = createFileRoute("/tools/calculators/age/")({
 		return { url };
 	},
 	head: () => ({
-		meta: [
-			...seo({
-				title: "คำนวณอายุ - รวมมิตรเครื่องมือ",
-				description: "คำนวณอายุเป็นปี เดือน วัน จากวันเกิด",
-				keywords: "คำนวณอายุ, อายุ, วันเกิด, คำนวณวันเกิด, คำนวณอายุจากวันเกิด",
-			}),
-		],
+		meta: seo({
+			title: "คำนวณอายุ - รวมมิตรเครื่องมือ",
+			description: "คำนวณอายุเป็นปี เดือน วัน จากวันเกิด",
+			keywords: "คำนวณอายุ, อายุ, วันเกิด, คำนวณวันเกิด, คำนวณอายุจากวันเกิด",
+		}),
 	}),
 });
 
@@ -59,16 +64,8 @@ function RouteComponent() {
 		},
 	});
 
-	const [age, setAge] = useState<{
-		years: number;
-		months: number;
-		days: number;
-	} | null>(null);
-	const [nextBirthday, setNextBirthday] = useState<{
-		years: number;
-		months: number;
-		days: number;
-	} | null>(null);
+	const [age, setAge] = useState<AgeResult | null>(null);
+	const [nextBirthday, setNextBirthday] = useState<AgeResult | null>(null);
 	const [formattedDob, setFormattedDob] = useState("");
 
 	const dateOfBirth = form.watch("dateOfBirth");
@@ -76,18 +73,15 @@ function RouteComponent() {
 	const handleResetClick = () => {
 		form.reset();
 		setAge(null);
+		setNextBirthday(null);
+		setFormattedDob("");
 	};
 
-	const onSubmit = (data: FormSchema) => {
-		setFormattedDob(
-			dateOfBirth.toLocaleDateString("th-TH", {
-				dateStyle: "full",
-			}),
-		);
+	const calculateAge = (dateOfBirth: Date): AgeResult => {
 		const today = new Date();
-		let years = today.getFullYear() - data.dateOfBirth.getFullYear();
-		let months = today.getMonth() - data.dateOfBirth.getMonth();
-		let days = today.getDate() - data.dateOfBirth.getDate();
+		let years = today.getFullYear() - dateOfBirth.getFullYear();
+		let months = today.getMonth() - dateOfBirth.getMonth();
+		let days = today.getDate() - dateOfBirth.getDate();
 
 		if (days < 0) {
 			months--;
@@ -99,51 +93,60 @@ function RouteComponent() {
 			months += 12;
 		}
 
-		setAge({
+		return {
 			years,
 			months,
 			days,
-		});
+		};
+	};
 
-		const nextBirthday = new Date(
+	const calculateNextBirthday = (birthDate: Date): AgeResult => {
+		const today = new Date();
+		const nextBirthdayDate = new Date(
 			today.getFullYear(),
-			dateOfBirth.getMonth(),
-			dateOfBirth.getDate(),
+			birthDate.getMonth(),
+			birthDate.getDate(),
 		);
 
-		if (nextBirthday < today) {
-			nextBirthday.setFullYear(today.getFullYear() + 1);
+		if (nextBirthdayDate < today) {
+			nextBirthdayDate.setFullYear(today.getFullYear() + 1);
 		}
 
-		let yyears = nextBirthday.getFullYear() - today.getFullYear();
-		let mmonths = nextBirthday.getMonth() - today.getMonth();
-		let ddays = nextBirthday.getDate() - today.getDate();
+		let years = nextBirthdayDate.getFullYear() - today.getFullYear();
+		let months = nextBirthdayDate.getMonth() - today.getMonth();
+		let days = nextBirthdayDate.getDate() - today.getDate();
 
-		if (ddays < 0) {
-			mmonths--;
+		if (days < 0) {
+			months--;
 			const prevMonth = new Date(
-				nextBirthday.getFullYear(),
-				nextBirthday.getMonth(),
+				nextBirthdayDate.getFullYear(),
+				nextBirthdayDate.getMonth(),
 				0,
 			).getDate();
-			ddays += prevMonth;
+			days += prevMonth;
 		}
 
-		if (mmonths < 0) {
-			yyears--;
-			mmonths += 12;
+		if (months < 0) {
+			years--;
+			months += 12;
 		}
 
-		setNextBirthday({
-			years: yyears,
-			months: mmonths,
-			days: ddays,
-		});
+		return { years, months, days };
+	};
+
+	const onSubmit = (data: FormSchema) => {
+		setFormattedDob(
+			data.dateOfBirth.toLocaleDateString("th-TH", {
+				dateStyle: "full",
+			}),
+		);
+		setAge(calculateAge(data.dateOfBirth));
+		setNextBirthday(calculateNextBirthday(data.dateOfBirth));
 	};
 
 	const dates = useMemo(() => {
 		const date = new Date(dateOfBirth.getFullYear(), dateOfBirth.getMonth(), 1);
-		const dates = [];
+		const dates: string[] = [];
 		while (date.getMonth() === dateOfBirth.getMonth()) {
 			dates.push(new Date(date).getDate().toString());
 			date.setDate(date.getDate() + 1);
@@ -153,7 +156,7 @@ function RouteComponent() {
 
 	const months = useMemo(() => {
 		const date = new Date(dateOfBirth.getFullYear(), 0, 1);
-		const months = [];
+		const months: string[] = [];
 		while (date.getFullYear() <= dateOfBirth.getFullYear()) {
 			months.push(
 				new Date(date).toLocaleDateString("th-TH", {
@@ -214,7 +217,7 @@ function RouteComponent() {
 							<FormItem>
 								<FormLabel>วันเกิด</FormLabel>
 								<FormControl>
-									<div className="flex gap-2">
+									<div className="flex flex-wrap gap-2">
 										<Select
 											value={field.value.toLocaleDateString("th-TH", {
 												day: "numeric",
@@ -225,7 +228,7 @@ function RouteComponent() {
 												field.onChange(newDate);
 											}}
 										>
-											<SelectTrigger>
+											<SelectTrigger className="w-[65.81px]">
 												<SelectValue placeholder="วัน" />
 											</SelectTrigger>
 											<SelectContent>
@@ -238,13 +241,19 @@ function RouteComponent() {
 										</Select>
 										<Select
 											value={field.value.getMonth().toString()}
-											onValueChange={(value) => {
-												const newDate = new Date(field.value);
-												newDate.setMonth(Number(value));
-												field.onChange(newDate);
+											onValueChange={(selectedMonth) => {
+												const currentDate = new Date(field.value);
+												const updatedDate = new Date(currentDate);
+												updatedDate.setMonth(Number(selectedMonth));
+
+												if (updatedDate.getDate() !== currentDate.getDate()) {
+													updatedDate.setDate(0);
+												}
+
+												field.onChange(updatedDate);
 											}}
 										>
-											<SelectTrigger>
+											<SelectTrigger className="w-[115.17px]">
 												<SelectValue placeholder="เดือน" />
 											</SelectTrigger>
 											<SelectContent>
@@ -263,7 +272,7 @@ function RouteComponent() {
 												field.onChange(newDate);
 											}}
 										>
-											<SelectTrigger>
+											<SelectTrigger className="w-[81.83px]">
 												<SelectValue placeholder="ปี" />
 											</SelectTrigger>
 											<SelectContent>
