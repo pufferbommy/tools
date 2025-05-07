@@ -43,7 +43,7 @@ function RouteComponent() {
 					<p className="text-muted-foreground mb-8">
 						เว็บเดียวที่รวมทุกเครื่องมือที่คุณต้องใช้ในชีวิตประจำวัน ทั้งสะดวก ใช้ง่าย และฟรี
 					</p>
-					<div className="flex gap-4">
+					<div className="flex sm:flex-row flex-col gap-4">
 						<Button asChild>
 							<Link to={randomToolHref}>
 								<Shuffle />
@@ -52,7 +52,7 @@ function RouteComponent() {
 						</Button>
 						<Button
 							onClick={() => setIsDialogOpen(true)}
-							className="w-60 justify-start relative text-muted-foreground hover:text-muted-foreground"
+							className="sm:w-60 justify-start relative text-muted-foreground hover:text-muted-foreground"
 							variant="outline"
 						>
 							<Search />
