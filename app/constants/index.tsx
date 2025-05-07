@@ -38,6 +38,11 @@ export const TOOL_CATEGORIES: Category[] = [
 				url: "/tools/random/thai-name",
 				description: "สุ่มชื่อไทย",
 			},
+			{
+				title: "สุ่มชื่ออังกฤษ",
+				url: "/tools/random/english-name",
+				description: "สุ่มชื่ออังกฤษ",
+			},
 		],
 	},
 	{
