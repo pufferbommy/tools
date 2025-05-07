@@ -97,12 +97,11 @@ function RouteComponent() {
 			</div>
 			<div className="container px-0 flex-1 space-y-8 py-8">
 				<div className="grid px-8 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-					<AnimatePresence>
+					<AnimatePresence initial={false}>
 						{tools
-							.filter((category) =>
-								activeCategory === null
-									? true
-									: category.url === activeCategory,
+							.filter(
+								(category) =>
+									activeCategory === null || category.url === activeCategory,
 							)
 							.map((category) =>
 								category.items.map((tool) => (
