@@ -8,6 +8,7 @@ const Icon = (props: SVGProps<SVGSVGElement>) => (
 		fill="none"
 		{...props}
 	>
+		<title>Logo</title>
 		<g clipPath="url(#a)">
 			<path
 				fill="#00BBA0"
