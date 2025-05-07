@@ -2,12 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import ToolLayout from "@/components/ToolLayout";
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@/components/ui/accordion";
 import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
 import { FormSection } from "./-components/FormSection";
