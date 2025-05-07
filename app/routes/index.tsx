@@ -120,6 +120,9 @@ function RouteComponent() {
 											opacity: 0,
 											scale: 0,
 										}}
+										transition={{
+											duration: 0.15,
+										}}
 									>
 										<Link to={tool.url}>
 											<Card className="hover:bg-primary/10 transition-colors hover:border-primary">
