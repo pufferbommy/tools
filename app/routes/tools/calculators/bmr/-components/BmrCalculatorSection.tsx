@@ -92,7 +92,7 @@ export function BmrCalculatorSection({
 							</FormItem>
 						)}
 					/>
-					<div className="grid md:grid-cols-3 gap-4">
+					<div className="grid md:grid-cols-3 items-start gap-4">
 						<FormField
 							control={form.control}
 							name="age"
