@@ -10,7 +10,8 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
 import { NotFound } from "@/components/NotFound";
 import SiteFooter from "@/components/SiteFooter";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeader } from "@/components/SiteHeader";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import SearchContextProvider from "@/contexts/search";
 import appCss from "@/styles/app.css?url";
@@ -85,19 +86,23 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="th">
+		<html suppressHydrationWarning lang="th">
 			<head>
 				<HeadContent />
 			</head>
-			<body className="min-h-dvh flex flex-col">
-				<SearchContextProvider>
-					<SiteHeader />
-					<div className="flex-1 flex flex-col">{children}</div>
-					<SiteFooter />
-				</SearchContextProvider>
-				<Toaster />
-				<TanStackRouterDevtools position="bottom-left" />
+			<body>
+				<ThemeProvider attribute="class">
+					<SearchContextProvider>
+						<div className="min-h-dvh flex flex-col">
+							<SiteHeader />
+							<div className="flex-1 flex flex-col">{children}</div>
+							<SiteFooter />
+						</div>
+					</SearchContextProvider>
+					<Toaster />
+				</ThemeProvider>
 				<Scripts />
+				<TanStackRouterDevtools position="bottom-left" />
 			</body>
 		</html>
 	);

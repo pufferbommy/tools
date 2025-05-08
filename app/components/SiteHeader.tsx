@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, Search } from "lucide-react";
+import { Menu, MonitorIcon, MoonIcon, Search, SunIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 
 import {
@@ -22,13 +22,22 @@ import {
 } from "@/components/ui/navigation-menu";
 import { TOOL_CATEGORIES } from "@/constants";
 import { useSearchContext } from "@/contexts/search";
+
 import Logo from "./Logo";
+import { useTheme } from "./providers/ThemeProvider";
 import { Button } from "./ui/button";
 
 export function SiteHeader() {
 	const { isDialogOpen, setIsDialogOpen } = useSearchContext();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const navigate = useNavigate();
+	const { theme, setTheme } = useTheme();
+
+	const handleChangeThemeClick = () => {
+		setTheme(
+			theme === "light" ? "dark" : theme === "dark" ? "system" : "light",
+		);
+	};
 
 	return (
 		<header className="bg-background group sticky top-0 z-50 border-b border-dashed">
@@ -73,7 +82,7 @@ export function SiteHeader() {
 						))}
 					</NavigationMenuList>
 				</NavigationMenu>
-				<div className="flex-1 flex justify-end">
+				<div className="flex-1 gap-2 flex justify-end">
 					<Button
 						onClick={() => setIsDialogOpen(true)}
 						variant="ghost"
@@ -138,6 +147,19 @@ export function SiteHeader() {
 							))}
 						</DrawerContent>
 					</Drawer>
+					<Button
+						onClick={handleChangeThemeClick}
+						variant="outline"
+						size="icon"
+					>
+						{theme === "dark" ? (
+							<MoonIcon />
+						) : theme === "light" ? (
+							<SunIcon />
+						) : (
+							<MonitorIcon />
+						)}
+					</Button>
 				</div>
 			</div>
 		</header>
