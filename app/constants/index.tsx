@@ -1,3 +1,4 @@
+import type { TRoutes } from "@/utils/sitemap";
 import { Mars, Venus } from "lucide-react";
 
 export const GENDERS = [
@@ -15,10 +16,10 @@ export const GENDERS = [
 
 interface Category {
 	name: string;
-	url: string;
+	url: TRoutes;
 	items: {
 		title: string;
-		url: string;
+		url: TRoutes;
 		description?: string;
 	}[];
 }
@@ -42,6 +43,11 @@ export const TOOL_CATEGORIES: Category[] = [
 				title: "สุ่มชื่ออังกฤษ",
 				url: "/tools/random/english-name",
 				description: "สุ่มชื่ออังกฤษ",
+			},
+			{
+				title: "สุ่มสี",
+				url: "/tools/random/color",
+				description: "สุ่มสีพร้อมรหัส HEX และ RGB สำหรับใช้ในงานออกแบบหรือเลือกสี",
 			},
 		],
 	},
