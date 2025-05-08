@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import ToolLayout from "@/components/ToolLayout";
-import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
 import { BmrCalculatorSection } from "./-components/BmrCalculatorSection";
 import { BmrDisplaySection } from "./-components/BmrDisplaySection";
@@ -10,9 +9,8 @@ import { BmrDisplaySection } from "./-components/BmrDisplaySection";
 export const Route = createFileRoute("/tools/calculators/bmr/")({
 	component: RouteComponent,
 	loader: async (context) => {
-		const origin = await getOrigin();
 		const pathname = context.location.pathname;
-		const url = `${origin}${pathname}`;
+		const url = `${process.env.ORIGIN}${pathname}`;
 		return { url };
 	},
 	head: () => ({

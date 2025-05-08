@@ -1,16 +1,14 @@
 import ToolLayout from "@/components/ToolLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { TOOL_CATEGORIES } from "@/constants";
-import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/tools/random/")({
 	component: RouteComponent,
 	loader: async (context) => {
-		const origin = await getOrigin();
 		const pathname = context.location.pathname;
-		const url = `${origin}${pathname}`;
+		const url = `${process.env.ORIGIN}${pathname}`;
 		return { url, pathname };
 	},
 	head: () => ({

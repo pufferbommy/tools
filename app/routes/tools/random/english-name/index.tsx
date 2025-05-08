@@ -19,7 +19,6 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { ENGLISH_NAMES, GENDERS } from "@/constants";
-import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -60,9 +59,8 @@ type FormSchema = z.infer<typeof FormSchema>;
 export const Route = createFileRoute("/tools/random/english-name/")({
 	component: RouteComponent,
 	loader: async (context) => {
-		const origin = await getOrigin();
 		const pathname = context.location.pathname;
-		const url = `${origin}${pathname}`;
+		const url = `${process.env.ORIGIN}${pathname}`;
 		return { url };
 	},
 	head: () => ({

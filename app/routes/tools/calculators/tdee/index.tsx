@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import ToolLayout from "@/components/ToolLayout";
-import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
 import { TdeeCalculatorSection } from "./-components/TdeeCalculatorSection";
 import { TdeeDisplaySection } from "./-components/TdeeDisplaySection";
@@ -10,9 +9,8 @@ import { TdeeDisplaySection } from "./-components/TdeeDisplaySection";
 export const Route = createFileRoute("/tools/calculators/tdee/")({
 	component: RouteComponent,
 	loader: async (context) => {
-		const origin = await getOrigin();
 		const pathname = context.location.pathname;
-		const url = `${origin}${pathname}`;
+		const url = `${process.env.ORIGIN}${pathname}`;
 		return { url };
 	},
 	head: () => ({

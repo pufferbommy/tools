@@ -22,8 +22,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
+import { getHeader } from "@tanstack/react-start/server";
 
 const FormSchema = z.object({
 	dateOfBirth: z.date(),
@@ -40,9 +40,8 @@ type AgeResult = {
 export const Route = createFileRoute("/tools/calculators/age/")({
 	component: RouteComponent,
 	loader: async (context) => {
-		const origin = await getOrigin();
 		const pathname = context.location.pathname;
-		const url = `${origin}${pathname}`;
+		const url = `${process.env.ORIGIN}${pathname}`;
 		return { url };
 	},
 	head: () => ({

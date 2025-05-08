@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 
 import ToolLayout from "@/components/ToolLayout";
-import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
 import { type FormSchema, FormSection } from "./-components/FormSection";
 import RandomResultCard from "./-components/RandomResultCard";
@@ -10,9 +9,8 @@ import RandomResultCard from "./-components/RandomResultCard";
 export const Route = createFileRoute("/tools/random/number/")({
 	component: RouteComponent,
 	loader: async (context) => {
-		const origin = await getOrigin();
 		const pathname = context.location.pathname;
-		const url = `${origin}${pathname}`;
+		const url = `${process.env.ORIGIN}${pathname}`;
 		return { url };
 	},
 	head: () => ({

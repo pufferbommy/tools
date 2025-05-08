@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import ToolLayout from "@/components/ToolLayout";
-import { getOrigin } from "@/lib/get-origin";
 import { seo } from "@/utils/seo";
 import { FormSection } from "./-components/FormSection";
 import ResultSection from "./-components/ResultSection";
@@ -25,9 +24,8 @@ export interface Result {
 export const Route = createFileRoute("/tools/random/thai-name/")({
 	component: RouteComponent,
 	loader: async (context) => {
-		const origin = await getOrigin();
 		const pathname = context.location.pathname;
-		const url = `${origin}${pathname}`;
+		const url = `${process.env.ORIGIN}${pathname}`;
 		return { url };
 	},
 	head: () => ({

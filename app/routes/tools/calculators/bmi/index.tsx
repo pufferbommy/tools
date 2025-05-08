@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import ToolLayout from "@/components/ToolLayout";
-import { getOrigin } from "@/lib/get-origin";
 import { BmiCalculatorSection } from "@/routes/tools/calculators/bmi/-components/BmiCalculatorSection";
 import { BmiDisplaySection } from "@/routes/tools/calculators/bmi/-components/BmiDisplaySection";
 import { BmiTableSection } from "@/routes/tools/calculators/bmi/-components/BmiTableSection";
@@ -11,9 +10,8 @@ import { seo } from "@/utils/seo";
 export const Route = createFileRoute("/tools/calculators/bmi/")({
 	component: RouteComponent,
 	loader: async (context) => {
-		const origin = await getOrigin();
 		const pathname = context.location.pathname;
-		const url = `${origin}${pathname}`;
+		const url = `${process.env.ORIGIN}${pathname}`;
 		return { url };
 	},
 	head: () => ({
