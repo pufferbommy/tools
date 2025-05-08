@@ -33,15 +33,18 @@ function RouteComponent() {
 	const { setIsDialogOpen } = useSearchContext();
 	const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
+	const filteredTools = activeCategory
+		? tools.filter((cat) => cat.url === activeCategory)
+		: tools;
+
 	return (
 		<>
 			<section className="border-b border-dashed">
 				<div className="container py-16">
-					<h1 className="text-4xl mb-4 font-semibold">
-						รวมมิตรเครื่องมือสารพัดประโยชน์
-					</h1>
+					<h1 className="text-4xl mb-4 font-semibold">รวมมิตรเครื่องมือ</h1>
 					<p className="text-muted-foreground mb-8">
-						เว็บเดียวที่รวมทุกเครื่องมือที่คุณต้องใช้ในชีวิตประจำวัน ทั้งสะดวก ใช้ง่าย และฟรี
+						เว็บรวมเครื่องมือออนไลน์สารพัดประโยชน์ ใช้ง่าย รวดเร็ว ครอบคลุมทุกอย่างที่คุณต้องการ
+						และฟรี 100%
 					</p>
 					<div className="flex sm:flex-row flex-col gap-4">
 						<Button asChild>
@@ -75,7 +78,8 @@ function RouteComponent() {
 								: "hover:bg-inherit",
 						)}
 					>
-						ทั้งหมด
+						ทั้งหมด (
+						{tools.reduce((sum, category) => category.items.length + sum, 0)})
 					</Button>
 					{tools.map((category) => (
 						<Button
@@ -90,7 +94,7 @@ function RouteComponent() {
 									: "hover:bg-inherit",
 							)}
 						>
-							{category.name}
+							{category.name} ({category.items.length})
 						</Button>
 					))}
 				</div>
@@ -98,42 +102,37 @@ function RouteComponent() {
 			<div className="container px-0 flex-1 space-y-8 py-8">
 				<div className="grid px-8 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 					<AnimatePresence initial={false}>
-						{tools
-							.filter(
-								(category) =>
-									activeCategory === null || category.url === activeCategory,
-							)
-							.map((category) =>
-								category.items.map((tool) => (
-									<motion.div
-										key={tool.url}
-										layout
-										initial={{
-											opacity: 0,
-											scale: 0,
-										}}
-										animate={{
-											opacity: 1,
-											scale: 1,
-										}}
-										exit={{
-											opacity: 0,
-											scale: 0,
-										}}
-										transition={{
-											duration: 0.15,
-										}}
-									>
-										<Link to={tool.url}>
-											<Card className="hover:bg-primary/10 transition-colors hover:border-primary">
-												<CardContent className="font-medium text-center">
-													{tool.title}
-												</CardContent>
-											</Card>
-										</Link>
-									</motion.div>
-								)),
-							)}
+						{filteredTools.map((category) =>
+							category.items.map((tool) => (
+								<motion.div
+									key={tool.url}
+									layout
+									initial={{
+										opacity: 0,
+										scale: 0,
+									}}
+									animate={{
+										opacity: 1,
+										scale: 1,
+									}}
+									exit={{
+										opacity: 0,
+										scale: 0,
+									}}
+									transition={{
+										duration: 0.15,
+									}}
+								>
+									<Link to={tool.url}>
+										<Card className="hover:bg-primary/10 transition-colors hover:border-primary">
+											<CardContent className="font-medium text-center">
+												{tool.title}
+											</CardContent>
+										</Card>
+									</Link>
+								</motion.div>
+							)),
+						)}
 					</AnimatePresence>
 				</div>
 			</div>
