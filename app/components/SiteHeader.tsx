@@ -77,6 +77,7 @@ export function SiteHeader() {
 				</NavigationMenu>
 				<div className="flex-1 gap-2 flex justify-end">
 					<Button
+						aria-label="Open search dialog"
 						onClick={() => setIsDialogOpen(true)}
 						variant="ghost"
 						size="icon"
@@ -108,7 +109,12 @@ export function SiteHeader() {
 					</CommandDialog>
 					<Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
 						<DrawerTrigger asChild>
-							<Button className="lg:hidden" variant="ghost" size="icon">
+							<Button
+								aria-label="Open menu"
+								className="lg:hidden"
+								variant="ghost"
+								size="icon"
+							>
 								<Menu />
 							</Button>
 						</DrawerTrigger>

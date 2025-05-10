@@ -119,6 +119,7 @@ export function SocialShare(props: { url: string; text: string }) {
 						color: "#998767",
 						borderColor: "#998767",
 					}}
+					aria-label="Copy link"
 					onClick={() => {
 						navigator.clipboard.writeText(props.url);
 						toast.success("คัดลอกลิงก์เรียบร้อย");

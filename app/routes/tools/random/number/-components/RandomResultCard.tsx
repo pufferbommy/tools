@@ -56,6 +56,7 @@ export default function RandomResultCard(props: {
 				variant="ghost"
 				onClick={handleCopyClick}
 				disabled={!props.number || props.isRandomizing}
+				aria-label="Copy number"
 			>
 				{isCopyed ? <ClipboardCheck /> : <Clipboard />}
 			</Button>

@@ -12,7 +12,12 @@ export default function ThemeSwitcher() {
 	};
 
 	return (
-		<Button onClick={handleChangeThemeClick} variant="outline" size="icon">
+		<Button
+			onClick={handleChangeThemeClick}
+			variant="outline"
+			size="icon"
+			aria-label="Change theme"
+		>
 			{theme === "dark" ? (
 				<MoonIcon />
 			) : theme === "light" ? (
