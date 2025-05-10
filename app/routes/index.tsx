@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { TOOL_CATEGORIES } from "@/constants";
 import { useSearchContext } from "@/contexts/search";
 import { cn } from "@/lib/utils";
@@ -68,7 +69,40 @@ function RouteComponent() {
 				</div>
 			</section>
 			<div className="border-b border-dashed">
-				<div className="container py-4 space-x-4 overflow-x-auto whitespace-nowrap">
+				<ScrollArea className="container">
+					<div className="space-x-4 w-max py-4">
+						<Button
+							variant={activeCategory === null ? "outline" : "secondary"}
+							onClick={() => setActiveCategory(null)}
+							className={cn(
+								activeCategory !== null
+									? "border-secondary border hover:border-secondary/90"
+									: "hover:bg-inherit",
+							)}
+						>
+							ทั้งหมด (
+							{tools.reduce((sum, category) => category.items.length + sum, 0)})
+						</Button>
+						{tools.map((category) => (
+							<Button
+								onClick={() => setActiveCategory(category.url)}
+								variant={
+									activeCategory === category.url ? "outline" : "secondary"
+								}
+								key={category.url}
+								className={cn(
+									activeCategory !== category.url
+										? "border-secondary border hover:border-secondary/90"
+										: "hover:bg-inherit",
+								)}
+							>
+								{category.name} ({category.items.length})
+							</Button>
+						))}
+					</div>
+					<ScrollBar orientation="horizontal" />
+				</ScrollArea>
+				{/* <div className="container py-4 space-x-4 overflow-x-auto whitespace-nowrap">
 					<Button
 						variant={activeCategory === null ? "outline" : "secondary"}
 						onClick={() => setActiveCategory(null)}
@@ -97,7 +131,7 @@ function RouteComponent() {
 							{category.name} ({category.items.length})
 						</Button>
 					))}
-				</div>
+				</div> */}
 			</div>
 			<div className="container px-0 flex-1 space-y-8 py-8">
 				<div className="grid px-8 sm:grid-cols-2 lg:grid-cols-3 gap-4">
