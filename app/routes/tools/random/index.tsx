@@ -14,7 +14,7 @@ export const Route = createFileRoute("/tools/random/")({
 	head: () => ({
 		meta: [
 			...seo({
-				title: "เครื่องสุ่ม - รวมมิตรเครื่องมือ",
+				title: "เครื่องมือสุ่ม - รวมมิตรเครื่องมือ",
 				description: "เครื่องมือสุ่มแบบต่างๆ",
 				keywords: "สุ่มชื่อ, สุ่มเลข, สุ่มตัวเลข, สุ่มตัวอักษร, สุ่มคำ, สุ่มข้อความ",
 			}),
@@ -29,11 +29,11 @@ function RouteComponent() {
 		<ToolLayout
 			breadcrumbs={[
 				{
-					label: "เครื่องสุ่ม",
+					label: "เครื่องมือสุ่ม",
 					href: "/tools/calculators",
 				},
 			]}
-			title="เครื่องสุ่ม"
+			title="เครื่องมือสุ่ม"
 			description="เครื่องมือสุ่มแบบต่างๆ"
 			url={url}
 		>

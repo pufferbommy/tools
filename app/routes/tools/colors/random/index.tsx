@@ -31,7 +31,7 @@ const randomHexColor = (): string => {
 		.padStart(6, "0")}`;
 };
 
-export const Route = createFileRoute("/tools/random/color/")({
+export const Route = createFileRoute("/tools/colors/random/")({
 	component: RouteComponent,
 	loader: async (context) => {
 		const pathname = context.location.pathname;
@@ -81,12 +81,12 @@ function RouteComponent() {
 			description="สุ่มสีพร้อมรหัส HEX, RGB, HSL และ OKLCH สำหรับใช้ในงานออกแบบหรือเลือกสี"
 			breadcrumbs={[
 				{
-					label: "เครื่องสุ่ม",
-					href: "/tools/random",
+					label: "เครื่องมือสี",
+					href: "/tools/colors",
 				},
 				{
 					label: "สุ่มสี",
-					href: "/tools/random/color",
+					href: "/tools/colors/random",
 				},
 			]}
 			items={[

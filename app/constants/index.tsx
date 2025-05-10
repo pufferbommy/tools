@@ -26,7 +26,7 @@ interface Category {
 
 export const TOOL_CATEGORIES: Category[] = [
 	{
-		name: "เครื่องสุ่ม",
+		name: "เครื่องมือสุ่ม",
 		url: "/tools/random",
 		items: [
 			{
@@ -44,15 +44,10 @@ export const TOOL_CATEGORIES: Category[] = [
 				url: "/tools/random/english-name",
 				description: "สุ่มชื่ออังกฤษ",
 			},
-			{
-				title: "สุ่มสี",
-				url: "/tools/random/color",
-				description: "สุ่มสีพร้อมรหัส HEX และ RGB สำหรับใช้ในงานออกแบบหรือเลือกสี",
-			},
 		],
 	},
 	{
-		name: "เครื่องคำนวณ",
+		name: "เครื่องมือคำนวณ",
 		url: "/tools/calculators",
 		items: [
 			{
@@ -74,6 +69,17 @@ export const TOOL_CATEGORIES: Category[] = [
 				title: "คำนวณอายุ",
 				url: "/tools/calculators/age",
 				description: "คำนวณอายุเป็นปี เดือน วัน จากวันเกิด",
+			},
+		],
+	},
+	{
+		name: "เครื่องมือสี",
+		url: "/tools/colors",
+		items: [
+			{
+				title: "สุ่มสี",
+				url: "/tools/colors/random",
+				description: "สุ่มสีพร้อมรหัส HEX และ RGB สำหรับใช้ในงานออกแบบหรือเลือกสี",
 			},
 		],
 	},

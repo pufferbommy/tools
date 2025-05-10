@@ -33,7 +33,7 @@ function RouteComponent() {
 		<ToolLayout
 			breadcrumbs={[
 				{
-					label: "เครื่องคำนวณ",
+					label: "เครื่องมือคำนวณ",
 					href: "/tools/calculators",
 				},
 				{

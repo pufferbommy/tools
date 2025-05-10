@@ -4,7 +4,7 @@ import { TOOL_CATEGORIES } from "@/constants";
 import { seo } from "@/utils/seo";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/tools/calculators/")({
+export const Route = createFileRoute("/tools/colors/")({
 	component: RouteComponent,
 	loader: async (context) => {
 		const pathname = context.location.pathname;
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/tools/calculators/")({
 	head: () => ({
 		meta: [
 			...seo({
-				title: "เครื่องมือคำนวณ - รวมมิตรเครื่องมือ",
+				title: "เครื่องมือสี - รวมมิตรเครื่องมือ",
 				description: "เครื่องมือคำนวณที่ช่วยให้คุณทำการคำนวณต่างๆ ได้อย่างง่ายดาย",
 				keywords:
 					"เครื่องมือคำนวณ, คำนวณ BMI, คำนวณอายุ, คำนวณเปอร์เซ็นต์, คำนวณดอกเบี้ย",
@@ -30,12 +30,12 @@ function RouteComponent() {
 		<ToolLayout
 			breadcrumbs={[
 				{
-					label: "เครื่องมือคำนวณ",
+					label: "เครื่องมือสี",
 					href: "/tools/calculators",
 				},
 			]}
-			title="เครื่องมือคำนวณ"
-			description="เครื่องมือคำนวณที่ช่วยให้คุณทำการคำนวณต่างๆ ได้อย่างง่ายดาย"
+			title="เครื่องมือสุ่ม"
+			description="เครื่องมือสุ่มแบบต่างๆ"
 			url={url}
 		>
 			<div className="grid grid-cols-3 gap-4">
