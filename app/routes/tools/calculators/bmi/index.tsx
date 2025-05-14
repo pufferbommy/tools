@@ -17,7 +17,7 @@ export const Route = createFileRoute("/tools/calculators/bmi/")({
 	head: () => ({
 		meta: [
 			...seo({
-				title: "คำนวณดัชนีมวลกาย (BMI) - รวมมิตรเครื่องมือ",
+				title: "คำนวณดัชนีมวลกาย (BMI)",
 				description: "คำนวณค่า BMI เพื่อประเมินรูปร่าง",
 				keywords: "BMI, ดัชนีมวลกาย, คำนวณ BMI, เครื่องมือคำนวณ BMI",
 			}),

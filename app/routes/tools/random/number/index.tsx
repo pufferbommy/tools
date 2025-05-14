@@ -16,7 +16,7 @@ export const Route = createFileRoute("/tools/random/number/")({
 	head: () => ({
 		meta: [
 			...seo({
-				title: "สุ่มตัวเลข - รวมมิตรเครื่องมือ",
+				title: "สุ่มตัวเลข",
 				description: "สร้างตัวเลขสุ่มภายในช่วงที่คุณระบุ",
 				keywords: "สุ่มตัวเลข, เครื่องมือสุ่มตัวเลข, สุ่มหมายเลข, สุ่มหมายเลขสุ่ม",
 			}),

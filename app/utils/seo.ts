@@ -4,13 +4,13 @@ export const seo = ({
 	keywords,
 	image,
 }: {
-	title: string;
+	title?: string;
 	description?: string;
 	image?: string;
 	keywords?: string;
 }) => {
 	const tags = [
-		{ title },
+		{ title: title ? `${title} | รวมมิตรเครื่องมือ` : "รวมมิตรเครื่องมือ" },
 		{ name: "description", content: description },
 		{ name: "keywords", content: keywords },
 		{ name: "twitter:title", content: title },

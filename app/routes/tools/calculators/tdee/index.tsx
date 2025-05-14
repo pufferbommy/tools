@@ -16,7 +16,7 @@ export const Route = createFileRoute("/tools/calculators/tdee/")({
 	head: () => ({
 		meta: [
 			...seo({
-				title: "คำนวณพลังงานต่อวัน (TDEE) - รวมมิตรเครื่องมือ",
+				title: "คำนวณพลังงานต่อวัน (TDEE)",
 				description: "คำนวณพลังงานที่ร่างกายต้องการต่อวัน",
 				keywords: "TDEE, คำนวณ TDEE, เครื่องมือคำนวณ TDEE",
 			}),

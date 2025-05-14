@@ -32,7 +32,6 @@ export const Route = createRootRoute({
 				content: "NOC2Z-H5bvAPpv5DX_pd6blYsg4xWUbrevyoBQAPv3c",
 			},
 			...seo({
-				title: "รวมมิตรเครื่องมือ",
 				description:
 					"รวมมิตรเครื่องมือ คือ เว็บรวมเครื่องมือออนไลน์สารพัดประโยชน์ ใช้ง่าย รวดเร็ว ครอบคลุมทุกอย่างที่คุณต้องการ และฟรี 100%",
 				keywords: "เครื่องมือออนไลน์, คำนวณ BMI, รวมเครื่องมือฟรี, เว็บฟรี",

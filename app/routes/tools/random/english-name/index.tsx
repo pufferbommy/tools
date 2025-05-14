@@ -66,7 +66,7 @@ export const Route = createFileRoute("/tools/random/english-name/")({
 	head: () => ({
 		meta: [
 			...seo({
-				title: "สุ่มชื่อไทย - รวมมิตรเครื่องมือ",
+				title: "สุ่มชื่อไทย",
 				description: "เครื่องมือสุ่มชื่อจริง ชื่อเล่น หรือนามสกุลไทย",
 				keywords: "สุ่มชื่อไทย, สุ่มชื่อจริง, สุ่มชื่อเล่น, สุ่มนามสกุล, เครื่องมือสุ่มชื่อ",
 			}),

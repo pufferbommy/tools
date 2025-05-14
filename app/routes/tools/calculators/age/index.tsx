@@ -46,7 +46,7 @@ export const Route = createFileRoute("/tools/calculators/age/")({
 	},
 	head: () => ({
 		meta: seo({
-			title: "คำนวณอายุ - รวมมิตรเครื่องมือ",
+			title: "คำนวณอายุ",
 			description: "คำนวณอายุเป็นปี เดือน วัน จากวันเกิด",
 			keywords: "คำนวณอายุ, อายุ, วันเกิด, คำนวณวันเกิด, คำนวณอายุจากวันเกิด",
 		}),

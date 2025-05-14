@@ -42,7 +42,7 @@ export const Route = createFileRoute("/tools/colors/random/")({
 	head: () => ({
 		meta: [
 			...seo({
-				title: "สุ่มสี - รวมมิตรเครื่องมือ",
+				title: "สุ่มสี",
 				description: "สุ่มสีพร้อมรหัส HEX และ RGB สำหรับใช้ในงานออกแบบหรือเลือกสี",
 				keywords: "สุ่มสี, เครื่องมือสุ่มสี, รหัสสี HEX, รหัสสี RGB, เครื่องมือออกแบบ, พาเลตสี",
 			}),

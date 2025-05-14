@@ -16,7 +16,7 @@ export const Route = createFileRoute("/tools/calculators/bmr/")({
 	head: () => ({
 		meta: [
 			...seo({
-				title: "คำนวณการเผาผลาญพลังงาน (BMR) - รวมมิตรเครื่องมือ",
+				title: "คำนวณการเผาผลาญพลังงาน (BMR)",
 				description: "คำนวณอัตราเผาผลาญพลังงานพื้นฐาน",
 				keywords: "BMR, คำนวณ BMR, เครื่องมือคำนวณ BMR",
 			}),
