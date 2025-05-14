@@ -21,20 +21,20 @@ export const Route = createRootRoute({
 	head: () => ({
 		meta: [
 			{
-				name: "google-site-verification",
-				content: "NOC2Z-H5bvAPpv5DX_pd6blYsg4xWUbrevyoBQAPv3c",
-			},
-			{
 				charSet: "utf-8",
 			},
 			{
 				name: "viewport",
 				content: "width=device-width, initial-scale=1",
 			},
+			{
+				name: "google-site-verification",
+				content: "NOC2Z-H5bvAPpv5DX_pd6blYsg4xWUbrevyoBQAPv3c",
+			},
 			...seo({
 				title: "รวมมิตรเครื่องมือ",
 				description:
-					"เว็บรวมเครื่องมือออนไลน์สารพัดประโยชน์ ใช้ง่าย รวดเร็ว ครอบคลุมทุกอย่างที่คุณต้องการ และฟรี 100% ไม่มีค่าใช้จ่ายใดๆ",
+					"รวมมิตรเครื่องมือ คือ เว็บรวมเครื่องมือออนไลน์สารพัดประโยชน์ ใช้ง่าย รวดเร็ว ครอบคลุมทุกอย่างที่คุณต้องการ และฟรี 100%",
 				keywords: "เครื่องมือออนไลน์, คำนวณ BMI, รวมเครื่องมือฟรี, เว็บฟรี",
 			}),
 		],
