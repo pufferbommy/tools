@@ -15,16 +15,17 @@ const toolConfig = {
 	changeFrequency: "monthly" as const,
 };
 
-const generateRoutesFromCategories = () =>
-	Object.fromEntries(
+const generateRoutesFromCategories = () => {
+	return Object.fromEntries(
 		CATEGORY_LIST.map(([pathname, category]) => [
 			[pathname, categoryConfig],
 			...category.tools.map((tool) => [tool.url, toolConfig]),
 		]),
 	);
+};
 
 export const sitemap: Sitemap<TRoutes> = {
-	siteUrl: process.env.ORIGIN as string,
+	siteUrl: "https://ruammittools.com",
 	defaultPriority: 0.5,
 	routes: {
 		"/": {
