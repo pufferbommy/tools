@@ -110,7 +110,7 @@ export function TdeeCalculatorSection({
 							</FormItem>
 						)}
 					/>
-					<div className="grid items-start md:grid-cols-3 gap-4">
+					<div className="grid items-start sm:grid-cols-2 lg:grid-cols-3 gap-4">
 						<FormField
 							control={form.control}
 							name="age"

@@ -54,7 +54,11 @@ export default function ToolLayout({
 	const renderBreadcrumbDropdown = (currentHref?: string) => {
 		if (isCategory) {
 			return CATEGORY_LIST.map(([pathname, category]) => (
-				<DropdownMenuItem key={pathname} asChild>
+				<DropdownMenuItem
+					key={pathname}
+					asChild
+					className={cn(pathname.endsWith(currentHref || "") && "bg-accent")}
+				>
 					<Link to={pathname}>{category.title}</Link>
 				</DropdownMenuItem>
 			));

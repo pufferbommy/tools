@@ -13,12 +13,16 @@ export const Route = createFileRoute("/tools/$category")({
 		const category = CATEGORY_MAP[pathname];
 		return { url, pathname, category };
 	},
-	head: (c) => ({
+	head: ({
+		loaderData: {
+			category: { title, description, keywords },
+		},
+	}) => ({
 		meta: [
 			...seo({
-				title: c.loaderData.category.title,
-				description: c.loaderData.category.description,
-				keywords: c.loaderData.category.keywords,
+				title,
+				description,
+				keywords,
 			}),
 		],
 	}),
@@ -39,7 +43,7 @@ function RouteComponent() {
 			description={category.description}
 			url={url}
 		>
-			<div className="grid grid-cols-3 gap-4">
+			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
 				{category.tools.map((tool) => (
 					<Link key={tool.url} to={tool.url}>
 						<Card className="hover:bg-primary/10 transition-colors hover:border-primary">
