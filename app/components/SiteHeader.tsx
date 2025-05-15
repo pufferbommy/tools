@@ -20,7 +20,7 @@ import {
 	NavigationMenuList,
 	NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { TOOL_CATEGORIES } from "@/constants";
+import { CATEGORY_LIST } from "@/constants/categories";
 import { useSearchContext } from "@/contexts/search";
 
 import Logo from "./Logo";
@@ -43,28 +43,28 @@ export function SiteHeader() {
 				</div>
 				<NavigationMenu className="hidden lg:flex">
 					<NavigationMenuList>
-						{TOOL_CATEGORIES.map((category) => (
-							<NavigationMenuItem key={category.url} value={category.url}>
+						{CATEGORY_LIST.map(([pathname, category]) => (
+							<NavigationMenuItem key={pathname} value={pathname}>
 								<NavigationMenuTrigger
 									className="cursor-pointer"
 									onClick={() => {
 										navigate({
-											to: category.url,
+											to: pathname,
 										});
 									}}
 								>
-									{category.name}
+									{category.title}
 								</NavigationMenuTrigger>
 								<NavigationMenuContent>
 									<ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-										{category.items.map((item) => (
-											<li key={item.url}>
+										{category.tools.map((tool) => (
+											<li key={tool.url}>
 												<NavigationMenuLink asChild>
 													<Link
-														to={item.url}
+														to={tool.url}
 														className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm font-medium"
 													>
-														{item.title}
+														{tool.title}
 													</Link>
 												</NavigationMenuLink>
 											</li>
@@ -86,19 +86,19 @@ export function SiteHeader() {
 					</Button>
 					<CommandDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 						<CommandInput placeholder="ค้นหาเครื่องมือ..." />
-						<CommandList>
+						<CommandList className="[&_[data-slot=command-separator]]:first:hidden">
 							<CommandEmpty>ไม่พบเครื่องมือที่ค้นหา</CommandEmpty>
-							{TOOL_CATEGORIES.map((category, index) => (
-								<Fragment key={category.url}>
-									{index > 0 && <CommandSeparator />}
-									<CommandGroup heading={category.name}>
-										{category.items.map((item) => (
-											<CommandItem key={item.url} asChild>
+							{CATEGORY_LIST.map(([pathname, category]) => (
+								<Fragment key={pathname}>
+									<CommandSeparator />
+									<CommandGroup heading={category.title}>
+										{category.tools.map((tool) => (
+											<CommandItem key={tool.url} asChild>
 												<Link
-													to={item.url}
+													to={tool.url}
 													onClick={() => setIsDialogOpen(false)}
 												>
-													{item.title}
+													{tool.title}
 												</Link>
 											</CommandItem>
 										))}
@@ -119,27 +119,27 @@ export function SiteHeader() {
 							</Button>
 						</DrawerTrigger>
 						<DrawerContent className="px-4">
-							{TOOL_CATEGORIES.map((category) => (
-								<div key={category.url} className="flex flex-col">
+							{CATEGORY_LIST.map(([pathname, category]) => (
+								<div key={pathname} className="flex flex-col">
 									<Button
 										asChild
 										onClick={() => setIsDrawerOpen(false)}
 										variant="ghost"
 										className="font-semibold justify-start"
 									>
-										<Link key={category.url} to={category.url}>
-											{category.name}
+										<Link key={pathname} to={pathname}>
+											{category.title}
 										</Link>
 									</Button>
-									{category.items.map((item) => (
+									{category.tools.map((tool) => (
 										<Button
 											onClick={() => setIsDrawerOpen(false)}
 											variant="ghost"
-											key={item.url}
+											key={tool.url}
 											className="justify-start"
 											asChild
 										>
-											<Link to={item.url}>{item.title}</Link>
+											<Link to={tool.url}>{tool.title}</Link>
 										</Button>
 									))}
 								</div>

@@ -18,7 +18,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
-import { ENGLISH_NAMES, GENDERS } from "@/constants";
+import { ENGLISH_NAMES } from "@/constants/english-names";
+import { GENDERS } from "@/constants/genders";
 import { seo } from "@/utils/seo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -143,7 +144,7 @@ function RouteComponent() {
 				},
 				{
 					label: "สุ่มชื่ออังกฤษ",
-					href: "/tools/random/thai-name",
+					href: "/tools/random/english-name",
 				},
 			]}
 			items={[
@@ -252,7 +253,7 @@ function RouteComponent() {
 											/>
 											<Slider
 												className="w-40"
-												defaultValue={[field.value]}
+												value={[field.value]}
 												onValueChange={(value) =>
 													field.onChange(Number(value[0]))
 												}

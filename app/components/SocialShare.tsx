@@ -3,10 +3,10 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 
-export function SocialShare(props: { url: string; text: string }) {
+export function SocialShare({ url, text }: { url: string; text: string }) {
 	const SOCIALS = [
 		{
-			link: `https://social-plugins.line.me/lineit/share?url=${props.url}&text=${props.text}`,
+			link: `https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`,
 			icon: (
 				<svg
 					width={16}
@@ -23,7 +23,7 @@ export function SocialShare(props: { url: string; text: string }) {
 			color: "#00C300",
 		},
 		{
-			link: `https://www.threads.net/intent/post?text=${props.text}&url=${props.url}`,
+			link: `https://www.threads.net/intent/post?text=${text}&url=${url}`,
 			icon: (
 				<svg
 					role="img"
@@ -40,7 +40,7 @@ export function SocialShare(props: { url: string; text: string }) {
 			color: "#000000",
 		},
 		{
-			link: `https://facebook.com/sharer/sharer.php?u=${props.url}`,
+			link: `https://facebook.com/sharer/sharer.php?u=${url}`,
 			icon: (
 				<svg
 					width={16}
@@ -57,7 +57,7 @@ export function SocialShare(props: { url: string; text: string }) {
 			color: "#0866FF",
 		},
 		{
-			link: `fb-messenger://share/?link=${props.url}`,
+			link: `fb-messenger://share/?link=${url}`,
 			icon: (
 				<svg
 					width={16}
@@ -74,7 +74,7 @@ export function SocialShare(props: { url: string; text: string }) {
 			color: "#0866FF",
 		},
 		{
-			link: `https://twitter.com/intent/post?url=${props.url}&text=${props.text}`,
+			link: `https://twitter.com/intent/post?url=${url}&text=${text}`,
 			icon: (
 				<svg
 					width={16}
@@ -121,7 +121,7 @@ export function SocialShare(props: { url: string; text: string }) {
 					}}
 					aria-label="Copy link"
 					onClick={() => {
-						navigator.clipboard.writeText(props.url);
+						navigator.clipboard.writeText(url);
 						toast.success("คัดลอกลิงก์เรียบร้อย");
 					}}
 				>

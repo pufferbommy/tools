@@ -1,6 +1,7 @@
 import type { FileRouteTypes } from "@/routeTree.gen";
 import type { Sitemap } from "tanstack-router-sitemap";
-import { TOOL_CATEGORIES } from "../constants";
+
+import { CATEGORY_LIST } from "../constants/categories";
 
 export type TRoutes = FileRouteTypes["fullPaths"];
 
@@ -16,14 +17,14 @@ const toolConfig = {
 
 const generateRoutesFromCategories = () =>
 	Object.fromEntries(
-		TOOL_CATEGORIES.flatMap((category) => [
-			[category.url, categoryConfig],
-			...category.items.map((item) => [item.url, toolConfig]),
+		CATEGORY_LIST.map(([pathname, category]) => [
+			[pathname, categoryConfig],
+			...category.tools.map((tool) => [tool.url, toolConfig]),
 		]),
 	);
 
 export const sitemap: Sitemap<TRoutes> = {
-	siteUrl: "https://ruammittools.com",
+	siteUrl: process.env.ORIGIN as string,
 	defaultPriority: 0.5,
 	routes: {
 		"/": {

@@ -98,7 +98,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 							<SiteFooter />
 						</div>
 					</SearchContextProvider>
-					<Toaster />
+					<Toaster richColors />
 				</ThemeProvider>
 				<Scripts />
 				<TanStackRouterDevtools position="bottom-left" />

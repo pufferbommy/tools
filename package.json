@@ -32,6 +32,7 @@
 		"@tanstack/react-start": "^1.119.2",
 		"class-variance-authority": "^0.7.1",
 		"cmdk": "^1.1.1",
+		"color-2-name": "^1.4.4",
 		"culori": "^4.0.1",
 		"lucide-react": "^0.507.0",
 		"motion": "^12.9.4",

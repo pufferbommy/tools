@@ -14,8 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { GENDERS } from "@/constants";
-import { cn } from "@/lib/utils";
+import { GENDERS } from "@/constants/genders";
 
 const FormSchema = z.object({
 	gender: z.enum(["male", "female"]),

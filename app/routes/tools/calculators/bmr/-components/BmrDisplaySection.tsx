@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function BmrDisplaySection(props: { bmr: number | null }) {
+export function BmrDisplaySection({ bmr }: { bmr: number | null }) {
 	return (
 		<Card className="text-center group relative">
 			<CardHeader>
@@ -9,9 +9,9 @@ export function BmrDisplaySection(props: { bmr: number | null }) {
 			<CardContent className="space-y-2">
 				<p className="space-x-2">
 					<span className="text-8xl text-primary font-semibold">
-						{props.bmr?.toFixed(1) || "?"}
+						{bmr?.toFixed(1) || "?"}
 					</span>
-					{props.bmr && <span>แคลอรี่ต่อวัน</span>}
+					{bmr && <span>แคลอรี่ต่อวัน</span>}
 				</p>
 			</CardContent>
 		</Card>

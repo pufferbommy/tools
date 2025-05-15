@@ -23,7 +23,6 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { seo } from "@/utils/seo";
-import { getHeader } from "@tanstack/react-start/server";
 
 const FormSchema = z.object({
 	dateOfBirth: z.date(),

@@ -1,8 +1,8 @@
 import { SocialShare } from "@/components/SocialShare";
-import { TOOL_CATEGORIES } from "@/constants";
+import { CATEGORY_LIST, CATEGORY_MAP } from "@/constants/categories";
+import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
-import { Home } from "lucide-react";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import {
 	Accordion,
 	AccordionContent,
@@ -40,7 +40,39 @@ interface ToolLayoutProps {
 	}[];
 }
 
-export default function ToolLayout(props: ToolLayoutProps) {
+export default function ToolLayout({
+	title,
+	description,
+	url,
+	breadcrumbs,
+	children,
+	items,
+}: ToolLayoutProps) {
+	const categoryPathname = url.match(/\/tools\/[^\/]+/)?.[0];
+	const isCategory = /\/tools\/[^\/]+\/?$/.test(url);
+
+	const renderBreadcrumbDropdown = (currentHref?: string) => {
+		if (isCategory) {
+			return CATEGORY_LIST.map(([pathname, category]) => (
+				<DropdownMenuItem key={pathname} asChild>
+					<Link to={pathname}>{category.title}</Link>
+				</DropdownMenuItem>
+			));
+		}
+
+		const category = CATEGORY_MAP[categoryPathname as string];
+
+		return category.tools.map((tool) => (
+			<DropdownMenuItem
+				key={tool.url}
+				asChild
+				className={cn(tool.url.endsWith(currentHref || "") && "bg-accent")}
+			>
+				<Link to={tool.url}>{tool.title}</Link>
+			</DropdownMenuItem>
+		));
+	};
+
 	return (
 		<>
 			<div className="border-b border-dashed">
@@ -48,16 +80,14 @@ export default function ToolLayout(props: ToolLayoutProps) {
 					<BreadcrumbList>
 						<BreadcrumbItem>
 							<BreadcrumbLink asChild>
-								<Link to="/">
-									<Home size={14} />
-								</Link>
+								<Link to="/">หน้าแรก</Link>
 							</BreadcrumbLink>
 						</BreadcrumbItem>
-						{props.breadcrumbs.map((item, i) => (
+						{breadcrumbs.map((item, i) => (
 							<Fragment key={item.href}>
 								<BreadcrumbSeparator />
 								<BreadcrumbItem>
-									{i < props.breadcrumbs.length - 1 ? (
+									{i < breadcrumbs.length - 1 ? (
 										<BreadcrumbLink asChild>
 											<Link to={item.href}>{item.label}</Link>
 										</BreadcrumbLink>
@@ -66,19 +96,7 @@ export default function ToolLayout(props: ToolLayoutProps) {
 											<DropdownMenu>
 												<DropdownMenuTrigger>{item.label}</DropdownMenuTrigger>
 												<DropdownMenuContent>
-													{TOOL_CATEGORIES.some((c) => c.url === item.href)
-														? TOOL_CATEGORIES.map((c) => (
-																<DropdownMenuItem key={c.url} asChild>
-																	<Link to={c.url}>{c.name}</Link>
-																</DropdownMenuItem>
-															))
-														: TOOL_CATEGORIES.find((c) =>
-																c.items.find((i) => i.url === item.href),
-															)?.items.map((item) => (
-																<DropdownMenuItem key={item.url} asChild>
-																	<Link to={item.url}>{item.title}</Link>
-																</DropdownMenuItem>
-															))}
+													{renderBreadcrumbDropdown(item.href)}
 												</DropdownMenuContent>
 											</DropdownMenu>
 										</BreadcrumbPage>
@@ -91,18 +109,18 @@ export default function ToolLayout(props: ToolLayoutProps) {
 			</div>
 			<div className="container flex-1 py-8 space-y-8">
 				<section>
-					<h1 className="text-2xl font-semibold mb-2">{props.title}</h1>
-					<p className="text-muted-foreground">{props.description}</p>
+					<h1 className="text-2xl font-semibold mb-2">{title}</h1>
+					<p className="text-muted-foreground">{description}</p>
 				</section>
-				{props.children}
-				{props.items && (
+				{children}
+				{items && (
 					<Accordion
 						type="single"
 						defaultValue="1"
 						collapsible
 						className="-space-y-px"
 					>
-						{props.items.map((item) => (
+						{items.map((item) => (
 							<AccordionItem
 								key={item.id}
 								value={item.id}
@@ -118,7 +136,7 @@ export default function ToolLayout(props: ToolLayoutProps) {
 						))}
 					</Accordion>
 				)}
-				<SocialShare url={props.url} text={props.title} />
+				<SocialShare url={url} text={title} />
 			</div>
 		</>
 	);

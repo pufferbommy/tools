@@ -16,8 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
-import { GENDERS } from "@/constants";
-import { PERSON_NAMES } from "@/constants";
+import { GENDERS } from "@/constants/genders";
+import { THAI_NAMES } from "@/constants/thai-names";
 
 const TYPES = [
 	{
@@ -83,8 +83,8 @@ export function FormSection({
 					: data.gender;
 
 			const randomLastName =
-				PERSON_NAMES.lastNames[
-					Math.floor(Math.random() * PERSON_NAMES.lastNames.length)
+				THAI_NAMES.lastNames[
+					Math.floor(Math.random() * THAI_NAMES.lastNames.length)
 				];
 			const lastName = data.types.includes("last-name")
 				? {
@@ -95,12 +95,12 @@ export function FormSection({
 
 			if (gender === "male") {
 				const maleName =
-					PERSON_NAMES.maleNames[
-						Math.floor(Math.random() * PERSON_NAMES.maleNames.length)
+					THAI_NAMES.maleNames[
+						Math.floor(Math.random() * THAI_NAMES.maleNames.length)
 					];
 				const maleNickname =
-					PERSON_NAMES.maleNicknames[
-						Math.floor(Math.random() * PERSON_NAMES.maleNicknames.length)
+					THAI_NAMES.maleNicknames[
+						Math.floor(Math.random() * THAI_NAMES.maleNicknames.length)
 					];
 				return {
 					name: data.types.includes("name")
@@ -120,12 +120,12 @@ export function FormSection({
 			}
 
 			const femaleName =
-				PERSON_NAMES.femaleNames[
-					Math.floor(Math.random() * PERSON_NAMES.femaleNames.length)
+				THAI_NAMES.femaleNames[
+					Math.floor(Math.random() * THAI_NAMES.femaleNames.length)
 				];
 			const femaleNickname =
-				PERSON_NAMES.femaleNicknames[
-					Math.floor(Math.random() * PERSON_NAMES.femaleNicknames.length)
+				THAI_NAMES.femaleNicknames[
+					Math.floor(Math.random() * THAI_NAMES.femaleNicknames.length)
 				];
 			return {
 				name: data.types.includes("name")
@@ -267,7 +267,7 @@ export function FormSection({
 												onChange={(e) => field.onChange(e.target.valueAsNumber)}
 											/>
 											<Slider
-												defaultValue={[field.value]}
+												value={[field.value]}
 												onValueChange={(value) =>
 													field.onChange(Number(value[0]))
 												}
