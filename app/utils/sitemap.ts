@@ -17,7 +17,7 @@ const toolConfig = {
 
 const generateRoutesFromCategories = () => {
 	return Object.fromEntries(
-		CATEGORY_LIST.map(([pathname, category]) => [
+		CATEGORY_LIST.flatMap(([pathname, category]) => [
 			[pathname, categoryConfig],
 			...category.tools.map((tool) => [tool.url, toolConfig]),
 		]),
