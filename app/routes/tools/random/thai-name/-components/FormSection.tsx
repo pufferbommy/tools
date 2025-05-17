@@ -18,6 +18,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { GENDERS } from "@/constants/genders";
 import { THAI_NAMES } from "@/constants/thai-names";
+import type { Result } from "../../thai-name";
 
 const TYPES = [
 	{
@@ -63,7 +64,7 @@ type FormSchema = z.infer<typeof FormSchema>;
 export function FormSection({
 	setResults,
 }: {
-	setResults: (value: any[]) => void;
+	setResults: (value: Result[]) => void;
 }) {
 	const form = useForm<FormSchema>({
 		resolver: zodResolver(FormSchema),

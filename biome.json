@@ -7,7 +7,14 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": [".netlify", ".output", ".vinxi", "dist", "node_modules"]
+		"ignore": [
+			".netlify",
+			".output",
+			".vinxi",
+			"dist",
+			"node_modules",
+			"routeTree.gen.ts"
+		]
 	},
 	"formatter": {
 		"enabled": true,

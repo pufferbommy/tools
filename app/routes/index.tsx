@@ -6,15 +6,15 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { CATEGORY_MAP } from "@/constants/categories";
-import { useSearchContext } from "@/contexts/search";
-import { cn } from "@/lib/utils";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { CATEGORY_MAP } from "@/constants/categories";
+import { useSearchContext } from "@/contexts/search";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,

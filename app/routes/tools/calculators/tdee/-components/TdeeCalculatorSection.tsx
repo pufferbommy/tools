@@ -96,7 +96,10 @@ export function TdeeCalculatorSection({
 										className="flex gap-4"
 									>
 										{GENDERS.map((gender) => (
-											<div className="flex items-center gap-2">
+											<div
+												key={gender.value}
+												className="flex items-center gap-2"
+											>
 												<RadioGroupItem
 													value={gender.value}
 													id={gender.value}

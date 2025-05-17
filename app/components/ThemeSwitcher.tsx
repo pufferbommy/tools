@@ -1,30 +1,20 @@
-import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
+
 import { useTheme } from "./providers/ThemeProvider";
 import { Button } from "./ui/button";
 
 export default function ThemeSwitcher() {
 	const { theme, setTheme } = useTheme();
 
-	const handleChangeThemeClick = () => {
-		setTheme(
-			theme === "light" ? "dark" : theme === "dark" ? "system" : "light",
-		);
+	const toggleTheme = () => {
+		setTheme(theme === "light" ? "dark" : "light");
 	};
 
 	return (
-		<Button
-			onClick={handleChangeThemeClick}
-			variant="outline"
-			size="icon"
-			aria-label="Change theme"
-		>
-			{theme === "dark" ? (
-				<MoonIcon />
-			) : theme === "light" ? (
-				<SunIcon />
-			) : (
-				<MonitorIcon />
-			)}
+		<Button onClick={toggleTheme} variant="ghost" size="icon">
+			<Sun className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+			<Moon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+			<span className="sr-only">Toggle theme</span>
 		</Button>
 	);
 }

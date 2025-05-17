@@ -13,9 +13,9 @@ export default function ResultSection({ results }: { results: Result[] }) {
 						ยังไม่มีผลลัพธ์นะ~ ✨ ลองสุ่มชื่อดูเลย!
 					</div>
 				) : (
-					results.map((result, index: number) => (
+					results.map((result) => (
 						<div
-							key={index}
+							key={Object.values(result).join()}
 							className="text-4xl [&>:nth-child(2)]:text-muted-foreground"
 						>
 							{(result.name?.th ||

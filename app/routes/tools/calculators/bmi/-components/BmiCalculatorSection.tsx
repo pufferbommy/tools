@@ -39,7 +39,7 @@ export function BmiCalculatorSection({
 
 	const onSubmit = ({ weight, height }: FormSchema) => {
 		const heightMeters = height / 100; // Convert height from cm to meters
-		const bmiValue = weight / Math.pow(heightMeters, 2);
+		const bmiValue = weight / heightMeters ** 2;
 		setBmi(bmiValue);
 	};
 

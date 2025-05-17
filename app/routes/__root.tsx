@@ -1,3 +1,4 @@
+// @ts-ignore
 import fontsourceVariableNotoSansThaiCss from "@fontsource-variable/noto-sans-thai?url";
 import {
 	HeadContent,
@@ -14,6 +15,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import SearchContextProvider from "@/contexts/search";
+// @ts-ignore
 import appCss from "@/styles/app.css?url";
 import { seo } from "@/utils/seo";
 
@@ -90,7 +92,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body>
-				<ThemeProvider attribute="class">
+				<ThemeProvider
+					attribute="class"
+					enableSystem={false}
+					disableTransitionOnChange
+				>
 					<SearchContextProvider>
 						<div className="min-h-dvh flex flex-col">
 							<SiteHeader />
