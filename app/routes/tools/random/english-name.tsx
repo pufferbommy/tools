@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
 
-import ToolLayout from "@/components/ToolLayout";
+import ToolLayout from "@/components/tool-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -20,6 +20,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { ENGLISH_NAMES } from "@/constants/english-names";
 import { GENDERS } from "@/constants/genders";
+import { loadToolData } from "@/lib/tool/loadToolData";
 import { seo } from "@/utils/seo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -57,29 +58,23 @@ const FormSchema = z.object({
 
 type FormSchema = z.infer<typeof FormSchema>;
 
-export const Route = createFileRoute("/tools/random/english-name/")({
+export const Route = createFileRoute("/tools/random/english-name")({
 	component: RouteComponent,
-	loader: async (context) => {
-		const pathname = context.location.pathname;
-		const url = `${process.env.ORIGIN}${pathname}`;
-		return { url };
-	},
-	head: () => ({
+	loader: ({ location }) => loadToolData(location.pathname),
+	head: ({ loaderData }) => ({
 		meta: [
 			...seo({
-				title: "สุ่มชื่อไทย",
-				description: "เครื่องมือสุ่มชื่อจริง ชื่อเล่น หรือนามสกุลไทย",
-				keywords: "สุ่มชื่อไทย, สุ่มชื่อจริง, สุ่มชื่อเล่น, สุ่มนามสกุล, เครื่องมือสุ่มชื่อ",
+				title: loaderData.tool.title,
+				description: loaderData.tool.description,
+				keywords: loaderData.tool.keywords,
 			}),
 		],
 	}),
 });
 
 function RouteComponent() {
-	const { url } = Route.useLoaderData();
-
+	const { url, category, tool } = Route.useLoaderData();
 	const [results, setResults] = useState<Result[]>([]);
-
 	const form = useForm<FormSchema>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
@@ -135,18 +130,18 @@ function RouteComponent() {
 	return (
 		<ToolLayout
 			url={url}
-			title="สุ่มชื่ออังกฤษ"
-			description="เครื่องมือสุ่มชื่อจริง ชื่อเล่น หรือนามสกุลอังกฤษ พร้อมตัวเลือกเพศ ใช้ได้ทั้งตั้งชื่อลูก ตัวละคร"
 			breadcrumbs={[
 				{
-					label: "เครื่องมือสุ่ม",
-					href: "/tools/random",
+					label: category.title,
+					href: "..",
 				},
 				{
-					label: "สุ่มชื่ออังกฤษ",
-					href: "/tools/random/english-name",
+					label: tool.title,
+					href: tool.url,
 				},
 			]}
+			title={tool.title}
+			description={tool.description}
 			items={[
 				{
 					id: "1",
@@ -166,7 +161,7 @@ function RouteComponent() {
 			<section>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-						<div className="flex flex-wrap gap-y-4 gap-x-8">
+						<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
 							<FormField
 								control={form.control}
 								name="gender"
@@ -234,38 +229,41 @@ function RouteComponent() {
 									</FormItem>
 								)}
 							/>
+
+							<FormField
+								control={form.control}
+								name="amount"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>จำนวน</FormLabel>
+										<FormControl>
+											<div className="flex gap-2">
+												<Input
+													className="w-auto"
+													type="number"
+													min={1}
+													max={25}
+													{...field}
+													onChange={(e) =>
+														field.onChange(e.target.valueAsNumber)
+													}
+												/>
+												<Slider
+													className="w-40"
+													value={[field.value]}
+													onValueChange={(value) =>
+														field.onChange(Number(value[0]))
+													}
+													min={1}
+													max={25}
+												/>
+											</div>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 						</div>
-						<FormField
-							control={form.control}
-							name="amount"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>จำนวน</FormLabel>
-									<FormControl>
-										<div className="flex gap-2">
-											<Input
-												className="w-auto"
-												type="number"
-												min={1}
-												max={25}
-												{...field}
-												onChange={(e) => field.onChange(e.target.valueAsNumber)}
-											/>
-											<Slider
-												className="w-40"
-												value={[field.value]}
-												onValueChange={(value) =>
-													field.onChange(Number(value[0]))
-												}
-												min={1}
-												max={25}
-											/>
-										</div>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
 						<Button>สุ่มชื่อ</Button>
 					</form>
 				</Form>

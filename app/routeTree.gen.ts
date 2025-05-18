@@ -12,15 +12,15 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as ToolsCategoryRouteImport } from './routes/tools/$category/route'
-import { Route as ToolsRandomThaiNameIndexImport } from './routes/tools/random/thai-name/index'
-import { Route as ToolsRandomNumberIndexImport } from './routes/tools/random/number/index'
-import { Route as ToolsRandomEnglishNameIndexImport } from './routes/tools/random/english-name/index'
-import { Route as ToolsColorsRandomIndexImport } from './routes/tools/colors/random/index'
-import { Route as ToolsCalculatorsTdeeIndexImport } from './routes/tools/calculators/tdee/index'
-import { Route as ToolsCalculatorsBmrIndexImport } from './routes/tools/calculators/bmr/index'
-import { Route as ToolsCalculatorsBmiIndexImport } from './routes/tools/calculators/bmi/index'
-import { Route as ToolsCalculatorsAgeIndexImport } from './routes/tools/calculators/age/index'
+import { Route as ToolsCategoryImport } from './routes/tools/$category'
+import { Route as ToolsRandomThaiNameImport } from './routes/tools/random/thai-name'
+import { Route as ToolsRandomNumberImport } from './routes/tools/random/number'
+import { Route as ToolsRandomEnglishNameImport } from './routes/tools/random/english-name'
+import { Route as ToolsColorsRandomImport } from './routes/tools/colors/random'
+import { Route as ToolsCalculatorsTdeeImport } from './routes/tools/calculators/tdee'
+import { Route as ToolsCalculatorsBmrImport } from './routes/tools/calculators/bmr'
+import { Route as ToolsCalculatorsBmiImport } from './routes/tools/calculators/bmi'
+import { Route as ToolsCalculatorsAgeImport } from './routes/tools/calculators/age'
 
 // Create/Update Routes
 
@@ -30,58 +30,57 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ToolsCategoryRouteRoute = ToolsCategoryRouteImport.update({
+const ToolsCategoryRoute = ToolsCategoryImport.update({
   id: '/tools/$category',
   path: '/tools/$category',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ToolsRandomThaiNameIndexRoute = ToolsRandomThaiNameIndexImport.update({
-  id: '/tools/random/thai-name/',
-  path: '/tools/random/thai-name/',
+const ToolsRandomThaiNameRoute = ToolsRandomThaiNameImport.update({
+  id: '/tools/random/thai-name',
+  path: '/tools/random/thai-name',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ToolsRandomNumberIndexRoute = ToolsRandomNumberIndexImport.update({
-  id: '/tools/random/number/',
-  path: '/tools/random/number/',
+const ToolsRandomNumberRoute = ToolsRandomNumberImport.update({
+  id: '/tools/random/number',
+  path: '/tools/random/number',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ToolsRandomEnglishNameIndexRoute =
-  ToolsRandomEnglishNameIndexImport.update({
-    id: '/tools/random/english-name/',
-    path: '/tools/random/english-name/',
-    getParentRoute: () => rootRoute,
-  } as any)
-
-const ToolsColorsRandomIndexRoute = ToolsColorsRandomIndexImport.update({
-  id: '/tools/colors/random/',
-  path: '/tools/colors/random/',
+const ToolsRandomEnglishNameRoute = ToolsRandomEnglishNameImport.update({
+  id: '/tools/random/english-name',
+  path: '/tools/random/english-name',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ToolsCalculatorsTdeeIndexRoute = ToolsCalculatorsTdeeIndexImport.update({
-  id: '/tools/calculators/tdee/',
-  path: '/tools/calculators/tdee/',
+const ToolsColorsRandomRoute = ToolsColorsRandomImport.update({
+  id: '/tools/colors/random',
+  path: '/tools/colors/random',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ToolsCalculatorsBmrIndexRoute = ToolsCalculatorsBmrIndexImport.update({
-  id: '/tools/calculators/bmr/',
-  path: '/tools/calculators/bmr/',
+const ToolsCalculatorsTdeeRoute = ToolsCalculatorsTdeeImport.update({
+  id: '/tools/calculators/tdee',
+  path: '/tools/calculators/tdee',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ToolsCalculatorsBmiIndexRoute = ToolsCalculatorsBmiIndexImport.update({
-  id: '/tools/calculators/bmi/',
-  path: '/tools/calculators/bmi/',
+const ToolsCalculatorsBmrRoute = ToolsCalculatorsBmrImport.update({
+  id: '/tools/calculators/bmr',
+  path: '/tools/calculators/bmr',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ToolsCalculatorsAgeIndexRoute = ToolsCalculatorsAgeIndexImport.update({
-  id: '/tools/calculators/age/',
-  path: '/tools/calculators/age/',
+const ToolsCalculatorsBmiRoute = ToolsCalculatorsBmiImport.update({
+  id: '/tools/calculators/bmi',
+  path: '/tools/calculators/bmi',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ToolsCalculatorsAgeRoute = ToolsCalculatorsAgeImport.update({
+  id: '/tools/calculators/age',
+  path: '/tools/calculators/age',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -100,63 +99,63 @@ declare module '@tanstack/react-router' {
       id: '/tools/$category'
       path: '/tools/$category'
       fullPath: '/tools/$category'
-      preLoaderRoute: typeof ToolsCategoryRouteImport
+      preLoaderRoute: typeof ToolsCategoryImport
       parentRoute: typeof rootRoute
     }
-    '/tools/calculators/age/': {
-      id: '/tools/calculators/age/'
+    '/tools/calculators/age': {
+      id: '/tools/calculators/age'
       path: '/tools/calculators/age'
       fullPath: '/tools/calculators/age'
-      preLoaderRoute: typeof ToolsCalculatorsAgeIndexImport
+      preLoaderRoute: typeof ToolsCalculatorsAgeImport
       parentRoute: typeof rootRoute
     }
-    '/tools/calculators/bmi/': {
-      id: '/tools/calculators/bmi/'
+    '/tools/calculators/bmi': {
+      id: '/tools/calculators/bmi'
       path: '/tools/calculators/bmi'
       fullPath: '/tools/calculators/bmi'
-      preLoaderRoute: typeof ToolsCalculatorsBmiIndexImport
+      preLoaderRoute: typeof ToolsCalculatorsBmiImport
       parentRoute: typeof rootRoute
     }
-    '/tools/calculators/bmr/': {
-      id: '/tools/calculators/bmr/'
+    '/tools/calculators/bmr': {
+      id: '/tools/calculators/bmr'
       path: '/tools/calculators/bmr'
       fullPath: '/tools/calculators/bmr'
-      preLoaderRoute: typeof ToolsCalculatorsBmrIndexImport
+      preLoaderRoute: typeof ToolsCalculatorsBmrImport
       parentRoute: typeof rootRoute
     }
-    '/tools/calculators/tdee/': {
-      id: '/tools/calculators/tdee/'
+    '/tools/calculators/tdee': {
+      id: '/tools/calculators/tdee'
       path: '/tools/calculators/tdee'
       fullPath: '/tools/calculators/tdee'
-      preLoaderRoute: typeof ToolsCalculatorsTdeeIndexImport
+      preLoaderRoute: typeof ToolsCalculatorsTdeeImport
       parentRoute: typeof rootRoute
     }
-    '/tools/colors/random/': {
-      id: '/tools/colors/random/'
+    '/tools/colors/random': {
+      id: '/tools/colors/random'
       path: '/tools/colors/random'
       fullPath: '/tools/colors/random'
-      preLoaderRoute: typeof ToolsColorsRandomIndexImport
+      preLoaderRoute: typeof ToolsColorsRandomImport
       parentRoute: typeof rootRoute
     }
-    '/tools/random/english-name/': {
-      id: '/tools/random/english-name/'
+    '/tools/random/english-name': {
+      id: '/tools/random/english-name'
       path: '/tools/random/english-name'
       fullPath: '/tools/random/english-name'
-      preLoaderRoute: typeof ToolsRandomEnglishNameIndexImport
+      preLoaderRoute: typeof ToolsRandomEnglishNameImport
       parentRoute: typeof rootRoute
     }
-    '/tools/random/number/': {
-      id: '/tools/random/number/'
+    '/tools/random/number': {
+      id: '/tools/random/number'
       path: '/tools/random/number'
       fullPath: '/tools/random/number'
-      preLoaderRoute: typeof ToolsRandomNumberIndexImport
+      preLoaderRoute: typeof ToolsRandomNumberImport
       parentRoute: typeof rootRoute
     }
-    '/tools/random/thai-name/': {
-      id: '/tools/random/thai-name/'
+    '/tools/random/thai-name': {
+      id: '/tools/random/thai-name'
       path: '/tools/random/thai-name'
       fullPath: '/tools/random/thai-name'
-      preLoaderRoute: typeof ToolsRandomThaiNameIndexImport
+      preLoaderRoute: typeof ToolsRandomThaiNameImport
       parentRoute: typeof rootRoute
     }
   }
@@ -166,42 +165,42 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/tools/$category': typeof ToolsCategoryRouteRoute
-  '/tools/calculators/age': typeof ToolsCalculatorsAgeIndexRoute
-  '/tools/calculators/bmi': typeof ToolsCalculatorsBmiIndexRoute
-  '/tools/calculators/bmr': typeof ToolsCalculatorsBmrIndexRoute
-  '/tools/calculators/tdee': typeof ToolsCalculatorsTdeeIndexRoute
-  '/tools/colors/random': typeof ToolsColorsRandomIndexRoute
-  '/tools/random/english-name': typeof ToolsRandomEnglishNameIndexRoute
-  '/tools/random/number': typeof ToolsRandomNumberIndexRoute
-  '/tools/random/thai-name': typeof ToolsRandomThaiNameIndexRoute
+  '/tools/$category': typeof ToolsCategoryRoute
+  '/tools/calculators/age': typeof ToolsCalculatorsAgeRoute
+  '/tools/calculators/bmi': typeof ToolsCalculatorsBmiRoute
+  '/tools/calculators/bmr': typeof ToolsCalculatorsBmrRoute
+  '/tools/calculators/tdee': typeof ToolsCalculatorsTdeeRoute
+  '/tools/colors/random': typeof ToolsColorsRandomRoute
+  '/tools/random/english-name': typeof ToolsRandomEnglishNameRoute
+  '/tools/random/number': typeof ToolsRandomNumberRoute
+  '/tools/random/thai-name': typeof ToolsRandomThaiNameRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/tools/$category': typeof ToolsCategoryRouteRoute
-  '/tools/calculators/age': typeof ToolsCalculatorsAgeIndexRoute
-  '/tools/calculators/bmi': typeof ToolsCalculatorsBmiIndexRoute
-  '/tools/calculators/bmr': typeof ToolsCalculatorsBmrIndexRoute
-  '/tools/calculators/tdee': typeof ToolsCalculatorsTdeeIndexRoute
-  '/tools/colors/random': typeof ToolsColorsRandomIndexRoute
-  '/tools/random/english-name': typeof ToolsRandomEnglishNameIndexRoute
-  '/tools/random/number': typeof ToolsRandomNumberIndexRoute
-  '/tools/random/thai-name': typeof ToolsRandomThaiNameIndexRoute
+  '/tools/$category': typeof ToolsCategoryRoute
+  '/tools/calculators/age': typeof ToolsCalculatorsAgeRoute
+  '/tools/calculators/bmi': typeof ToolsCalculatorsBmiRoute
+  '/tools/calculators/bmr': typeof ToolsCalculatorsBmrRoute
+  '/tools/calculators/tdee': typeof ToolsCalculatorsTdeeRoute
+  '/tools/colors/random': typeof ToolsColorsRandomRoute
+  '/tools/random/english-name': typeof ToolsRandomEnglishNameRoute
+  '/tools/random/number': typeof ToolsRandomNumberRoute
+  '/tools/random/thai-name': typeof ToolsRandomThaiNameRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/tools/$category': typeof ToolsCategoryRouteRoute
-  '/tools/calculators/age/': typeof ToolsCalculatorsAgeIndexRoute
-  '/tools/calculators/bmi/': typeof ToolsCalculatorsBmiIndexRoute
-  '/tools/calculators/bmr/': typeof ToolsCalculatorsBmrIndexRoute
-  '/tools/calculators/tdee/': typeof ToolsCalculatorsTdeeIndexRoute
-  '/tools/colors/random/': typeof ToolsColorsRandomIndexRoute
-  '/tools/random/english-name/': typeof ToolsRandomEnglishNameIndexRoute
-  '/tools/random/number/': typeof ToolsRandomNumberIndexRoute
-  '/tools/random/thai-name/': typeof ToolsRandomThaiNameIndexRoute
+  '/tools/$category': typeof ToolsCategoryRoute
+  '/tools/calculators/age': typeof ToolsCalculatorsAgeRoute
+  '/tools/calculators/bmi': typeof ToolsCalculatorsBmiRoute
+  '/tools/calculators/bmr': typeof ToolsCalculatorsBmrRoute
+  '/tools/calculators/tdee': typeof ToolsCalculatorsTdeeRoute
+  '/tools/colors/random': typeof ToolsColorsRandomRoute
+  '/tools/random/english-name': typeof ToolsRandomEnglishNameRoute
+  '/tools/random/number': typeof ToolsRandomNumberRoute
+  '/tools/random/thai-name': typeof ToolsRandomThaiNameRoute
 }
 
 export interface FileRouteTypes {
@@ -233,41 +232,41 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/tools/$category'
-    | '/tools/calculators/age/'
-    | '/tools/calculators/bmi/'
-    | '/tools/calculators/bmr/'
-    | '/tools/calculators/tdee/'
-    | '/tools/colors/random/'
-    | '/tools/random/english-name/'
-    | '/tools/random/number/'
-    | '/tools/random/thai-name/'
+    | '/tools/calculators/age'
+    | '/tools/calculators/bmi'
+    | '/tools/calculators/bmr'
+    | '/tools/calculators/tdee'
+    | '/tools/colors/random'
+    | '/tools/random/english-name'
+    | '/tools/random/number'
+    | '/tools/random/thai-name'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ToolsCategoryRouteRoute: typeof ToolsCategoryRouteRoute
-  ToolsCalculatorsAgeIndexRoute: typeof ToolsCalculatorsAgeIndexRoute
-  ToolsCalculatorsBmiIndexRoute: typeof ToolsCalculatorsBmiIndexRoute
-  ToolsCalculatorsBmrIndexRoute: typeof ToolsCalculatorsBmrIndexRoute
-  ToolsCalculatorsTdeeIndexRoute: typeof ToolsCalculatorsTdeeIndexRoute
-  ToolsColorsRandomIndexRoute: typeof ToolsColorsRandomIndexRoute
-  ToolsRandomEnglishNameIndexRoute: typeof ToolsRandomEnglishNameIndexRoute
-  ToolsRandomNumberIndexRoute: typeof ToolsRandomNumberIndexRoute
-  ToolsRandomThaiNameIndexRoute: typeof ToolsRandomThaiNameIndexRoute
+  ToolsCategoryRoute: typeof ToolsCategoryRoute
+  ToolsCalculatorsAgeRoute: typeof ToolsCalculatorsAgeRoute
+  ToolsCalculatorsBmiRoute: typeof ToolsCalculatorsBmiRoute
+  ToolsCalculatorsBmrRoute: typeof ToolsCalculatorsBmrRoute
+  ToolsCalculatorsTdeeRoute: typeof ToolsCalculatorsTdeeRoute
+  ToolsColorsRandomRoute: typeof ToolsColorsRandomRoute
+  ToolsRandomEnglishNameRoute: typeof ToolsRandomEnglishNameRoute
+  ToolsRandomNumberRoute: typeof ToolsRandomNumberRoute
+  ToolsRandomThaiNameRoute: typeof ToolsRandomThaiNameRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ToolsCategoryRouteRoute: ToolsCategoryRouteRoute,
-  ToolsCalculatorsAgeIndexRoute: ToolsCalculatorsAgeIndexRoute,
-  ToolsCalculatorsBmiIndexRoute: ToolsCalculatorsBmiIndexRoute,
-  ToolsCalculatorsBmrIndexRoute: ToolsCalculatorsBmrIndexRoute,
-  ToolsCalculatorsTdeeIndexRoute: ToolsCalculatorsTdeeIndexRoute,
-  ToolsColorsRandomIndexRoute: ToolsColorsRandomIndexRoute,
-  ToolsRandomEnglishNameIndexRoute: ToolsRandomEnglishNameIndexRoute,
-  ToolsRandomNumberIndexRoute: ToolsRandomNumberIndexRoute,
-  ToolsRandomThaiNameIndexRoute: ToolsRandomThaiNameIndexRoute,
+  ToolsCategoryRoute: ToolsCategoryRoute,
+  ToolsCalculatorsAgeRoute: ToolsCalculatorsAgeRoute,
+  ToolsCalculatorsBmiRoute: ToolsCalculatorsBmiRoute,
+  ToolsCalculatorsBmrRoute: ToolsCalculatorsBmrRoute,
+  ToolsCalculatorsTdeeRoute: ToolsCalculatorsTdeeRoute,
+  ToolsColorsRandomRoute: ToolsColorsRandomRoute,
+  ToolsRandomEnglishNameRoute: ToolsRandomEnglishNameRoute,
+  ToolsRandomNumberRoute: ToolsRandomNumberRoute,
+  ToolsRandomThaiNameRoute: ToolsRandomThaiNameRoute,
 }
 
 export const routeTree = rootRoute
@@ -282,45 +281,45 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/tools/$category",
-        "/tools/calculators/age/",
-        "/tools/calculators/bmi/",
-        "/tools/calculators/bmr/",
-        "/tools/calculators/tdee/",
-        "/tools/colors/random/",
-        "/tools/random/english-name/",
-        "/tools/random/number/",
-        "/tools/random/thai-name/"
+        "/tools/calculators/age",
+        "/tools/calculators/bmi",
+        "/tools/calculators/bmr",
+        "/tools/calculators/tdee",
+        "/tools/colors/random",
+        "/tools/random/english-name",
+        "/tools/random/number",
+        "/tools/random/thai-name"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
     "/tools/$category": {
-      "filePath": "tools/$category/route.tsx"
+      "filePath": "tools/$category.tsx"
     },
-    "/tools/calculators/age/": {
-      "filePath": "tools/calculators/age/index.tsx"
+    "/tools/calculators/age": {
+      "filePath": "tools/calculators/age.tsx"
     },
-    "/tools/calculators/bmi/": {
-      "filePath": "tools/calculators/bmi/index.tsx"
+    "/tools/calculators/bmi": {
+      "filePath": "tools/calculators/bmi.tsx"
     },
-    "/tools/calculators/bmr/": {
-      "filePath": "tools/calculators/bmr/index.tsx"
+    "/tools/calculators/bmr": {
+      "filePath": "tools/calculators/bmr.tsx"
     },
-    "/tools/calculators/tdee/": {
-      "filePath": "tools/calculators/tdee/index.tsx"
+    "/tools/calculators/tdee": {
+      "filePath": "tools/calculators/tdee.tsx"
     },
-    "/tools/colors/random/": {
-      "filePath": "tools/colors/random/index.tsx"
+    "/tools/colors/random": {
+      "filePath": "tools/colors/random.tsx"
     },
-    "/tools/random/english-name/": {
-      "filePath": "tools/random/english-name/index.tsx"
+    "/tools/random/english-name": {
+      "filePath": "tools/random/english-name.tsx"
     },
-    "/tools/random/number/": {
-      "filePath": "tools/random/number/index.tsx"
+    "/tools/random/number": {
+      "filePath": "tools/random/number.tsx"
     },
-    "/tools/random/thai-name/": {
-      "filePath": "tools/random/thai-name/index.tsx"
+    "/tools/random/thai-name": {
+      "filePath": "tools/random/thai-name.tsx"
     }
   }
 }

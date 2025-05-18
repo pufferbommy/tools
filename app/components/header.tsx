@@ -1,16 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, Search } from "lucide-react";
-import { Fragment, useState } from "react";
+import { Menu, Shuffle } from "lucide-react";
+import { useState } from "react";
 
-import {
-	CommandDialog,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-	CommandSeparator,
-} from "@/components/ui/command";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import {
 	NavigationMenu,
@@ -21,20 +12,18 @@ import {
 	NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { CATEGORY_LIST } from "@/constants/categories";
-import { useSearchContext } from "@/contexts/search";
 
-import Logo from "./Logo";
-import ThemeSwitcher from "./ThemeSwitcher";
+import Logo from "./logo";
+import ThemeSwitcher from "./theme-switcher";
 import { Button } from "./ui/button";
 
-export function SiteHeader() {
-	const { isDialogOpen, setIsDialogOpen } = useSearchContext();
+export default function Header() {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const navigate = useNavigate();
 
 	return (
 		<header className="bg-background group sticky top-0 z-50 border-b border-dashed">
-			<div className="container mx-auto py-4 flex items-center">
+			<div className="container py-3 flex items-center">
 				<div className="flex-1 flex">
 					<Link to="/" className="inline-flex gap-2 items-center font-semibold">
 						<Logo />
@@ -46,7 +35,6 @@ export function SiteHeader() {
 						{CATEGORY_LIST.map(([pathname, category]) => (
 							<NavigationMenuItem key={pathname} value={pathname}>
 								<NavigationMenuTrigger
-									className="cursor-pointer"
 									onClick={() => {
 										navigate({
 											to: pathname,
@@ -64,7 +52,7 @@ export function SiteHeader() {
 														to={tool.url}
 														className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm font-medium"
 													>
-														{tool.title}
+														{tool.shortTitle}
 													</Link>
 												</NavigationMenuLink>
 											</li>
@@ -76,37 +64,6 @@ export function SiteHeader() {
 					</NavigationMenuList>
 				</NavigationMenu>
 				<div className="flex-1 gap-2 flex justify-end">
-					<Button
-						aria-label="Open search dialog"
-						onClick={() => setIsDialogOpen(true)}
-						variant="ghost"
-						size="icon"
-					>
-						<Search />
-					</Button>
-					<CommandDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-						<CommandInput placeholder="ค้นหาเครื่องมือ..." />
-						<CommandList className="[&_[data-slot=command-separator]]:first:hidden">
-							<CommandEmpty>ไม่พบเครื่องมือที่ค้นหา</CommandEmpty>
-							{CATEGORY_LIST.map(([pathname, category]) => (
-								<Fragment key={pathname}>
-									<CommandSeparator />
-									<CommandGroup heading={category.title}>
-										{category.tools.map((tool) => (
-											<CommandItem key={tool.url} asChild>
-												<Link
-													to={tool.url}
-													onClick={() => setIsDialogOpen(false)}
-												>
-													{tool.title}
-												</Link>
-											</CommandItem>
-										))}
-									</CommandGroup>
-								</Fragment>
-							))}
-						</CommandList>
-					</CommandDialog>
 					<Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
 						<DrawerTrigger asChild>
 							<Button

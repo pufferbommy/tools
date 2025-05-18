@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ToolLayout from "@/components/ToolLayout";
+import ToolLayout from "@/components/tool-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -22,6 +22,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { loadToolData } from "@/lib/tool/loadToolData";
 import { seo } from "@/utils/seo";
 
 const FormSchema = z.object({
@@ -36,24 +37,22 @@ type AgeResult = {
 	days: number;
 };
 
-export const Route = createFileRoute("/tools/calculators/age/")({
+export const Route = createFileRoute("/tools/calculators/age")({
 	component: RouteComponent,
-	loader: async (context) => {
-		const pathname = context.location.pathname;
-		const url = `${process.env.ORIGIN}${pathname}`;
-		return { url };
-	},
-	head: () => ({
-		meta: seo({
-			title: "คำนวณอายุ",
-			description: "คำนวณอายุเป็นปี เดือน วัน จากวันเกิด",
-			keywords: "คำนวณอายุ, อายุ, วันเกิด, คำนวณวันเกิด, คำนวณอายุจากวันเกิด",
-		}),
+	loader: ({ location }) => loadToolData(location.pathname),
+	head: ({ loaderData }) => ({
+		meta: [
+			...seo({
+				title: loaderData.tool.title,
+				description: loaderData.tool.description,
+				keywords: loaderData.tool.keywords,
+			}),
+		],
 	}),
 });
 
 function RouteComponent() {
-	const { url } = Route.useLoaderData();
+	const { url, category, tool } = Route.useLoaderData();
 
 	const form = useForm<FormSchema>({
 		resolver: zodResolver(FormSchema),
@@ -181,16 +180,16 @@ function RouteComponent() {
 		<ToolLayout
 			breadcrumbs={[
 				{
-					label: "เครื่องมือคำนวณ",
-					href: "/tools/calculators",
+					label: category.title,
+					href: "..",
 				},
 				{
-					label: "คำนวณอายุ",
-					href: "/tools/calculators/age",
+					label: tool.title,
+					href: tool.url,
 				},
 			]}
-			title="คำนวณอายุ"
-			description="เครื่องมือสำหรับคำนวณอายุจากวันเกิด"
+			title={tool.title}
+			description={tool.description}
 			items={[
 				{
 					id: "1",
@@ -215,7 +214,7 @@ function RouteComponent() {
 							<FormItem>
 								<FormLabel>วันเกิด</FormLabel>
 								<FormControl>
-									<div className="flex flex-wrap gap-2">
+									<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
 										<Select
 											value={field.value.toLocaleDateString("th-TH", {
 												day: "numeric",
@@ -226,7 +225,7 @@ function RouteComponent() {
 												field.onChange(newDate);
 											}}
 										>
-											<SelectTrigger className="w-[65.81px]">
+											<SelectTrigger className="w-full">
 												<SelectValue placeholder="วัน" />
 											</SelectTrigger>
 											<SelectContent>
@@ -251,8 +250,8 @@ function RouteComponent() {
 												field.onChange(updatedDate);
 											}}
 										>
-											<SelectTrigger className="w-[115.17px]">
-												<SelectValue placeholder="เดือน" />
+											<SelectTrigger className="w-full">
+												<SelectValue placeholder="เดือน" className="truncate" />
 											</SelectTrigger>
 											<SelectContent>
 												{months.map((month, i) => (
@@ -270,7 +269,7 @@ function RouteComponent() {
 												field.onChange(newDate);
 											}}
 										>
-											<SelectTrigger className="w-[81.83px]">
+											<SelectTrigger className="w-full">
 												<SelectValue placeholder="ปี" />
 											</SelectTrigger>
 											<SelectContent>

@@ -1,4 +1,4 @@
-import ToolLayout from "@/components/ToolLayout";
+import ToolLayout from "@/components/tool-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
+import { loadToolData } from "@/lib/tool/loadToolData";
 
 import { seo } from "@/utils/seo";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,22 +31,21 @@ const formatOklch = (color: string | undefined) => {
 	return `oklch(${[oklch?.l.toFixed(2), oklch?.c.toFixed(4), oklch?.h?.toFixed(2)].join(" ")})`;
 };
 
-const INITIAL_COLOR_COUNT = 3;
+const INITIAL_COLOR_COUNT = 4;
 
 const FormSchema = z.object({
 	amount: z
 		.number()
 		.min(1)
-		.max(INITIAL_COLOR_COUNT ** 2),
+		.max(INITIAL_COLOR_COUNT ** 4),
 });
 
 type FormSchema = z.infer<typeof FormSchema>;
 
-export const Route = createFileRoute("/tools/colors/random/")({
+export const Route = createFileRoute("/tools/colors/random")({
 	component: RouteComponent,
 	loader: async (context) => {
 		const pathname = context.location.pathname;
-		const url = `${process.env.ORIGIN}${pathname}`;
 		const initialColors = Array.from({ length: INITIAL_COLOR_COUNT }, () => {
 			const rgb = formatRgb(random());
 			return {
@@ -56,14 +56,14 @@ export const Route = createFileRoute("/tools/colors/random/")({
 				name: closest(rgb).name,
 			} as Color;
 		});
-		return { url, initialColors };
+		return { initialColors, ...loadToolData(pathname) };
 	},
-	head: () => ({
+	head: ({ loaderData }) => ({
 		meta: [
 			...seo({
-				title: "สุ่มสี",
-				description: "สุ่มสีพร้อมรหัส HEX และ RGB สำหรับใช้ในงานออกแบบหรือเลือกสี",
-				keywords: "สุ่มสี, เครื่องมือสุ่มสี, รหัสสี HEX, รหัสสี RGB, เครื่องมือออกแบบ, พาเลตสี",
+				title: loaderData.tool.title,
+				description: loaderData.tool.description,
+				keywords: loaderData.tool.keywords,
 			}),
 		],
 	}),
@@ -78,7 +78,7 @@ interface Color {
 }
 
 function RouteComponent() {
-	const { url, initialColors } = Route.useLoaderData();
+	const { url, initialColors, category, tool } = Route.useLoaderData();
 
 	const [colors, setColors] = useState<Color[]>(initialColors);
 
@@ -112,18 +112,18 @@ function RouteComponent() {
 	return (
 		<ToolLayout
 			url={url}
-			title="สุ่มสี"
-			description="สุ่มสีพร้อมรหัส HEX, RGB, HSL และ OKLCH สำหรับใช้ในงานออกแบบหรือเลือกสี"
 			breadcrumbs={[
 				{
-					label: "เครื่องมือสี",
-					href: "/tools/colors",
+					label: category.title,
+					href: "..",
 				},
 				{
-					label: "สุ่มสี",
-					href: "/tools/colors/random",
+					label: tool.title,
+					href: tool.url,
 				},
 			]}
+			title={tool.title}
+			description={tool.description}
 			items={[
 				{
 					id: "1",
@@ -139,43 +139,44 @@ function RouteComponent() {
 		>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-					<FormField
-						control={form.control}
-						name="amount"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>จำนวน</FormLabel>
-								<FormControl>
-									<div className="flex gap-2">
-										<Input
-											className="w-auto"
-											type="number"
-											min={1}
-											max={INITIAL_COLOR_COUNT ** 2}
-											{...field}
-											onChange={(e) => {
-												field.onChange(e.target.valueAsNumber);
-											}}
-										/>
-										<Slider
-											className="w-40"
-											value={[field.value]}
-											min={1}
-											max={INITIAL_COLOR_COUNT ** 2}
-											onValueChange={(value) =>
-												field.onChange(Number(value[0]))
-											}
-										/>
-									</div>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+					<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+						<FormField
+							control={form.control}
+							name="amount"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>จำนวน</FormLabel>
+									<FormControl>
+										<div className="flex gap-2">
+											<Input
+												className="w-auto"
+												type="number"
+												min={1}
+												max={INITIAL_COLOR_COUNT ** 4}
+												{...field}
+												onChange={(e) => {
+													field.onChange(e.target.valueAsNumber);
+												}}
+											/>
+											<Slider
+												value={[field.value]}
+												min={1}
+												max={INITIAL_COLOR_COUNT ** 4}
+												onValueChange={(value) =>
+													field.onChange(Number(value[0]))
+												}
+											/>
+										</div>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</div>
 					<Button>สุ่มสี</Button>
 				</form>
 			</Form>
-			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+			<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
 				{colors.map((color) => (
 					<Card key={color.rgb} className="pt-0 overflow-hidden">
 						<CardHeader

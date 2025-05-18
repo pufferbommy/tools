@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
 
-export default function SiteFooter() {
+export default function Footer() {
 	return (
 		<footer className="border-t border-dashed">
 			<div className="container py-4 flex justify-between text-sm">

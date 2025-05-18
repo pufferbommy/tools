@@ -1,12 +1,14 @@
 import type { TRoutes } from "@/utils/sitemap";
 
-interface Tool {
+export interface Tool {
 	url: TRoutes;
+	shortTitle: string;
 	title: string;
-	description?: string;
+	description: string;
+	keywords: string;
 }
 
-interface Category {
+export interface Category {
 	title: string;
 	description: string;
 	keywords: string;
@@ -16,62 +18,92 @@ interface Category {
 export const CATEGORY_MAP: Record<string, Category> = {
 	"/tools/random": {
 		title: "เครื่องมือสุ่ม",
-		description: "เครื่องมือสุ่มตัวเลข ชื่อไทย ชื่ออังกฤษ",
-		keywords: "สุ่มตัวเลข, สุ่มชื่อไทย, สุ่มชื่ออังกฤษ",
+		description:
+			"เครื่องมือสุ่มตัวเลขและชื่อแบบง่าย ๆ ใช้งานฟรี เหมาะสำหรับการเล่นเกม การตั้งชื่อ หรือใช้ในกิจกรรมต่าง ๆ",
+		keywords: "สุ่ม, สุ่มตัวเลข, สุ่มชื่อ, สุ่มชื่อไทย, สุ่มชื่ออังกฤษ",
 		tools: [
 			{
-				title: "สุ่มตัวเลข",
+				shortTitle: "สุ่มเลข",
+				title: "เครื่องมือสุ่มตัวเลข",
 				url: "/tools/random/number",
-				description: "สร้างตัวเลขสุ่มภายในช่วงที่คุณระบุ",
+				description:
+					"สร้างตัวเลขแบบสุ่มภายในช่วงที่คุณกำหนด เหมาะกับเกม การจับฉลาก หรือการทดลอง",
+				keywords: "สุ่มเลข, random number, จับฉลาก, สุ่มตัวเลขออนไลน์, เครื่องสุ่มเลข",
 			},
 			{
-				title: "สุ่มชื่อไทย",
+				shortTitle: "สุ่มชื่อไทย",
+				title: "เครื่องมือสุ่มชื่อไทย",
 				url: "/tools/random/thai-name",
-				description: "สุ่มชื่อไทย",
+				description: "สุ่มชื่อไทยแบบสุ่ม ใช้สำหรับตั้งชื่อตัวละคร หรือกิจกรรมที่ต้องใช้ชื่อ",
+				keywords:
+					"สุ่มชื่อไทย, ชื่อไทย, ตั้งชื่อตัวละคร, สุ่มชื่อผู้ชาย, สุ่มชื่อผู้หญิง, random thai name",
 			},
 			{
-				title: "สุ่มชื่ออังกฤษ",
+				shortTitle: "สุ่มชื่ออังกฤษ",
+				title: "เครื่องมือสุ่มชื่ออังกฤษ",
 				url: "/tools/random/english-name",
-				description: "สุ่มชื่ออังกฤษ",
+				description:
+					"สุ่มชื่อภาษาอังกฤษทั้งชื่อจริงและนามสกุล ใช้ได้ทั้งตั้งชื่อเล่นหรือโปรเจกต์ต่าง ๆ",
+				keywords:
+					"สุ่มชื่ออังกฤษ, ชื่อภาษาอังกฤษ, ชื่อเล่นอังกฤษ, random english name, ชื่อฝรั่ง",
 			},
 		],
 	},
 	"/tools/calculators": {
 		title: "เครื่องมือคำนวณ",
-		description: "เครื่องมือคำนวณที่ช่วยให้คุณทำการคำนวณต่างๆ ได้อย่างง่ายดาย",
-		keywords: "เครื่องมือคำนวณ, คำนวณ BMI, คำนวณอายุ, คำนวณเปอร์เซ็นต์, คำนวณดอกเบี้ย",
+		description:
+			"รวมเครื่องมือคำนวณพื้นฐานที่จำเป็นในชีวิตประจำวัน เช่น BMI, BMR, อายุ และพลังงานที่ใช้ในแต่ละวัน",
+		keywords: "เครื่องมือคำนวณ, คำนวณ BMI, คำนวณ BMR, คำนวณอายุ, คำนวณ TDEE",
 		tools: [
 			{
-				title: "คำนวณดัชนีมวลกาย (BMI)",
+				shortTitle: "คำนวณ BMI",
+				title: "เครื่องคำนวณดัชนีมวลกาย (BMI)",
 				url: "/tools/calculators/bmi",
-				description: "คำนวณค่า BMI เพื่อประเมินรูปร่าง",
+				description:
+					"คำนวณค่า BMI เพื่อตรวจสอบว่าคุณอยู่ในเกณฑ์น้ำหนักที่เหมาะสมหรือไม่ พร้อมคำแนะนำ",
+				keywords:
+					"คำนวณ BMI, ดัชนีมวลกาย, bmi calculator, ตรวจสุขภาพ, น้ำหนักเกิน, ผอมเกิน",
 			},
 			{
-				title: "คำนวณการเผาผลาญพลังงาน (BMR)",
+				shortTitle: "คำนวณ BMR",
+				title: "เครื่องคำนวณอัตราเผาผลาญพลังงาน (BMR)",
 				url: "/tools/calculators/bmr",
-				description: "คำนวณอัตราเผาผลาญพลังงานพื้นฐาน",
+				description: "คำนวณพลังงานขั้นต่ำที่ร่างกายต้องการต่อวันเพื่อการมีชีวิตอยู่",
+				keywords:
+					"คำนวณ BMR, bmr คืออะไร, เผาผลาญพลังงาน, basal metabolic rate, พลังงานพื้นฐาน",
 			},
 			{
-				title: "คำนวณพลังงานต่อวัน (TDEE)",
+				shortTitle: "คำนวณ TDEE",
+				title: "เครื่องคำนวณพลังงานที่ใช้ต่อวัน (TDEE)",
 				url: "/tools/calculators/tdee",
-				description: "คำนวณพลังงานที่ร่างกายต้องการต่อวัน",
+				description:
+					"คำนวณพลังงานที่ใช้จริงในแต่ละวันตามกิจกรรมของคุณ เหมาะสำหรับวางแผนลดน้ำหนักหรือเพิ่มน้ำหนัก",
+				keywords:
+					"คำนวณ TDEE, พลังงานที่ใช้ต่อวัน, ลดน้ำหนัก, เพิ่มน้ำหนัก, tdee calculator, พลังงานเผาผลาญ",
 			},
 			{
-				title: "คำนวณอายุ",
+				shortTitle: "คำนวณอายุ",
+				title: "เครื่องคำนวณอายุ",
 				url: "/tools/calculators/age",
-				description: "คำนวณอายุเป็นปี เดือน วัน จากวันเกิด",
+				description: "คำนวณอายุของคุณอย่างแม่นยำ ทั้งปี เดือน และวัน จากวันเกิด",
+				keywords: "คำนวณอายุ, age calculator, นับอายุ, วันเกิด, คำนวณปีเกิด, อายุเท่าไร",
 			},
 		],
 	},
 	"/tools/colors": {
 		title: "เครื่องมือสี",
-		description: "เครื่องมือคำนวณที่ช่วยให้คุณทำการคำนวณต่างๆ ได้อย่างง่ายดาย",
-		keywords: "เครื่องมือสี, สุ่มสี, HEX, RGB",
+		description:
+			"เครื่องมือสำหรับนักออกแบบ ช่วยสุ่มสีแบบมีรหัส HEX/RGB ใช้สำหรับงานกราฟิก เว็บ หรือเลือกโทนสี",
+		keywords: "เครื่องมือสี, สุ่มสี, สี HEX, สี RGB, random color",
 		tools: [
 			{
-				title: "สุ่มสี",
+				shortTitle: "สุ่มสี",
+				title: "เครื่องมือสุ่มสี",
 				url: "/tools/colors/random",
-				description: "สุ่มสีพร้อมรหัส HEX และ RGB สำหรับใช้ในงานออกแบบหรือเลือกสี",
+				description:
+					"สุ่มสีแบบสุ่ม พร้อมแสดงรหัส HEX และ RGB ใช้ได้กับงานออกแบบ UX/UI หรือกราฟิก",
+				keywords:
+					"สุ่มสี, random color, สีสำหรับออกแบบ, HEX color, RGB color, โทนสี, สุ่มโทนสี",
 			},
 		],
 	},

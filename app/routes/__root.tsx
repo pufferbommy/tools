@@ -8,13 +8,12 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
-import { NotFound } from "@/components/NotFound";
-import SiteFooter from "@/components/SiteFooter";
-import { SiteHeader } from "@/components/SiteHeader";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { DefaultCatchBoundary } from "@/components/default-catch-boundary";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import { NotFound } from "@/components/not-found";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import SearchContextProvider from "@/contexts/search";
 // @ts-ignore
 import appCss from "@/styles/app.css?url";
 import { seo } from "@/utils/seo";
@@ -97,13 +96,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					enableSystem={false}
 					disableTransitionOnChange
 				>
-					<SearchContextProvider>
-						<div className="min-h-dvh flex flex-col">
-							<SiteHeader />
-							<div className="flex-1 flex flex-col">{children}</div>
-							<SiteFooter />
-						</div>
-					</SearchContextProvider>
+					<div className="min-h-dvh flex flex-col">
+						<Header />
+						<div className="flex-1 flex flex-col">{children}</div>
+						<Footer />
+					</div>
 					<Toaster richColors />
 				</ThemeProvider>
 				<Scripts />

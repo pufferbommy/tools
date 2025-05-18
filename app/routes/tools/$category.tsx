@@ -1,7 +1,7 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-import ToolLayout from "@/components/ToolLayout";
-import { Card, CardContent } from "@/components/ui/card";
+import ToolCard from "@/components/tool-card";
+import ToolLayout from "@/components/tool-layout";
 import { CATEGORY_MAP } from "@/constants/categories";
 import { seo } from "@/utils/seo";
 
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/tools/$category")({
 	loader: async (context) => {
 		const pathname = context.location.pathname;
 		const url = `${process.env.ORIGIN}${pathname}`;
-		const category = CATEGORY_MAP[pathname];
+		const category = CATEGORY_MAP[`/tools/${context.params.category}`];
 		return { url, pathname, category };
 	},
 	head: ({
@@ -43,15 +43,9 @@ function RouteComponent() {
 			description={category.description}
 			url={url}
 		>
-			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+			<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
 				{category.tools.map((tool) => (
-					<Link key={tool.url} to={tool.url}>
-						<Card className="hover:bg-primary/10 transition-colors hover:border-primary">
-							<CardContent className="font-medium text-center">
-								{tool.title}
-							</CardContent>
-						</Card>
-					</Link>
+					<ToolCard key={tool.url} tool={tool} noAnimation />
 				))}
 			</div>
 		</ToolLayout>

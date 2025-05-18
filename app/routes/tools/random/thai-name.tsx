@@ -1,3 +1,9 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+
+import ToolLayout from "@/components/tool-layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { seo } from "@/utils/seo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,7 +24,79 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { GENDERS } from "@/constants/genders";
 import { THAI_NAMES } from "@/constants/thai-names";
-import type { Result } from "../../thai-name";
+import { loadToolData } from "@/lib/tool/loadToolData";
+
+interface Result {
+	name: {
+		th: string;
+		en: string;
+	} | null;
+	lastName: {
+		th: string;
+		en: string;
+	} | null;
+	nickname: {
+		th: string;
+		en: string;
+	} | null;
+}
+
+export const Route = createFileRoute("/tools/random/thai-name")({
+	component: RouteComponent,
+	loader: ({ location }) => loadToolData(location.pathname),
+	head: ({ loaderData }) => ({
+		meta: [
+			...seo({
+				title: loaderData.tool.title,
+				description: loaderData.tool.description,
+				keywords: loaderData.tool.keywords,
+			}),
+		],
+	}),
+});
+
+function RouteComponent() {
+	const { url, category, tool } = Route.useLoaderData();
+
+	const [results, setResults] = useState<Result[]>([]);
+
+	return (
+		<ToolLayout
+			url={url}
+			breadcrumbs={[
+				{
+					label: category.title,
+					href: "..",
+				},
+				{
+					label: tool.title,
+					href: tool.url,
+				},
+			]}
+			title={tool.title}
+			description={tool.description}
+			items={[
+				{
+					id: "1",
+					title: "วิธีการใช้งาน",
+					content: (
+						<ol className="list-decimal list-inside space-y-2">
+							<li>เลือกเพศที่ต้องการ (ทั้งคู่, ชาย หรือ หญิง)</li>
+							<li>เลือกประเภทชื่อที่ต้องการสุ่ม (ชื่อจริง, นามสกุล, ชื่อเล่น)</li>
+							<li>เลือกภาษาของชื่อ (ไทย, อังกฤษ หรือทั้งสองภาษา)</li>
+							<li>กำหนดจำนวนชื่อที่ต้องการสุ่ม (เลือกได้ตั้งแต่ 1 ถึง 25 ชื่อ)</li>
+							<li>คลิกปุ่ม "สุ่มชื่อ" เพื่อดูผลลัพธ์ที่สร้างขึ้น</li>
+							<li>หากต้องการสุ่มใหม่ สามารถกด "สุ่มชื่อ" ได้อีกครั้ง</li>
+						</ol>
+					),
+				},
+			]}
+		>
+			<FormSection setResults={setResults} />
+			<ResultSection results={results} />
+		</ToolLayout>
+	);
+}
 
 const TYPES = [
 	{
@@ -151,7 +229,7 @@ export function FormSection({
 		<section>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-					<div className="grid sm:grid-cols-2 lg:grid-cols-3 items-start gap-4">
+					<div className="grid sm:grid-cols-2 lg:grid-cols-4 items-start gap-4">
 						<FormField
 							control={form.control}
 							name="gender"
@@ -286,5 +364,56 @@ export function FormSection({
 				</form>
 			</Form>
 		</section>
+	);
+}
+
+function ResultSection({ results }: { results: Result[] }) {
+	return (
+		<Card className="text-center group relative">
+			<CardHeader>
+				<CardTitle>ชื่อที่สุ่มได้</CardTitle>
+			</CardHeader>
+			<CardContent className="space-y-8">
+				{results.length === 0 ? (
+					<div className="text-muted-foreground">
+						ยังไม่มีผลลัพธ์นะ~ ✨ ลองสุ่มชื่อดูเลย!
+					</div>
+				) : (
+					results.map((result) => (
+						<div
+							key={Object.values(result).join()}
+							className="text-4xl [&>:nth-child(2)]:text-muted-foreground"
+						>
+							{(result.name?.th ||
+								result.lastName?.th ||
+								result.nickname?.th) && (
+								<p>
+									{result.name?.th} {result.lastName?.th}{" "}
+									{result.nickname?.th && (
+										<>
+											{(result.name?.th || result.lastName?.th) && " - "}
+											{result.nickname?.th}
+										</>
+									)}
+								</p>
+							)}
+							{(result.name?.en ||
+								result.lastName?.en ||
+								result?.nickname?.en) && (
+								<p>
+									{result.name?.en} {result.lastName?.en}
+									{result.nickname?.en && (
+										<>
+											{(result.name?.en || result.lastName?.en) && " - "}
+											{result.nickname?.en}
+										</>
+									)}
+								</p>
+							)}
+						</div>
+					))
+				)}
+			</CardContent>
+		</Card>
 	);
 }

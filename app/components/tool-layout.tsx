@@ -1,4 +1,4 @@
-import { SocialShare } from "@/components/SocialShare";
+import { SocialShare } from "@/components/social-share";
 import { CATEGORY_LIST, CATEGORY_MAP } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
@@ -80,7 +80,7 @@ export default function ToolLayout({
 	return (
 		<>
 			<div className="border-b border-dashed">
-				<Breadcrumb className="container py-4">
+				<Breadcrumb className="container py-3">
 					<BreadcrumbList>
 						<BreadcrumbItem>
 							<BreadcrumbLink asChild>
