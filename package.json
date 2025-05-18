@@ -35,7 +35,7 @@
 		"cmdk": "^1.1.1",
 		"color-2-name": "^1.4.4",
 		"culori": "^4.0.1",
-		"lucide-react": "^0.507.0",
+		"lucide-react": "^0.511.0",
 		"motion": "^12.9.4",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
