@@ -5,7 +5,14 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useMemo, useState } from "react";
 
 import ToolCard from "@/components/tool-card";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
 	Tooltip,
@@ -87,7 +94,11 @@ function RouteComponent() {
 					onCategoryChange={handleCategoryChange}
 					totalToolCount={totalToolCount}
 				/>
-				<ToolGrid filteredTools={filteredTools} />
+				<ToolGrid
+					searchQuery={searchQuery}
+					activeCategory={activeCategory}
+					filteredTools={filteredTools}
+				/>
 			</section>
 		</>
 	);
@@ -125,7 +136,7 @@ function AlphaBadge({ className }: { className?: string }) {
 					<span
 						title="ฟีเจอร์ยังอยู่ในระหว่างการพัฒนา อาจมีบางส่วนที่ไม่สมบูรณ์"
 						className={cn(
-							"text-xs py-1 px-2 animate-bounce rounded-full bg-primary/10 text-primary font-medium",
+							"text-xs py-1 px-2 animate-bounce rounded-full bg-primary/5 text-primary font-medium",
 							className,
 						)}
 					>
@@ -233,17 +244,68 @@ function CategoryFilter({
 }
 
 function ToolGrid({
+	searchQuery,
+	activeCategory,
 	filteredTools,
 }: {
+	searchQuery: string;
+	activeCategory: string;
 	filteredTools: Tool[];
 }) {
+	const getEmptyStateMessage = () => {
+		if (searchQuery && activeCategory) {
+			const categoryTitle = CATEGORY_MAP[activeCategory]?.title || "category";
+			return `ไม่พบเครื่องมือสำหรับ "${searchQuery}" ในหมวด ${categoryTitle}`;
+		}
+		if (searchQuery) {
+			return `ไม่พบเครื่องมือสำหรับ "${searchQuery}"`;
+		}
+		if (activeCategory) {
+			const categoryTitle = CATEGORY_MAP[activeCategory]?.title || "category";
+			return `ไม่มีเครื่องมือในหมวด ${categoryTitle}`;
+		}
+		return "ไม่พบเครื่องมือที่ค้นหา";
+	};
+
+	const handleReset = () => {
+		// router.navigate({ to: "/", search: { searchQuery: "", category: "" } });
+	};
+
 	return (
 		<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-			<AnimatePresence initial={false}>
-				{filteredTools.map((tool) => (
-					<ToolCard key={tool.url} tool={tool} />
-				))}
-			</AnimatePresence>
+			{filteredTools.length > 0 ? (
+				<AnimatePresence initial={false}>
+					{filteredTools.map((tool) => (
+						<ToolCard key={tool.url} tool={tool} />
+					))}
+				</AnimatePresence>
+			) : (
+				<Card
+					className="flex col-span-full min-h-72 items-center justify-center"
+					role="alert"
+					aria-live="polite"
+				>
+					<CardContent className="text-center space-y-4">
+						<Search
+							className="mx-auto h-16 w-16 text-muted-foreground"
+							aria-hidden="true"
+						/>
+						<div className="space-y-2">
+							<CardTitle className="text-xl font-semibold text-foreground">
+								{getEmptyStateMessage()}
+							</CardTitle>
+							<p className="text-sm text-muted-foreground max-w-md mx-auto">
+								ลองค้นหาคำอื่น, เปลี่ยนหมวดหมู่
+							</p>
+						</div>
+						{(searchQuery || activeCategory) && (
+							<Button variant="outline" onClick={handleReset}>
+								รีเซ็ตการค้นหา
+							</Button>
+						)}
+					</CardContent>
+				</Card>
+			)}
 		</div>
 	);
 }

@@ -16,7 +16,7 @@ const buttonVariants = cva(
 				outline:
 					"border bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 [--tw-shadow-color:oklch(from_var(--border)_l_c_h/0.5)] shadow-[0_-0.125rem_0_inset]",
 				outlinePrimary:
-					"border border-primary bg-primary/10 text-primary hover:bg-primary/20 hover:shadow-none shadow-[0_-0.125rem_0_inset] [--tw-shadow-color:oklch(from_var(--primary)_l_c_h/0.25)]",
+					"border border-primary bg-primary/5 text-primary hover:bg-primary/10 hover:shadow-none shadow-[0_-0.125rem_0_inset] [--tw-shadow-color:oklch(from_var(--primary)_l_c_h/0.25)]",
 				secondary:
 					"bg-secondary text-secondary-foreground hover:bg-secondary/80",
 				ghost:
