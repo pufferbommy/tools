@@ -101,11 +101,11 @@ function HeroSection({ randomToolHref }: { randomToolHref: string }) {
 					รวมมิตรเครื่องมือ
 					<AlphaBadge className="absolute bottom-[95%] left-[95%]" />
 				</h1>
-				<p className="text-muted-foreground mb-8">
+				<h2 className="text-muted-foreground mb-8">
 					เว็บรวมเครื่องมือออนไลน์สารพัดประโยชน์ ใช้ง่าย
 					<br />
 					รวดเร็ว ครอบคลุมทุกอย่างที่คุณต้องการ และฟรี 100%
-				</p>
+				</h2>
 				<Button asChild>
 					<Link to={randomToolHref}>
 						สุ่มเครื่องมือ
