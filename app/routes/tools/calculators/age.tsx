@@ -300,7 +300,7 @@ function RouteComponent() {
 						>
 							รีเซ็ต
 						</Button>
-						<Button>คำนวณ</Button>
+						<Button>คำนวณอายุ</Button>
 					</div>
 				</form>
 			</Form>

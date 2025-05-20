@@ -1,3 +1,12 @@
+import { closest } from "color-2-name";
+import { converter, formatHex, formatHsl, formatRgb, random } from "culori";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createFileRoute } from "@tanstack/react-router";
+
 import ToolLayout from "@/components/tool-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -14,14 +23,6 @@ import { Slider } from "@/components/ui/slider";
 import { loadToolData } from "@/lib/tool/loadToolData";
 
 import { seo } from "@/utils/seo";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute } from "@tanstack/react-router";
-import { closest } from "color-2-name";
-import { converter, formatHex, formatHsl, formatRgb, random } from "culori";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formatOklch = (color: string | undefined) => {
 	if (!color) return "";
@@ -42,7 +43,7 @@ const FormSchema = z.object({
 
 type FormSchema = z.infer<typeof FormSchema>;
 
-export const Route = createFileRoute("/tools/colors/random")({
+export const Route = createFileRoute("/tools/random/color")({
 	component: RouteComponent,
 	loader: async (context) => {
 		const pathname = context.location.pathname;

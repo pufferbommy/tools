@@ -1,8 +1,9 @@
+import { Link } from "@tanstack/react-router";
+import { Fragment } from "react";
+
 import { SocialShare } from "@/components/social-share";
 import { CATEGORY_LIST, CATEGORY_MAP } from "@/constants/categories";
 import { cn } from "@/lib/utils";
-import { Link } from "@tanstack/react-router";
-import { Fragment, useState } from "react";
 import {
 	Accordion,
 	AccordionContent,

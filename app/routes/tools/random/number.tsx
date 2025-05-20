@@ -29,6 +29,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { getRandomInteger } from "@/utils/random";
 
 export const Route = createFileRoute("/tools/random/number")({
 	component: RouteComponent,
@@ -65,8 +66,7 @@ function RouteComponent() {
 			if (start === null) start = timestamp;
 			const elapsed = timestamp - start;
 
-			const randomNumber =
-				Math.floor(Math.random() * (data.max - data.min + 1)) + data.min;
+			const randomNumber = getRandomInteger(data.min, data.max);
 			setNumber(randomNumber);
 
 			if (elapsed < duration) {
@@ -185,7 +185,7 @@ export function FormSection({
 							)}
 						/>
 					</div>
-					<Button>สุ่ม</Button>
+					<Button>สุ่มตัวเลข</Button>
 				</form>
 			</Form>
 		</section>

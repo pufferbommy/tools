@@ -31,6 +31,15 @@ export const CATEGORY_MAP: Record<string, Category> = {
 				keywords: "สุ่มเลข, random number, จับฉลาก, สุ่มตัวเลขออนไลน์, เครื่องสุ่มเลข",
 			},
 			{
+				shortTitle: "สุ่มสี",
+				title: "เครื่องมือสุ่มสี",
+				url: "/tools/random/color",
+				description:
+					"สุ่มสีแบบสุ่ม พร้อมแสดงรหัส HEX และ RGB ใช้ได้กับงานออกแบบ UX/UI หรือกราฟิก",
+				keywords:
+					"สุ่มสี, random color, สีสำหรับออกแบบ, HEX color, RGB color, โทนสี, สุ่มโทนสี",
+			},
+			{
 				shortTitle: "สุ่มชื่อไทย",
 				title: "เครื่องมือสุ่มชื่อไทย",
 				url: "/tools/random/thai-name",
@@ -46,6 +55,15 @@ export const CATEGORY_MAP: Record<string, Category> = {
 					"สุ่มชื่อภาษาอังกฤษทั้งชื่อจริงและนามสกุล ใช้ได้ทั้งตั้งชื่อเล่นหรือโปรเจกต์ต่าง ๆ",
 				keywords:
 					"สุ่มชื่ออังกฤษ, ชื่อภาษาอังกฤษ, ชื่อเล่นอังกฤษ, random english name, ชื่อฝรั่ง",
+			},
+			{
+				shortTitle: "สุ่มอาหาร",
+				title: "เครื่องมือสุ่มอาหาร",
+				url: "/tools/random/food",
+				description:
+					"สุ่มเมนูอาหารแบบไม่ต้องคิดเอง เหมาะสำหรับคนที่เลือกไม่ถูกว่าจะกินอะไรดีวันนี้ ทั้งอาหารคาวหวานก็มีให้เลือกครบ!",
+				keywords:
+					"สุ่มอาหาร, กินอะไรดี, เมนูอาหาร, สุ่มเมนู, random food, ไอเดียอาหาร, เลือกเมนู, ช่วยเลือกอาหาร",
 			},
 		],
 	},
@@ -87,23 +105,6 @@ export const CATEGORY_MAP: Record<string, Category> = {
 				url: "/tools/calculators/age",
 				description: "คำนวณอายุของคุณอย่างแม่นยำ ทั้งปี เดือน และวัน จากวันเกิด",
 				keywords: "คำนวณอายุ, age calculator, นับอายุ, วันเกิด, คำนวณปีเกิด, อายุเท่าไร",
-			},
-		],
-	},
-	"/tools/colors": {
-		title: "เครื่องมือสี",
-		description:
-			"เครื่องมือสำหรับนักออกแบบ ช่วยสุ่มสีแบบมีรหัส HEX/RGB ใช้สำหรับงานกราฟิก เว็บ หรือเลือกโทนสี",
-		keywords: "เครื่องมือสี, สุ่มสี, สี HEX, สี RGB, random color",
-		tools: [
-			{
-				shortTitle: "สุ่มสี",
-				title: "เครื่องมือสุ่มสี",
-				url: "/tools/colors/random",
-				description:
-					"สุ่มสีแบบสุ่ม พร้อมแสดงรหัส HEX และ RGB ใช้ได้กับงานออกแบบ UX/UI หรือกราฟิก",
-				keywords:
-					"สุ่มสี, random color, สีสำหรับออกแบบ, HEX color, RGB color, โทนสี, สุ่มโทนสี",
 			},
 		],
 	},

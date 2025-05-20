@@ -213,7 +213,7 @@ function BmrCalculatorSection({
 						/>
 					</div>
 					<div className="space-x-2">
-						<Button>คำนวณ</Button>
+						<Button>คำนวณ BMR</Button>
 						<Button
 							variant="outline"
 							type="button"

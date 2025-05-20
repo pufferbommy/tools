@@ -24,6 +24,7 @@ import { loadToolData } from "@/lib/tool/loadToolData";
 import { seo } from "@/utils/seo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { pickRandomItem } from "@/utils/random";
 
 export interface Result {
 	name: string | null;
@@ -87,37 +88,23 @@ function RouteComponent() {
 	const onSubmit = (data: FormSchema) => {
 		const items = Array.from({ length: data.amount }, () => {
 			const gender =
-				data.gender === "both"
-					? GENDERS[Math.floor(Math.random() * GENDERS.length)].value
-					: data.gender;
-			const randomLastName =
-				ENGLISH_NAMES.lastNames[
-					Math.floor(Math.random() * ENGLISH_NAMES.lastNames.length)
-				];
+				data.gender === "both" ? pickRandomItem(GENDERS).value : data.gender;
+			const randomLastName = pickRandomItem(ENGLISH_NAMES.lastNames);
 			const lastName = data.types.includes("last-name") ? randomLastName : null;
 			if (gender === "male") {
-				const maleName =
-					ENGLISH_NAMES.maleNames[
-						Math.floor(Math.random() * ENGLISH_NAMES.maleNames.length)
-					];
-				const maleNickname =
-					ENGLISH_NAMES.maleNicknames[
-						Math.floor(Math.random() * ENGLISH_NAMES.maleNicknames.length)
-					];
+				const maleName = pickRandomItem(ENGLISH_NAMES.maleNames);
+				const maleNickname = pickRandomItem(ENGLISH_NAMES.maleNicknames);
+
 				return {
 					name: data.types.includes("name") ? maleName : null,
 					lastName,
 					nickname: data.types.includes("nickname") ? maleNickname : null,
 				};
 			}
-			const femaleName =
-				ENGLISH_NAMES.femaleNames[
-					Math.floor(Math.random() * ENGLISH_NAMES.femaleNames.length)
-				];
-			const femaleNickname =
-				ENGLISH_NAMES.femaleNicknames[
-					Math.floor(Math.random() * ENGLISH_NAMES.femaleNicknames.length)
-				];
+
+			const femaleName = pickRandomItem(ENGLISH_NAMES.femaleNames);
+			const femaleNickname = pickRandomItem(ENGLISH_NAMES.femaleNicknames);
+
 			return {
 				name: data.types.includes("name") ? femaleName : null,
 				lastName,
@@ -264,7 +251,7 @@ function RouteComponent() {
 								)}
 							/>
 						</div>
-						<Button>สุ่มชื่อ</Button>
+						<Button>สุ่มชื่ออังกฤษ</Button>
 					</form>
 				</Form>
 			</section>

@@ -11,4 +11,4 @@ export const GENDERS = [
 		name: "หญิง",
 		icon: <Venus size={16} />,
 	},
-] as const;
+];

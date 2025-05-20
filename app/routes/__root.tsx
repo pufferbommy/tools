@@ -64,6 +64,18 @@ export const Route = createRootRoute({
 			{ rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
 			{ rel: "icon", href: "/favicon.ico" },
 		],
+		scripts: [
+			{
+				async: true,
+				src: "https://www.googletagmanager.com/gtag/js?id=G-KDBE7K328K",
+			},
+			{
+				children: `window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+					gtag('config', 'G-KDBE7K328K');`,
+			},
+		],
 	}),
 	errorComponent: (props) => {
 		return (

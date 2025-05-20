@@ -9,16 +9,20 @@ export const seo = ({
 	image?: string;
 	keywords?: string;
 }) => {
+	const baseTitle = "รวมมิตรเครื่องมือ";
+	const fullTitle = title ? `${title} | ${baseTitle}` : baseTitle;
+
 	const tags = [
-		{ title: title ? `${title} | รวมมิตรเครื่องมือ` : "รวมมิตรเครื่องมือ" },
+		{ title: fullTitle },
 		{ name: "description", content: description },
 		{ name: "keywords", content: keywords },
-		{ name: "twitter:title", content: title },
+		{ name: "author", content: "ruammittools.com" },
+		{ name: "twitter:title", content: fullTitle },
 		{ name: "twitter:description", content: description },
-		{ name: "twitter:creator", content: "@pufferbommy" },
-		{ name: "twitter:site", content: "@pufferbommy" },
+		{ name: "twitter:creator", content: "@ruammittools" },
+		{ name: "twitter:site", content: "@ruammittools" },
 		{ name: "og:type", content: "website" },
-		{ name: "og:title", content: title },
+		{ name: "og:title", content: fullTitle },
 		{ name: "og:description", content: description },
 		...(image
 			? [

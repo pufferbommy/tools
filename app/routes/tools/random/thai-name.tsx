@@ -25,6 +25,7 @@ import { Slider } from "@/components/ui/slider";
 import { GENDERS } from "@/constants/genders";
 import { THAI_NAMES } from "@/constants/thai-names";
 import { loadToolData } from "@/lib/tool/loadToolData";
+import { pickRandomItem } from "@/utils/random";
 
 interface Result {
 	name: {
@@ -157,14 +158,9 @@ export function FormSection({
 	const onSubmit = (data: FormSchema) => {
 		const items = Array.from({ length: data.amount }, () => {
 			const gender =
-				data.gender === "both"
-					? GENDERS[Math.floor(Math.random() * GENDERS.length)].value
-					: data.gender;
+				data.gender === "both" ? pickRandomItem(GENDERS).value : data.gender;
 
-			const randomLastName =
-				THAI_NAMES.lastNames[
-					Math.floor(Math.random() * THAI_NAMES.lastNames.length)
-				];
+			const randomLastName = pickRandomItem(THAI_NAMES.lastNames);
 			const lastName = data.types.includes("last-name")
 				? {
 						th: data.languages.includes("th") ? randomLastName.th : "",
@@ -173,14 +169,9 @@ export function FormSection({
 				: null;
 
 			if (gender === "male") {
-				const maleName =
-					THAI_NAMES.maleNames[
-						Math.floor(Math.random() * THAI_NAMES.maleNames.length)
-					];
-				const maleNickname =
-					THAI_NAMES.maleNicknames[
-						Math.floor(Math.random() * THAI_NAMES.maleNicknames.length)
-					];
+				const maleName = pickRandomItem(THAI_NAMES.maleNames);
+				const maleNickname = pickRandomItem(THAI_NAMES.maleNicknames);
+
 				return {
 					name: data.types.includes("name")
 						? {
@@ -198,14 +189,9 @@ export function FormSection({
 				};
 			}
 
-			const femaleName =
-				THAI_NAMES.femaleNames[
-					Math.floor(Math.random() * THAI_NAMES.femaleNames.length)
-				];
-			const femaleNickname =
-				THAI_NAMES.femaleNicknames[
-					Math.floor(Math.random() * THAI_NAMES.femaleNicknames.length)
-				];
+			const femaleName = pickRandomItem(THAI_NAMES.femaleNames);
+			const femaleNickname = pickRandomItem(THAI_NAMES.femaleNicknames);
+
 			return {
 				name: data.types.includes("name")
 					? {
@@ -360,7 +346,7 @@ export function FormSection({
 							)}
 						/>
 					</div>
-					<Button>สุ่มชื่อ</Button>
+					<Button>สุ่มชื่อไทย</Button>
 				</form>
 			</Form>
 		</section>

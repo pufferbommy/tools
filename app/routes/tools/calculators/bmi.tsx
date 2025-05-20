@@ -160,7 +160,7 @@ export function BmiCalculatorSection({
 						/>
 					</div>
 					<div className="space-x-2">
-						<Button>คำนวณ</Button>
+						<Button>คำนวณ BMI</Button>
 						<Button type="button" variant="outline" onClick={handleResetClick}>
 							รีเซ็ต
 						</Button>

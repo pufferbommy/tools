@@ -1,18 +1,12 @@
 import { useForm } from "@tanstack/react-form";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Search, Shuffle, X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import { useCallback, useMemo, useState } from "react";
 
 import ToolCard from "@/components/tool-card";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
 	Tooltip,
@@ -27,19 +21,14 @@ import {
 	type Tool,
 } from "@/constants/categories";
 import { cn } from "@/lib/utils";
+import { pickRandomItem } from "@/utils/random";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
 	loader: async () => {
 		const categoryKeys = Object.keys(CATEGORY_MAP);
-		const randomCategory =
-			CATEGORY_MAP[
-				categoryKeys[Math.floor(Math.random() * categoryKeys.length)]
-			];
-		const randomTool =
-			randomCategory.tools[
-				Math.floor(Math.random() * randomCategory.tools.length)
-			];
+		const randomCategory = CATEGORY_MAP[pickRandomItem(categoryKeys)];
+		const randomTool = pickRandomItem(randomCategory.tools);
 
 		return {
 			categories: CATEGORY_LIST,

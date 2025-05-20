@@ -1,9 +1,33 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import ToolLayout from "@/components/tool-layout";
 import { seo } from "@/utils/seo";
+import { Button } from "@/components/ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { GENDERS } from "@/constants/genders";
+import { loadToolData } from "@/lib/tool/loadToolData";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const Route = createFileRoute("/tools/calculators/tdee")({
 	component: RouteComponent,
@@ -55,35 +79,22 @@ function RouteComponent() {
 			]}
 		>
 			<TdeeCalculatorSection setTdee={setTdee} />
-			<TdeeDisplaySection tdee={tdee} />
+			<Card className="text-center">
+				<CardHeader>
+					<CardTitle>ค่าพลังงานที่ร่างกายคุณต้องการต่อวัน (TDEE)</CardTitle>
+				</CardHeader>
+				<CardContent className="space-y-2">
+					<p className="space-x-2">
+						<span className="text-8xl text-primary font-semibold">
+							{tdee?.toFixed(1) || "?"}
+						</span>
+						{tdee && <span>แคลอรี่</span>}
+					</p>
+				</CardContent>
+			</Card>
 		</ToolLayout>
 	);
 }
-
-import { Button } from "@/components/ui/button";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
-import { GENDERS } from "@/constants/genders";
-import { loadToolData } from "@/lib/tool/loadToolData";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 const ACTIVITY_LEVELS = [
 	{ value: 1.2, label: "🏢 ไม่ออกกำลังกายเลย (นั่งทำงานทั้งวัน)" },
@@ -260,7 +271,7 @@ export function TdeeCalculatorSection({
 						/>
 					</div>
 					<div className="space-x-2">
-						<Button>คำนวณ</Button>
+						<Button>คำนวณ TDEE</Button>
 						<Button type="button" onClick={handleResetClick} variant="outline">
 							รีเซ็ต
 						</Button>
@@ -268,23 +279,5 @@ export function TdeeCalculatorSection({
 				</form>
 			</Form>
 		</section>
-	);
-}
-
-function TdeeDisplaySection({ tdee }: { tdee: number | null }) {
-	return (
-		<Card className="text-center">
-			<CardHeader>
-				<CardTitle>ค่าพลังงานที่ร่างกายคุณต้องการต่อวัน (TDEE)</CardTitle>
-			</CardHeader>
-			<CardContent className="space-y-2">
-				<p className="space-x-2">
-					<span className="text-8xl text-primary font-semibold">
-						{tdee?.toFixed(1) || "?"}
-					</span>
-					{tdee && <span>แคลอรี่</span>}
-				</p>
-			</CardContent>
-		</Card>
 	);
 }
