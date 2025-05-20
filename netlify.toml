@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/*"
+  to = "https://www.ruammittools.com/:splat"
+  status = 301
+  force = true
