@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import ToolCard from "@/components/tool-card";
-import ToolLayout from "@/components/tool-layout";
+import ToolCard from "@/components/tools/tool-card";
+import ToolLayout from "@/components/tools/tool-layout";
 import { CATEGORY_MAP } from "@/constants/categories";
 import { seo } from "@/utils/seo";
 

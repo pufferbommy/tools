@@ -1,13 +1,13 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createFileRoute } from "@tanstack/react-router";
 import { closest } from "color-2-name";
 import { converter, formatHex, formatHsl, formatRgb, random } from "culori";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute } from "@tanstack/react-router";
 
-import ToolLayout from "@/components/tool-layout";
+import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {

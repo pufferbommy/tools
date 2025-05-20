@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 
 import type { Tool } from "@/constants/categories";
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 export default function ToolCard({
 	tool,

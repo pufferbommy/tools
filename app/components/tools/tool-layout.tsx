@@ -9,7 +9,7 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "./ui/accordion";
+} from "../ui/accordion";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -17,13 +17,13 @@ import {
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
-} from "./ui/breadcrumb";
+} from "../ui/breadcrumb";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../ui/dropdown-menu";
 
 interface ToolLayoutProps {
 	title: string;
@@ -115,7 +115,7 @@ export default function ToolLayout({
 			<div className="container flex-1 py-8 space-y-8">
 				<section>
 					<h1 className="text-2xl font-semibold mb-2">{title}</h1>
-					<p className="text-muted-foreground">{description}</p>
+					<h2 className="text-muted-foreground">{description}</h2>
 				</section>
 				{children}
 				{items && (

@@ -1,10 +1,11 @@
 // @ts-ignore
 import fontsourceVariableNotoSansThaiCss from "@fontsource-variable/noto-sans-thai?url";
+import type { QueryClient } from "@tanstack/react-query";
 import {
 	HeadContent,
 	Outlet,
 	Scripts,
-	createRootRoute,
+	createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
@@ -18,7 +19,9 @@ import { Toaster } from "@/components/ui/sonner";
 import appCss from "@/styles/app.css?url";
 import { seo } from "@/utils/seo";
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+	queryClient: QueryClient;
+}>()({
 	head: () => ({
 		meta: [
 			{
@@ -70,10 +73,14 @@ export const Route = createRootRoute({
 				src: "https://www.googletagmanager.com/gtag/js?id=G-KDBE7K328K",
 			},
 			{
-				children: `window.dataLayer = window.dataLayer || [];
-					function gtag(){dataLayer.push(arguments);}
+				children: `
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){
+						dataLayer.push(arguments);
+					}
 					gtag('js', new Date());
-					gtag('config', 'G-KDBE7K328K');`,
+					gtag('config', 'G-KDBE7K328K');
+				`,
 			},
 		],
 	}),
@@ -102,17 +109,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body>
+			<body className="min-h-dvh flex flex-col">
 				<ThemeProvider
 					attribute="class"
 					enableSystem={false}
 					disableTransitionOnChange
 				>
-					<div className="min-h-dvh flex flex-col">
-						<Header />
-						<div className="flex-1 flex flex-col">{children}</div>
-						<Footer />
-					</div>
+					<Header />
+					<main className="flex-1 flex flex-col">{children}</main>
+					<Footer />
 					<Toaster richColors />
 				</ThemeProvider>
 				<Scripts />

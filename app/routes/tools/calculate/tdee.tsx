@@ -4,8 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ToolLayout from "@/components/tool-layout";
-import { seo } from "@/utils/seo";
+import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -27,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { GENDERS } from "@/constants/genders";
 import { loadToolData } from "@/lib/tool/loadToolData";
+import { seo } from "@/utils/seo";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export const Route = createFileRoute("/tools/calculate/tdee")({

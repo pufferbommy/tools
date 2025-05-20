@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
-import ToolLayout from "@/components/tool-layout";
+import ToolLayout from "@/components/tools/tool-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { seo } from "@/utils/seo";
 

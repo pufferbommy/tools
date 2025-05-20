@@ -4,7 +4,7 @@ import { Search, Shuffle, X } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import { useCallback, useMemo, useState } from "react";
 
-import ToolCard from "@/components/tool-card";
+import ToolCard from "@/components/tools/tool-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

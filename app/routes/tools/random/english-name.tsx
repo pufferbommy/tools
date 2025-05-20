@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
 
-import ToolLayout from "@/components/tool-layout";
+import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -21,10 +21,10 @@ import { Slider } from "@/components/ui/slider";
 import { ENGLISH_NAMES } from "@/constants/english-names";
 import { GENDERS } from "@/constants/genders";
 import { loadToolData } from "@/lib/tool/loadToolData";
+import { pickRandomItem } from "@/utils/random";
 import { seo } from "@/utils/seo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { pickRandomItem } from "@/utils/random";
 
 export interface Result {
 	name: string | null;

@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
 
-import { type Food, SAVORIES } from "@/constants/foods";
-import ToolLayout from "@/components/tool-layout";
+import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -14,12 +14,12 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { loadToolData } from "@/lib/tool/loadToolData";
-import { seo } from "@/utils/seo";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { loadToolData } from "@/lib/tool/loadToolData";
 import { pickRandomItem } from "@/utils/random";
+import { seo } from "@/utils/seo";
 
 const foodTypes = [
 	{ value: "savory", label: "อาหารคาว", emoji: "🍛" },
@@ -29,7 +29,12 @@ const foodTypes = [
 ];
 
 const minAmount = 1;
-const maxAmount = 10;
+const maxAmount = 12;
+
+interface Food {
+	name: string;
+	calories: number;
+}
 
 export const Route = createFileRoute("/tools/random/food")({
 	component: RouteComponent,
@@ -57,12 +62,40 @@ function RouteComponent() {
 			setFoods(
 				Array.from({ length: value.amount }).map(() => {
 					const randomType = pickRandomItem(value.types);
-					if (randomType === "savory") return pickRandomItem(SAVORIES);
-					return pickRandomItem(SAVORIES);
+					if (randomType === "savory" && savories) {
+						return pickRandomItem(savories);
+					}
+					if (randomType === "dessert" && desserts) {
+						return pickRandomItem(desserts);
+					}
+					if (randomType === "snack" && snacks) {
+						return pickRandomItem(snacks);
+					}
+					return pickRandomItem(drinks as Food[]);
 				}),
 			);
 		},
 	});
+	const { data: savories } = useQuery({
+		queryKey: ["savories"],
+		queryFn: () => fetch("/savories.json").then<Food[]>((r) => r.json()),
+	});
+	const { data: desserts, refetch: refetchDesserts } = useQuery({
+		queryKey: ["desserts"],
+		enabled: false,
+		queryFn: () => fetch("/desserts.json").then<Food[]>((r) => r.json()),
+	});
+	const { data: snacks, refetch: refetchSnacks } = useQuery({
+		queryKey: ["snacks"],
+		enabled: false,
+		queryFn: () => fetch("/snacks.json").then<Food[]>((r) => r.json()),
+	});
+	const { data: drinks, refetch: refetchDrinks } = useQuery({
+		queryKey: ["drinks"],
+		enabled: false,
+		queryFn: () => fetch("/drinks.json").then<Food[]>((r) => r.json()),
+	});
+	const [isSubmitted, setIsSubmitted] = useState(false);
 
 	return (
 		<ToolLayout
@@ -85,11 +118,12 @@ function RouteComponent() {
 					title: "วิธีการใช้งาน",
 					content: (
 						<ol className="list-decimal list-inside space-y-2">
-							<li>ระบุช่วงตัวเลขที่ต้องการสุ่ม (ต่ำสุด - สูงสุด)</li>
-							<li>คลิกปุ่ม "สุ่ม" เพื่อสร้างตัวเลขแบบสุ่ม</li>
-							<li>ดูผลลัพธ์ที่แสดงขึ้น</li>
-							<li>คลิกปุ่มไอคอน "คัดลอก" เพื่อคัดลอกตัวเลข</li>
-							<li>ต้องการสุ่มใหม่? กดปุ่ม "สุ่ม" ได้อีกครั้งเลย!</li>
+							<li>
+								เลือกประเภทอาหารที่ต้องการสุ่ม (อาหารคาว, ของหวาน, ขนมขบเคี้ยว, เครื่องดื่ม)
+							</li>
+							<li>คลิกปุ่ม "สุ่มอาหาร" เพื่อสุ่มอาหารจากประเภทที่เลือก</li>
+							<li>ดูผลลัพธ์อาหารที่สุ่มได้</li>
+							<li>ต้องการสุ่มอาหารใหม่? กดปุ่ม "สุ่มอาหาร" ได้อีกครั้งเลย!</li>
 						</ol>
 					),
 				},
@@ -100,48 +134,77 @@ function RouteComponent() {
 					onSubmit={(e) => {
 						e.preventDefault();
 						form.handleSubmit();
+						setIsSubmitted(true);
 					}}
 					className="space-y-8"
 				>
 					<div>
 						<h2 className="mb-2">เลือกประเภทอาหาร</h2>
 						<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-							<form.Field name="types">
-								{(field) =>
-									foodTypes.map((type) => (
-										<Card
-											key={type.value}
-											className="shadow-[0_-0.125rem_0_inset] relative has-data-[state=checked]:border-primary transition-colors hover:border-primary [--tw-shadow-color:oklch(from_var(--border)_l_c_h_/_0.5)] hover:shadow-[0.25rem_0.25rem_0]"
-										>
-											<CardContent className="space-y-4">
-												<div className="flex justify-between gap-2">
-													<Checkbox
-														id={type.value}
-														value={type.value}
-														className="order-1 after:absolute after:inset-0"
-														defaultChecked={field.state.value.includes(
-															type.value,
-														)}
-														onCheckedChange={(checked) =>
-															checked
-																? field.handleChange([
+							<form.Field
+								name="types"
+								validators={{
+									onChange: ({ value }) =>
+										value.length < 1 ? "กรุณาเลือกอย่างน้อยหนึ่งประเภท" : undefined,
+								}}
+							>
+								{(field) => (
+									<>
+										{foodTypes.map((type) => (
+											<Card
+												key={type.value}
+												className="shadow-[0_-0.125rem_0_inset] relative has-data-[state=checked]:border-primary transition-colors hover:border-primary [--tw-shadow-color:oklch(from_var(--border)_l_c_h_/_0.5)] hover:shadow-[0.25rem_0.25rem_0]"
+											>
+												<CardContent className="space-y-4">
+													<div className="flex justify-between gap-2">
+														<Checkbox
+															id={type.value}
+															value={type.value}
+															className="order-1 after:absolute after:inset-0"
+															defaultChecked={field.state.value.includes(
+																type.value,
+															)}
+															onCheckedChange={(checked) => {
+																if (checked) {
+																	if (type.value === "dessert" && !desserts) {
+																		refetchDesserts();
+																	} else if (
+																		type.value === "snack" &&
+																		!snacks
+																	) {
+																		refetchSnacks();
+																	} else if (
+																		type.value === "drink" &&
+																		!drinks
+																	) {
+																		refetchDrinks();
+																	}
+																	field.handleChange([
 																		...field.state.value,
 																		type.value,
-																	])
-																: field.handleChange(
+																	]);
+																} else {
+																	field.handleChange(
 																		field.state.value.filter(
 																			(value) => value !== type.value,
 																		),
-																	)
-														}
-													/>
-													{type.emoji}
-												</div>
-												<Label htmlFor={type.value}>{type.label}</Label>
-											</CardContent>
-										</Card>
-									))
-								}
+																	);
+																}
+															}}
+														/>
+														{type.emoji}
+													</div>
+													<Label htmlFor={type.value}>{type.label}</Label>
+												</CardContent>
+											</Card>
+										))}
+										{!field.state.meta.isValid && isSubmitted && (
+											<em className="col-span-full text-sm text-destructive">
+												{field.state.meta.errors.join(", ")}
+											</em>
+										)}
+									</>
+								)}
 							</form.Field>
 							<form.Field name="amount">
 								{(field) => (
@@ -185,7 +248,7 @@ function RouteComponent() {
 					<Button>สุ่มอาหาร</Button>
 				</form>
 			</section>
-			<section className="grid grid-cols-4 gap-4">
+			<section className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
 				<AnimatePresence mode="popLayout">
 					{foods.map((food, i) => (
 						<motion.div

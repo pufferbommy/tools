@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useRef, useState } from "react";
 
-import ToolLayout from "@/components/tool-layout";
+import ToolLayout from "@/components/tools/tool-layout";
 import { seo } from "@/utils/seo";
 import { Clipboard, ClipboardCheck } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -28,8 +28,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { loadToolData } from "@/lib/tool/loadToolData";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { getRandomInteger } from "@/utils/random";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const Route = createFileRoute("/tools/random/number")({
 	component: RouteComponent,
