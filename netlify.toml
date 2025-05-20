@@ -1,5 +1,6 @@
 [[redirects]]
   from = "/*"
-  to = "https://www.ruammittools.com/:splat"
+  to = "https://ruammittools.com/:splat"
   status = 301
   force = true
+  conditions = { Host = ["ruammit-tools.netlify.app"] }
