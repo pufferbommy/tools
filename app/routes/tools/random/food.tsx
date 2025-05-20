@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 
-import { type Food, FOODS } from "@/constants/foods";
+import { type Food, SAVORIES } from "@/constants/foods";
 import ToolLayout from "@/components/tool-layout";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,8 +57,8 @@ function RouteComponent() {
 			setFoods(
 				Array.from({ length: value.amount }).map(() => {
 					const randomType = pickRandomItem(value.types);
-					if (randomType === "savory") return pickRandomItem(FOODS);
-					return pickRandomItem(FOODS);
+					if (randomType === "savory") return pickRandomItem(SAVORIES);
+					return pickRandomItem(SAVORIES);
 				}),
 			);
 		},

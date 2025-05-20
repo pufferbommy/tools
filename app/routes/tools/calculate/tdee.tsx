@@ -29,7 +29,7 @@ import { GENDERS } from "@/constants/genders";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export const Route = createFileRoute("/tools/calculators/tdee")({
+export const Route = createFileRoute("/tools/calculate/tdee")({
 	component: RouteComponent,
 	loader: ({ location }) => loadToolData(location.pathname),
 	head: ({ loaderData }) => ({

@@ -3,7 +3,7 @@ export interface Food {
 	calories: number;
 }
 
-export const FOODS: Food[] = [
+export const SAVORIES: Food[] = [
 	{
 		name: "ข้าวราดผัดกะเพราไก่",
 		calories: 570,

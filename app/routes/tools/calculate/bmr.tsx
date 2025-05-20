@@ -5,7 +5,7 @@ import ToolLayout from "@/components/tool-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { seo } from "@/utils/seo";
 
-export const Route = createFileRoute("/tools/calculators/bmr")({
+export const Route = createFileRoute("/tools/calculate/bmr")({
 	component: RouteComponent,
 	loader: ({ location }) => loadToolData(location.pathname),
 	head: ({ loaderData }) => ({

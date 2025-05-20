@@ -67,7 +67,7 @@ export const CATEGORY_MAP: Record<string, Category> = {
 			},
 		],
 	},
-	"/tools/calculators": {
+	"/tools/calculate": {
 		title: "เครื่องมือคำนวณ",
 		description:
 			"รวมเครื่องมือคำนวณพื้นฐานที่จำเป็นในชีวิตประจำวัน เช่น BMI, BMR, อายุ และพลังงานที่ใช้ในแต่ละวัน",
@@ -76,7 +76,7 @@ export const CATEGORY_MAP: Record<string, Category> = {
 			{
 				shortTitle: "คำนวณ BMI",
 				title: "เครื่องคำนวณดัชนีมวลกาย (BMI)",
-				url: "/tools/calculators/bmi",
+				url: "/tools/calculate/bmi",
 				description:
 					"คำนวณค่า BMI เพื่อตรวจสอบว่าคุณอยู่ในเกณฑ์น้ำหนักที่เหมาะสมหรือไม่ พร้อมคำแนะนำ",
 				keywords:
@@ -85,7 +85,7 @@ export const CATEGORY_MAP: Record<string, Category> = {
 			{
 				shortTitle: "คำนวณ BMR",
 				title: "เครื่องคำนวณอัตราเผาผลาญพลังงาน (BMR)",
-				url: "/tools/calculators/bmr",
+				url: "/tools/calculate/bmr",
 				description: "คำนวณพลังงานขั้นต่ำที่ร่างกายต้องการต่อวันเพื่อการมีชีวิตอยู่",
 				keywords:
 					"คำนวณ BMR, bmr คืออะไร, เผาผลาญพลังงาน, basal metabolic rate, พลังงานพื้นฐาน",
@@ -93,7 +93,7 @@ export const CATEGORY_MAP: Record<string, Category> = {
 			{
 				shortTitle: "คำนวณ TDEE",
 				title: "เครื่องคำนวณพลังงานที่ใช้ต่อวัน (TDEE)",
-				url: "/tools/calculators/tdee",
+				url: "/tools/calculate/tdee",
 				description:
 					"คำนวณพลังงานที่ใช้จริงในแต่ละวันตามกิจกรรมของคุณ เหมาะสำหรับวางแผนลดน้ำหนักหรือเพิ่มน้ำหนัก",
 				keywords:
@@ -102,7 +102,7 @@ export const CATEGORY_MAP: Record<string, Category> = {
 			{
 				shortTitle: "คำนวณอายุ",
 				title: "เครื่องคำนวณอายุ",
-				url: "/tools/calculators/age",
+				url: "/tools/calculate/age",
 				description: "คำนวณอายุของคุณอย่างแม่นยำ ทั้งปี เดือน และวัน จากวันเกิด",
 				keywords: "คำนวณอายุ, age calculator, นับอายุ, วันเกิด, คำนวณปีเกิด, อายุเท่าไร",
 			},

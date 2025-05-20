@@ -28,7 +28,7 @@ import { loadToolData } from "@/lib/tool/loadToolData";
 import { cn } from "@/lib/utils";
 import { seo } from "@/utils/seo";
 
-export const Route = createFileRoute("/tools/calculators/bmi")({
+export const Route = createFileRoute("/tools/calculate/bmi")({
 	component: RouteComponent,
 	loader: ({ location }) => loadToolData(location.pathname),
 	head: ({ loaderData }) => ({

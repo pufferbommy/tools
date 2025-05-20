@@ -37,7 +37,7 @@ type AgeResult = {
 	days: number;
 };
 
-export const Route = createFileRoute("/tools/calculators/age")({
+export const Route = createFileRoute("/tools/calculate/age")({
 	component: RouteComponent,
 	loader: ({ location }) => loadToolData(location.pathname),
 	head: ({ loaderData }) => ({
