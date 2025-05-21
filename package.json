@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "vinxi dev",
 		"build": "vinxi build",
-		"start": "vinxi start"
+		"start": "vinxi start",
+		"generate:og": "tsx ./app/scripts/generate-og.tsx"
 	},
 	"dependencies": {
 		"@fontsource-variable/noto-sans-thai": "^5.2.5",
@@ -25,6 +26,7 @@
 		"@radix-ui/react-slider": "^1.3.2",
 		"@radix-ui/react-slot": "^1.2.0",
 		"@radix-ui/react-tooltip": "^1.2.4",
+		"@resvg/resvg-js": "^2.6.2",
 		"@tailwindcss/postcss": "^4.1.5",
 		"@tanstack/react-form": "^1.11.1",
 		"@tanstack/react-query": "^5.76.1",
@@ -40,6 +42,7 @@
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
 		"react-hook-form": "^7.56.2",
+		"satori": "^0.13.1",
 		"sonner": "^2.0.3",
 		"tailwind-merge": "^3.2.0",
 		"tw-animate-css": "^1.2.9",

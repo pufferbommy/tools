@@ -25,16 +25,26 @@ import { pickRandomItem } from "@/utils/random";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
-	loader: async () => {
+	loader: async ({ location }) => {
+		const url = `${process.env.ORIGIN}${location.pathname}`;
 		const categoryKeys = Object.keys(CATEGORY_MAP);
 		const randomCategory = CATEGORY_MAP[pickRandomItem(categoryKeys)];
 		const randomTool = pickRandomItem(randomCategory.tools);
 
 		return {
+			url,
 			categories: CATEGORY_LIST,
 			randomToolHref: randomTool.url,
 		};
 	},
+	head: ({ loaderData }) => ({
+		links: [
+			{
+				rel: "canonical",
+				href: loaderData.url,
+			},
+		],
+	}),
 });
 
 function RouteComponent() {

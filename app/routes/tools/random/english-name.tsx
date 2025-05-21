@@ -70,6 +70,12 @@ export const Route = createFileRoute("/tools/random/english-name")({
 				keywords: loaderData.tool.keywords,
 			}),
 		],
+		links: [
+			{
+				rel: "canonical",
+				href: loaderData.url,
+			},
+		],
 	}),
 });
 

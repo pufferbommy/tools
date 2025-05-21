@@ -40,6 +40,12 @@ export const Route = createFileRoute("/tools/calculate/tdee")({
 				keywords: loaderData.tool.keywords,
 			}),
 		],
+		links: [
+			{
+				rel: "canonical",
+				href: loaderData.url,
+			},
+		],
 	}),
 });
 

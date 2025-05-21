@@ -16,6 +16,12 @@ export const Route = createFileRoute("/tools/calculate/bmr")({
 				keywords: loaderData.tool.keywords,
 			}),
 		],
+		links: [
+			{
+				rel: "canonical",
+				href: loaderData.url,
+			},
+		],
 	}),
 });
 

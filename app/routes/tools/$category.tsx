@@ -16,6 +16,7 @@ export const Route = createFileRoute("/tools/$category")({
 	head: ({
 		loaderData: {
 			category: { title, description, keywords },
+			url,
 		},
 	}) => ({
 		meta: [
@@ -24,6 +25,12 @@ export const Route = createFileRoute("/tools/$category")({
 				description,
 				keywords,
 			}),
+		],
+		links: [
+			{
+				rel: "canonical",
+				href: url,
+			},
 		],
 	}),
 });

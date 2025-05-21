@@ -17,6 +17,7 @@ export const seo = ({
 		{ name: "description", content: description },
 		{ name: "keywords", content: keywords },
 		{ name: "author", content: "ruammittools.com" },
+		{ name: "publisher", content: "ruammittools.com" },
 		{ name: "twitter:title", content: fullTitle },
 		{ name: "twitter:description", content: description },
 		{ name: "twitter:creator", content: "@ruammittools" },
@@ -26,9 +27,9 @@ export const seo = ({
 		{ name: "og:description", content: description },
 		...(image
 			? [
+					{ name: "og:image", content: image },
 					{ name: "twitter:image", content: image },
 					{ name: "twitter:card", content: "summary_large_image" },
-					{ name: "og:image", content: image },
 				]
 			: []),
 	];

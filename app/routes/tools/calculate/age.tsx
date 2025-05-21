@@ -48,6 +48,12 @@ export const Route = createFileRoute("/tools/calculate/age")({
 				keywords: loaderData.tool.keywords,
 			}),
 		],
+		links: [
+			{
+				rel: "canonical",
+				href: loaderData.url,
+			},
+		],
 	}),
 });
 

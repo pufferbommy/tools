@@ -65,7 +65,14 @@ export const Route = createFileRoute("/tools/random/color")({
 				title: loaderData.tool.title,
 				description: loaderData.tool.description,
 				keywords: loaderData.tool.keywords,
+				image: `${process.env.ORIGIN}/og${loaderData.tool.url}.png`,
 			}),
+		],
+		links: [
+			{
+				rel: "canonical",
+				href: loaderData.url,
+			},
 		],
 	}),
 });

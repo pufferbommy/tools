@@ -42,6 +42,12 @@ export const Route = createFileRoute("/tools/random/number")({
 				keywords: loaderData.tool.keywords,
 			}),
 		],
+		links: [
+			{
+				rel: "canonical",
+				href: loaderData.url,
+			},
+		],
 	}),
 });
 

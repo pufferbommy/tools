@@ -39,6 +39,12 @@ export const Route = createFileRoute("/tools/calculate/bmi")({
 				keywords: loaderData.tool.keywords,
 			}),
 		],
+		links: [
+			{
+				rel: "canonical",
+				href: loaderData.url,
+			},
+		],
 	}),
 });
 
