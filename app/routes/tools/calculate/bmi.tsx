@@ -37,6 +37,7 @@ export const Route = createFileRoute("/tools/calculate/bmi")({
 				title: loaderData.tool.title,
 				description: loaderData.tool.description,
 				keywords: loaderData.tool.keywords,
+				image: `${loaderData.url}.png`.replace("/tools", "/og/tools"),
 			}),
 		],
 		links: [

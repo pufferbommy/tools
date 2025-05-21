@@ -66,7 +66,21 @@ const generateImage = async ({
 };
 
 (async () => {
+	const png = await generateImage({
+		title: "รวมมิตรเครื่องมือ",
+		description:
+			"รวมมิตรเครื่องมือ คือ เว็บรวมเครื่องมือออนไลน์สารพัดประโยชน์ ใช้ง่าย รวดเร็ว ครอบคลุมทุกอย่างที่คุณต้องการ และฟรี 100%",
+	});
+	const filePath = path.join("./public/og", "/.png");
+	fs.mkdirSync(path.dirname(filePath), { recursive: true });
+	fs.writeFileSync(filePath, png);
+	console.log("✅ Generated /.png");
 	for (const [pathname, category] of CATEGORY_LIST) {
+		const png = await generateImage(category);
+		const filePath = path.join("./public/og", `${pathname}.png`);
+		fs.mkdirSync(path.dirname(filePath), { recursive: true });
+		fs.writeFileSync(filePath, png);
+		console.log(`✅ Generated ${pathname}.png`);
 		for (const tool of category.tools) {
 			const png = await generateImage(tool);
 			const filePath = path.join("./public/og", `${tool.url}.png`);

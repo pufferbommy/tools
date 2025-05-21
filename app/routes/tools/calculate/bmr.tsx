@@ -14,6 +14,7 @@ export const Route = createFileRoute("/tools/calculate/bmr")({
 				title: loaderData.tool.title,
 				description: loaderData.tool.description,
 				keywords: loaderData.tool.keywords,
+				image: `${loaderData.url}.png`.replace("/tools", "/og/tools"),
 			}),
 		],
 		links: [

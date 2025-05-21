@@ -13,23 +13,19 @@ export const Route = createFileRoute("/tools/$category")({
 		const category = CATEGORY_MAP[`/tools/${context.params.category}`];
 		return { url, pathname, category };
 	},
-	head: ({
-		loaderData: {
-			category: { title, description, keywords },
-			url,
-		},
-	}) => ({
+	head: ({ loaderData }) => ({
 		meta: [
 			...seo({
-				title,
-				description,
-				keywords,
+				title: loaderData.category.title,
+				description: loaderData.category.description,
+				keywords: loaderData.category.keywords,
+				image: `${loaderData.url}.png`.replace("/tools", "/og/tools"),
 			}),
 		],
 		links: [
 			{
 				rel: "canonical",
-				href: url,
+				href: loaderData.url,
 			},
 		],
 	}),

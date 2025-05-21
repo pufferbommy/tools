@@ -22,7 +22,10 @@ import { seo } from "@/utils/seo";
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;
 }>()({
-	loader: () => ({ isProduction: process.env.NODE_ENV === "production" }),
+	loader: () => ({
+		origin: process.env.ORIGIN,
+		isProduction: process.env.NODE_ENV === "production",
+	}),
 	head: ({ loaderData }) => ({
 		meta: [
 			{
@@ -40,6 +43,7 @@ export const Route = createRootRouteWithContext<{
 				description:
 					"รวมมิตรเครื่องมือ คือ เว็บรวมเครื่องมือออนไลน์สารพัดประโยชน์ ใช้ง่าย รวดเร็ว ครอบคลุมทุกอย่างที่คุณต้องการ และฟรี 100%",
 				keywords: "เครื่องมือออนไลน์, คำนวณ BMI, รวมเครื่องมือฟรี, เว็บฟรี",
+				image: `${loaderData.origin}/og/.png`,
 			}),
 		],
 		links: [
@@ -109,8 +113,6 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-	const { isProduction } = Route.useLoaderData();
-
 	return (
 		<html suppressHydrationWarning lang="th">
 			<head>

@@ -40,6 +40,7 @@ export const Route = createFileRoute("/tools/random/number")({
 				title: loaderData.tool.title,
 				description: loaderData.tool.description,
 				keywords: loaderData.tool.keywords,
+				image: `${loaderData.url}.png`.replace("/tools", "/og/tools"),
 			}),
 		],
 		links: [
