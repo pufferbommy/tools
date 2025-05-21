@@ -68,12 +68,14 @@ export const Route = createRootRouteWithContext<{
 			{ rel: "icon", href: "/favicon.ico" },
 		],
 		scripts: [
-			{
-				async: true,
-				src: "https://www.googletagmanager.com/gtag/js?id=G-KDBE7K328K",
-			},
-			{
-				children: `
+			...(process.env.NODE_ENV === "production"
+				? [
+						{
+							async: true,
+							src: "https://www.googletagmanager.com/gtag/js?id=G-KDBE7K328K",
+						},
+						{
+							children: `
 					window.dataLayer = window.dataLayer || [];
 					function gtag(){
 						dataLayer.push(arguments);
@@ -81,7 +83,9 @@ export const Route = createRootRouteWithContext<{
 					gtag('js', new Date());
 					gtag('config', 'G-KDBE7K328K');
 				`,
-			},
+						},
+					]
+				: []),
 		],
 	}),
 	errorComponent: (props) => {
