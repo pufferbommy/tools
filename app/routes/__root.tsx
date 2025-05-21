@@ -22,7 +22,8 @@ import { seo } from "@/utils/seo";
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;
 }>()({
-	head: () => ({
+	loader: () => ({ isProduction: process.env.NODE_ENV === "production" }),
+	head: ({ loaderData }) => ({
 		meta: [
 			{
 				charSet: "utf-8",
@@ -68,7 +69,7 @@ export const Route = createRootRouteWithContext<{
 			{ rel: "icon", href: "/favicon.ico" },
 		],
 		scripts: [
-			...(process.env.NODE_ENV === "production"
+			...(loaderData.isProduction
 				? [
 						{
 							async: true,
@@ -108,12 +109,15 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+	const { isProduction } = Route.useLoaderData();
+
 	return (
 		<html suppressHydrationWarning lang="th">
 			<head>
 				<HeadContent />
 			</head>
 			<body className="min-h-dvh flex flex-col">
+				{JSON.stringify(isProduction)}
 				<ThemeProvider
 					attribute="class"
 					enableSystem={false}
