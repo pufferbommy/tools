@@ -117,7 +117,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="min-h-dvh flex flex-col">
-				{JSON.stringify(isProduction)}
 				<ThemeProvider
 					attribute="class"
 					enableSystem={false}
