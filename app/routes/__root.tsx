@@ -16,7 +16,7 @@ import { NotFound } from "@/components/not-found";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 // @ts-ignore
-import appCss from "@/styles/app.css?url";
+import globalsCss from "@/styles/globals.css?url";
 import { seo } from "@/utils/seo";
 
 export const Route = createRootRouteWithContext<{
@@ -51,7 +51,7 @@ export const Route = createRootRouteWithContext<{
 				rel: "stylesheet",
 				href: fontsourceVariableNotoSansThaiCss,
 			},
-			{ rel: "stylesheet", href: appCss },
+			{ rel: "stylesheet", href: globalsCss },
 			{
 				rel: "apple-touch-icon",
 				sizes: "180x180",
