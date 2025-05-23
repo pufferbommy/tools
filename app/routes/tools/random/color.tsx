@@ -1,23 +1,13 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
 import { closest } from "color-2-name";
 import { converter, formatHex, formatHsl, formatRgb, random } from "culori";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
+import { useForm } from "@tanstack/react-form";
 
 import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { loadToolData } from "@/lib/tool/loadToolData";
@@ -33,15 +23,8 @@ const formatOklch = (color: string | undefined) => {
 };
 
 const INITIAL_COLOR_COUNT = 4;
-
-const FormSchema = z.object({
-	amount: z
-		.number()
-		.min(1)
-		.max(INITIAL_COLOR_COUNT ** 4),
-});
-
-type FormSchema = z.infer<typeof FormSchema>;
+const minAmount = 1;
+const maxAmount = 12;
 
 export const Route = createFileRoute("/tools/random/color")({
 	component: RouteComponent,
@@ -74,35 +57,35 @@ interface Color {
 
 function RouteComponent() {
 	const { url, category, tool } = Route.useLoaderData();
-
 	const [colors, setColors] = useState<Color[]>([]);
-
-	const form = useForm<FormSchema>({
-		resolver: zodResolver(FormSchema),
+	const form = useForm({
 		defaultValues: {
 			amount: INITIAL_COLOR_COUNT,
 		},
+		onSubmit: ({ value }) => {
+			setColors(
+				Array.from({ length: value.amount }, () => {
+					const rgb = formatRgb(random());
+					return {
+						rgb,
+						hex: formatHex(rgb),
+						hsl: formatHsl(rgb),
+						oklch: formatOklch(rgb),
+						name: closest(rgb).name,
+					} as Color;
+				}),
+			);
+		},
 	});
-
-	const onSubmit = (data: FormSchema) => {
-		setColors(
-			Array.from({ length: data.amount }, () => {
-				const rgb = formatRgb(random());
-				return {
-					rgb,
-					hex: formatHex(rgb),
-					hsl: formatHsl(rgb),
-					oklch: formatOklch(rgb),
-					name: closest(rgb).name,
-				} as Color;
-			}),
-		);
-	};
 
 	const handleCopyClick = (color: string) => {
 		navigator.clipboard.writeText(color);
 		toast.success(`คัดลอกรหัสสี ${color} แล้ว 🎉`);
 	};
+
+	useEffect(() => {
+		form.handleSubmit();
+	}, [form.handleSubmit]);
 
 	return (
 		<ToolLayout
@@ -132,46 +115,54 @@ function RouteComponent() {
 				},
 			]}
 		>
-			{JSON.stringify(Route.useLoaderData())}
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-					<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
-						<FormField
-							control={form.control}
-							name="amount"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>จำนวน</FormLabel>
-									<FormControl>
-										<div className="flex gap-2">
-											<Input
-												className="w-auto"
-												type="number"
-												min={1}
-												max={INITIAL_COLOR_COUNT ** 4}
-												{...field}
-												onChange={(e) => {
-													field.onChange(e.target.valueAsNumber);
-												}}
-											/>
-											<Slider
-												value={[field.value]}
-												min={1}
-												max={INITIAL_COLOR_COUNT ** 4}
-												onValueChange={(value) =>
-													field.onChange(Number(value[0]))
-												}
-											/>
-										</div>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
-					<Button>สุ่มสี</Button>
-				</form>
-			</Form>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					form.handleSubmit();
+				}}
+				className="space-y-4"
+			>
+				<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+					<form.Field name="amount">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<label htmlFor={field.name}>จำนวน</label>
+								<div className="flex gap-2 items-center">
+									<Input
+										className="w-10 px-0 shrink-0 text-center"
+										type="number"
+										min={minAmount}
+										max={maxAmount}
+										id={field.name}
+										name={field.name}
+										autoComplete="off"
+										value={field.state.value}
+										onChange={(e) => {
+											if (
+												e.target.valueAsNumber < minAmount ||
+												e.target.valueAsNumber > maxAmount
+											) {
+												return;
+											}
+											field.handleChange(e.target.valueAsNumber);
+										}}
+										onBlur={field.handleBlur}
+									/>
+									<Slider
+										value={[field.state.value]}
+										min={minAmount}
+										max={maxAmount}
+										onValueChange={(value) => {
+											field.handleChange(Number(value[0]));
+										}}
+									/>
+								</div>
+							</div>
+						)}
+					</form.Field>
+				</div>
+				<Button>สุ่มสี</Button>
+			</form>
 			<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
 				{colors.map((color) => (
 					<Card key={color.rgb} className="pt-0 overflow-hidden">
