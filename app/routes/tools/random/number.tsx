@@ -1,13 +1,10 @@
+import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
+import { Clipboard, ClipboardCheck } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
+import { toast } from "sonner";
 
 import ToolLayout from "@/components/tools/tool-layout";
-import { seo } from "@/utils/seo";
-import { Clipboard, ClipboardCheck } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-
 import {
 	Card,
 	CardContent,
@@ -16,20 +13,13 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { seo } from "@/utils/seo";
 
 import { Button } from "@/components/ui/button";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { getRandomInteger } from "@/utils/random";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 export const Route = createFileRoute("/tools/random/number")({
 	component: RouteComponent,
@@ -59,7 +49,7 @@ function RouteComponent() {
 	const [histories, setHistories] = useState<number[]>([]);
 	const animationFrameId = useRef<number | null>(null);
 
-	const handleSubmit = (data: FormSchema) => {
+	const handleSubmit = (data: { min: number; max: number }) => {
 		setIsRandomizing(true);
 
 		if (animationFrameId.current) {
@@ -128,78 +118,103 @@ function RouteComponent() {
 	);
 }
 
-const FormSchema = z.object({
-	min: z.number({
-		message: "กรุณากรอกตัวเลขต่ำสุด",
-	}),
-	max: z.number({
-		message: "กรุณากรอกตัวเลขสูงสุด",
-	}),
-});
+interface RandomNumber {
+	min: number | "";
+	max: number | "";
+}
 
-export type FormSchema = z.infer<typeof FormSchema>;
-
-export function FormSection({
+function FormSection({
 	onSubmit,
 }: {
-	onSubmit: (data: FormSchema) => void;
+	onSubmit: (value: RandomNumber) => void;
 }) {
-	const form = useForm<FormSchema>({
-		resolver: zodResolver(FormSchema),
+	const [isSubmitted, setIsSubmitted] = useState(false);
+	const form = useForm({
 		defaultValues: {
 			min: 0,
 			max: 100,
-		},
+		} as RandomNumber,
+		onSubmit: ({ value }) => onSubmit(value),
 	});
 
 	return (
 		<section>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)}>
-					<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start mb-4">
-						<FormField
-							control={form.control}
-							name="min"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>ตัวเลขต่ำสุด</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="max"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>ตัวเลขสูงสุด</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
-					<Button>สุ่มตัวเลข</Button>
-				</form>
-			</Form>
+			<form
+				onSubmit={(e) => {
+					setIsSubmitted(true);
+					e.preventDefault();
+					form.handleSubmit();
+				}}
+			>
+				<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start mb-4">
+					<form.Field
+						name="min"
+						validators={{
+							onChange: ({ value }) => {
+								return value === "" ? "กรุณากรอกตัวเลขต่ำสุด" : undefined;
+							},
+						}}
+					>
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>ตัวเลขต่ำสุด</Label>
+								<Input
+									type="number"
+									value={field.state.value}
+									onChange={(e) =>
+										field.handleChange(
+											!Number.isNaN(e.target.valueAsNumber)
+												? e.target.valueAsNumber
+												: "",
+										)
+									}
+								/>
+								{isSubmitted && !field.state.meta.isValid && (
+									<em className="text-sm text-destructive">
+										{field.state.meta.errors.join(", ")}
+									</em>
+								)}
+							</div>
+						)}
+					</form.Field>
+					<form.Field
+						name="max"
+						validators={{
+							onChange: ({ value }) => {
+								return value === "" ? "กรุณากรอกตัวเลขสูงสุด" : undefined;
+							},
+						}}
+					>
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>ตัวเลขสูงสุด</Label>
+								<Input
+									type="number"
+									value={field.state.value}
+									onChange={(e) =>
+										field.handleChange(
+											!Number.isNaN(e.target.valueAsNumber)
+												? e.target.valueAsNumber
+												: "",
+										)
+									}
+								/>
+								{isSubmitted && !field.state.meta.isValid && (
+									<em className="text-sm text-destructive">
+										{field.state.meta.errors.join(", ")}
+									</em>
+								)}
+							</div>
+						)}
+					</form.Field>
+				</div>
+				<Button>สุ่มตัวเลข</Button>
+			</form>
 		</section>
 	);
 }
 
-export default function RandomResultCard({
+function RandomResultCard({
 	number,
 	isRandomizing,
 	histories,

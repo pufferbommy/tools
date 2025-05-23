@@ -1,8 +1,15 @@
+import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import ToolLayout from "@/components/tools/tool-layout";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { GENDERS } from "@/constants/genders";
+import { loadToolData } from "@/lib/tool/loadToolData";
 import { seo } from "@/utils/seo";
 
 export const Route = createFileRoute("/tools/calculate/bmr")({
@@ -69,63 +76,27 @@ function RouteComponent() {
 	);
 }
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { Button } from "@/components/ui/button";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { GENDERS } from "@/constants/genders";
-import { loadToolData } from "@/lib/tool/loadToolData";
-
-const FormSchema = z.object({
-	gender: z.enum(["male", "female"]),
-	age: z.number({
-		message: "กรุณากรอกอายุ",
-	}),
-	weight: z.number({
-		message: "กรุณากรอกน้ำหนัก",
-	}),
-	height: z.number({
-		message: "กรุณากรอกส่วนสูง",
-	}),
-});
-
-type FormSchema = z.infer<typeof FormSchema>;
-
 function BmrCalculatorSection({
 	setBmr,
 }: {
 	setBmr: (value: number | null) => void;
 }) {
-	const form = useForm<FormSchema>({
-		resolver: zodResolver(FormSchema),
+	const form = useForm({
 		defaultValues: {
 			gender: "male",
 			age: "" as unknown as number,
 			weight: "" as unknown as number,
 			height: "" as unknown as number,
 		},
+		onSubmit: ({ value }) => {
+			const heightMeters = value.height / 100; // Convert cm to m
+			const bmr =
+				value.gender === "male"
+					? 10 * value.weight + 6.25 * heightMeters - 5 * value.age + 5
+					: 10 * value.weight + 6.25 * heightMeters - 5 * value.age - 161;
+			return setBmr(bmr);
+		},
 	});
-
-	const onSubmit = (data: FormSchema) => {
-		const heightMeters = data.height / 100; // Convert cm to m
-		const bmr =
-			data.gender === "male"
-				? 10 * data.weight + 6.25 * heightMeters - 5 * data.age + 5
-				: 10 * data.weight + 6.25 * heightMeters - 5 * data.age - 161;
-		return setBmr(bmr);
-	};
 
 	const handleResetClick = () => {
 		form.reset();
@@ -134,104 +105,82 @@ function BmrCalculatorSection({
 
 	return (
 		<section>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-					<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
-						<FormField
-							control={form.control}
-							name="age"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>อายุ</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="weight"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>น้ำหนัก (กิโลกรัม)</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="height"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>ส่วนสูง (เซนติเมตร)</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="gender"
-							render={({ field: { value, onChange } }) => (
-								<FormItem>
-									<FormLabel>เพศ</FormLabel>
-									<FormControl>
-										<RadioGroup
-											onValueChange={onChange}
-											defaultValue={value}
-											className="flex gap-4"
-										>
-											{GENDERS.map((gender) => (
-												<div
-													key={gender.value}
-													className="flex items-center gap-2"
-												>
-													<RadioGroupItem
-														value={gender.value}
-														id={gender.value}
-													/>
-													<Label htmlFor={gender.value}>{gender.name}</Label>
-												</div>
-											))}
-										</RadioGroup>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
-					<div className="space-x-2">
-						<Button>คำนวณ BMR</Button>
-						<Button
-							variant="outline"
-							type="button"
-							onClick={handleResetClick}
-							className="btn btn-outline"
-						>
-							รีเซ็ต
-						</Button>
-					</div>
-				</form>
-			</Form>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					form.handleSubmit();
+				}}
+				className="space-y-4"
+			>
+				<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+					<form.Field name="age">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>อายุ</Label>
+								<Input
+									type="number"
+									value={field.state.value}
+									onChange={(e) => field.handleChange(e.target.valueAsNumber)}
+								/>
+							</div>
+						)}
+					</form.Field>
+					<form.Field name="weight">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>น้ำหนัก (กิโลกรัม)</Label>
+								<Input
+									type="number"
+									value={field.state.value}
+									onChange={(e) => field.handleChange(e.target.valueAsNumber)}
+								/>
+							</div>
+						)}
+					</form.Field>
+					<form.Field name="height">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>ส่วนสูง (เซนติเมตร)</Label>
+								<Input
+									type="number"
+									value={field.state.value}
+									onChange={(e) => field.handleChange(e.target.valueAsNumber)}
+								/>
+							</div>
+						)}
+					</form.Field>
+					<form.Field name="gender">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>เพศ</Label>
+								<RadioGroup
+									onValueChange={field.handleChange}
+									defaultValue={field.state.value}
+									className="flex gap-4"
+								>
+									{GENDERS.map(({ value, name }) => (
+										<div key={value} className="flex items-center gap-2">
+											<RadioGroupItem value={value} id={value} />
+											<Label htmlFor={value}>{name}</Label>
+										</div>
+									))}
+								</RadioGroup>
+							</div>
+						)}
+					</form.Field>
+				</div>
+				<div className="space-x-2">
+					<Button>คำนวณ BMR</Button>
+					<Button
+						variant="outline"
+						type="button"
+						onClick={handleResetClick}
+						className="btn btn-outline"
+					>
+						รีเซ็ต
+					</Button>
+				</div>
+			</form>
 		</section>
 	);
 }

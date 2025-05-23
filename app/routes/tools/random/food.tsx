@@ -2,7 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";

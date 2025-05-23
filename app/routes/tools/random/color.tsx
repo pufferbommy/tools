@@ -1,9 +1,9 @@
+import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { closest } from "color-2-name";
 import { converter, formatHex, formatHsl, formatRgb, random } from "culori";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useForm } from "@tanstack/react-form";
 
 import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
@@ -82,10 +82,6 @@ function RouteComponent() {
 		navigator.clipboard.writeText(color);
 		toast.success(`คัดลอกรหัสสี ${color} แล้ว 🎉`);
 	};
-
-	useEffect(() => {
-		form.handleSubmit();
-	}, [form.handleSubmit]);
 
 	return (
 		<ToolLayout

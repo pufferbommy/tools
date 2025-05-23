@@ -1,21 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
 	Table,
 	TableBody,
@@ -27,6 +17,7 @@ import {
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { cn } from "@/lib/utils";
 import { seo } from "@/utils/seo";
+import { useForm } from "@tanstack/react-form";
 
 export const Route = createFileRoute("/tools/calculate/bmi")({
 	component: RouteComponent,
@@ -91,35 +82,22 @@ function RouteComponent() {
 	);
 }
 
-const FormSchema = z.object({
-	weight: z.number({
-		message: "กรุณากรอกน้ำหนัก",
-	}),
-	height: z.number({
-		message: "กรุณากรอกส่วนสูง",
-	}),
-});
-
-type FormSchema = z.infer<typeof FormSchema>;
-
 export function BmiCalculatorSection({
 	setBmi,
 }: {
 	setBmi: (value: number | null) => void;
 }) {
-	const form = useForm<FormSchema>({
-		resolver: zodResolver(FormSchema),
+	const form = useForm({
 		defaultValues: {
-			weight: "" as unknown as number,
-			height: "" as unknown as number,
+			weight: "",
+			height: "",
+		},
+		onSubmit: ({ value }) => {
+			const heightMeters = Number.parseInt(value.height) / 100;
+			const bmiValue = Number.parseInt(value.weight) / heightMeters ** 2;
+			setBmi(bmiValue);
 		},
 	});
-
-	const onSubmit = ({ weight, height }: FormSchema) => {
-		const heightMeters = height / 100; // Convert height from cm to meters
-		const bmiValue = weight / heightMeters ** 2;
-		setBmi(bmiValue);
-	};
 
 	const handleResetClick = () => {
 		form.reset();
@@ -128,52 +106,46 @@ export function BmiCalculatorSection({
 
 	return (
 		<section>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-					<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
-						<FormField
-							control={form.control}
-							name="weight"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>น้ำหนัก (กิโลกรัม)</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="height"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>ส่วนสูง (เซนติเมตร)</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
-					<div className="space-x-2">
-						<Button>คำนวณ BMI</Button>
-						<Button type="button" variant="outline" onClick={handleResetClick}>
-							รีเซ็ต
-						</Button>
-					</div>
-				</form>
-			</Form>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					form.handleSubmit();
+				}}
+				className="space-y-4"
+			>
+				<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+					<form.Field name="weight">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>น้ำหนัก (กิโลกรัม)</Label>
+								<Input
+									type="number"
+									value={field.state.value}
+									onChange={(e) => field.handleChange(e.target.value)}
+								/>
+							</div>
+						)}
+					</form.Field>
+					<form.Field name="height">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>ส่วนสูง (เซนติเมตร)</Label>
+								<Input
+									type="number"
+									value={field.state.value}
+									onChange={(e) => field.handleChange(e.target.value)}
+								/>
+							</div>
+						)}
+					</form.Field>
+				</div>
+				<div className="space-x-2">
+					<Button>คำนวณ BMI</Button>
+					<Button type="button" variant="outline" onClick={handleResetClick}>
+						รีเซ็ต
+					</Button>
+				</div>
+			</form>
 		</section>
 	);
 }

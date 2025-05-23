@@ -3,8 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import ToolCard from "@/components/tools/tool-card";
 import ToolLayout from "@/components/tools/tool-layout";
 import { TOOL_CATEGORY_MAP } from "@/constants/tool-categories";
-import { seo } from "@/utils/seo";
 import { getOrigin } from "@/utils/get-origin";
+import { seo } from "@/utils/seo";
 
 export const Route = createFileRoute("/tools/$category")({
 	component: RouteComponent,

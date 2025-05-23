@@ -1,6 +1,6 @@
 import { TOOL_CATEGORY_MAP } from "@/constants/tool-categories";
-import { redirect } from "@tanstack/react-router";
 import { getOrigin } from "@/utils/get-origin";
+import { redirect } from "@tanstack/react-router";
 
 export const loadToolData = (pathname: string) => {
 	const origin = getOrigin();

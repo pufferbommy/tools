@@ -4,20 +4,10 @@ import { useState } from "react";
 import ToolLayout from "@/components/tools/tool-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { seo } from "@/utils/seo";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useForm } from "@tanstack/react-form";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -41,6 +31,9 @@ interface Result {
 		en: string;
 	} | null;
 }
+
+const minAmount = 1;
+const maxAmount = 12;
 
 export const Route = createFileRoute("/tools/random/thai-name")({
 	component: RouteComponent,
@@ -132,230 +125,208 @@ const LANGUAGES = [
 	},
 ];
 
-const FormSchema = z.object({
-	gender: z.enum(["both", ...GENDERS.map((gender) => gender.value)]),
-	types: z.array(z.string()).min(1, {
-		message: "กรุณาเลือกประเภทอย่างน้อย 1 ประเภท",
-	}),
-	languages: z.array(z.string()).min(1, {
-		message: "กรุณาเลือกภาษาอย่างน้อย 1 ภาษา",
-	}),
-	amount: z.coerce.number({
-		message: "กรุณากรอกจำนวน",
-	}),
-});
-
-type FormSchema = z.infer<typeof FormSchema>;
-
-export function FormSection({
+function FormSection({
 	setResults,
 }: {
 	setResults: (value: Result[]) => void;
 }) {
-	const form = useForm<FormSchema>({
-		resolver: zodResolver(FormSchema),
+	const form = useForm({
 		defaultValues: {
 			gender: "both",
 			types: ["name", "last-name", "nickname"],
 			languages: ["th", "en"],
 			amount: 5,
 		},
-	});
+		onSubmit: ({ value }) => {
+			const items = Array.from({ length: value.amount }, () => {
+				const gender =
+					value.gender === "both"
+						? pickRandomItem(GENDERS).value
+						: value.gender;
 
-	const onSubmit = (data: FormSchema) => {
-		const items = Array.from({ length: data.amount }, () => {
-			const gender =
-				data.gender === "both" ? pickRandomItem(GENDERS).value : data.gender;
+				const randomLastName = pickRandomItem(THAI_NAMES.lastNames);
+				const lastName = value.types.includes("last-name")
+					? {
+							th: value.languages.includes("th") ? randomLastName.th : "",
+							en: value.languages.includes("en") ? randomLastName.en : "",
+						}
+					: null;
 
-			const randomLastName = pickRandomItem(THAI_NAMES.lastNames);
-			const lastName = data.types.includes("last-name")
-				? {
-						th: data.languages.includes("th") ? randomLastName.th : "",
-						en: data.languages.includes("en") ? randomLastName.en : "",
-					}
-				: null;
+				if (gender === "male") {
+					const maleName = pickRandomItem(THAI_NAMES.maleNames);
+					const maleNickname = pickRandomItem(THAI_NAMES.maleNicknames);
 
-			if (gender === "male") {
-				const maleName = pickRandomItem(THAI_NAMES.maleNames);
-				const maleNickname = pickRandomItem(THAI_NAMES.maleNicknames);
+					return {
+						name: value.types.includes("name")
+							? {
+									th: value.languages.includes("th") ? maleName.th : "",
+									en: value.languages.includes("en") ? maleName.en : "",
+								}
+							: null,
+						lastName,
+						nickname: value.types.includes("nickname")
+							? {
+									th: value.languages.includes("th") ? maleNickname.th : "",
+									en: value.languages.includes("en") ? maleNickname.en : "",
+								}
+							: null,
+					};
+				}
+
+				const femaleName = pickRandomItem(THAI_NAMES.femaleNames);
+				const femaleNickname = pickRandomItem(THAI_NAMES.femaleNicknames);
 
 				return {
-					name: data.types.includes("name")
+					name: value.types.includes("name")
 						? {
-								th: data.languages.includes("th") ? maleName.th : "",
-								en: data.languages.includes("en") ? maleName.en : "",
+								th: value.languages.includes("th") ? femaleName.th : "",
+								en: value.languages.includes("en") ? femaleName.en : "",
 							}
 						: null,
 					lastName,
-					nickname: data.types.includes("nickname")
+					nickname: value.types.includes("nickname")
 						? {
-								th: data.languages.includes("th") ? maleNickname.th : "",
-								en: data.languages.includes("en") ? maleNickname.en : "",
+								th: value.languages.includes("th") ? femaleNickname.th : "",
+								en: value.languages.includes("en") ? femaleNickname.en : "",
 							}
 						: null,
 				};
-			}
-
-			const femaleName = pickRandomItem(THAI_NAMES.femaleNames);
-			const femaleNickname = pickRandomItem(THAI_NAMES.femaleNicknames);
-
-			return {
-				name: data.types.includes("name")
-					? {
-							th: data.languages.includes("th") ? femaleName.th : "",
-							en: data.languages.includes("en") ? femaleName.en : "",
-						}
-					: null,
-				lastName,
-				nickname: data.types.includes("nickname")
-					? {
-							th: data.languages.includes("th") ? femaleNickname.th : "",
-							en: data.languages.includes("en") ? femaleNickname.en : "",
-						}
-					: null,
-			};
-		});
-		setResults(items);
-	};
+			});
+			setResults(items);
+		},
+	});
 
 	return (
 		<section>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-					<div className="grid sm:grid-cols-2 lg:grid-cols-4 items-start gap-4">
-						<FormField
-							control={form.control}
-							name="gender"
-							render={({ field: { value, onChange } }) => (
-								<FormItem>
-									<FormLabel>เพศ</FormLabel>
-									<FormControl>
-										<RadioGroup
-											onValueChange={onChange}
-											defaultValue={value}
-											className="flex gap-4"
-										>
-											<div className="flex items-center gap-2">
-												<RadioGroupItem value="both" id="both" />
-												<Label htmlFor="both">ทั้งคู่</Label>
-											</div>
-											{GENDERS.map((gender) => (
-												<div
-													key={gender.value}
-													className="flex items-center gap-2"
-												>
-													<RadioGroupItem
-														value={gender.value}
-														id={gender.value}
-													/>
-													<Label htmlFor={gender.value}>{gender.name}</Label>
-												</div>
-											))}
-										</RadioGroup>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="types"
-							render={({ field: { value, onChange } }) => (
-								<FormItem>
-									<FormLabel>ประเภท</FormLabel>
-									<FormControl>
-										<div className="flex gap-4">
-											{TYPES.map((type) => (
-												<div key={type.id} className="flex gap-2 items-center">
-													<Checkbox
-														id={type.id}
-														checked={value.includes(type.id)}
-														onCheckedChange={(checked) => {
-															if (checked) {
-																onChange([...value, type.id]);
-															} else {
-																onChange(value.filter((v) => v !== type.id));
-															}
-														}}
-													/>
-													<Label htmlFor={type.id}>{type.name}</Label>
-												</div>
-											))}
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					form.handleSubmit();
+				}}
+				className="space-y-4"
+			>
+				<div className="grid sm:grid-cols-2 lg:grid-cols-4 items-start gap-4">
+					<form.Field name="gender">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>เพศ</Label>
+								<RadioGroup
+									onValueChange={field.handleChange}
+									value={field.state.value}
+									className="flex gap-4"
+								>
+									<div className="flex items-center gap-2">
+										<RadioGroupItem value="both" id="both" />
+										<Label htmlFor="both">ทั้งคู่</Label>
+									</div>
+									{GENDERS.map((gender) => (
+										<div key={gender.value} className="flex items-center gap-2">
+											<RadioGroupItem value={gender.value} id={gender.value} />
+											<Label htmlFor={gender.value}>{gender.name}</Label>
 										</div>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="languages"
-							render={({ field: { value, onChange } }) => (
-								<FormItem>
-									<FormLabel>ภาษา</FormLabel>
-									<FormControl>
-										<div className="flex gap-4">
-											{LANGUAGES.map((language) => (
-												<div
-													key={language.id}
-													className="flex gap-2 items-center"
-												>
-													<Checkbox
-														id={language.id}
-														checked={value.includes(language.id)}
-														onCheckedChange={(checked) => {
-															if (checked) {
-																onChange([...value, language.id]);
-															} else {
-																onChange(
-																	value.filter((v) => v !== language.id),
-																);
-															}
-														}}
-													/>
-													<Label htmlFor={language.id}>{language.name}</Label>
-												</div>
-											))}
-										</div>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="amount"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>จำนวน</FormLabel>
-									<FormControl>
-										<div className="flex gap-2">
-											<Input
-												className="w-auto"
-												type="number"
-												min={1}
-												max={25}
-												{...field}
-												onChange={(e) => field.onChange(e.target.valueAsNumber)}
+									))}
+								</RadioGroup>
+							</div>
+						)}
+					</form.Field>
+
+					<form.Field name="types">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>ประเภท</Label>
+								<div className="flex gap-4 flex-wrap">
+									{TYPES.map((type) => (
+										<div key={type.id} className="flex gap-2 items-center">
+											<Checkbox
+												id={type.id}
+												checked={field.state.value.includes(type.id)}
+												onCheckedChange={(checked) => {
+													if (checked) {
+														field.handleChange([...field.state.value, type.id]);
+													} else {
+														field.handleChange(
+															field.state.value.filter((v) => v !== type.id),
+														);
+													}
+												}}
 											/>
-											<Slider
-												value={[field.value]}
-												onValueChange={(value) =>
-													field.onChange(Number(value[0]))
-												}
-												min={1}
-												max={25}
-											/>
+											<Label htmlFor={type.id}>{type.name}</Label>
 										</div>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
-					<Button>สุ่มชื่อไทย</Button>
-				</form>
-			</Form>
+									))}
+								</div>
+							</div>
+						)}
+					</form.Field>
+
+					<form.Field name="languages">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>ภาษา</Label>
+								<div className="flex gap-4">
+									{LANGUAGES.map((language) => (
+										<div key={language.id} className="flex gap-2 items-center">
+											<Checkbox
+												id={language.id}
+												checked={field.state.value.includes(language.id)}
+												onCheckedChange={(checked) => {
+													if (checked) {
+														field.handleChange([
+															...field.state.value,
+															language.id,
+														]);
+													} else {
+														field.handleChange(
+															field.state.value.filter(
+																(v) => v !== language.id,
+															),
+														);
+													}
+												}}
+											/>
+											<Label htmlFor={language.id}>{language.name}</Label>
+										</div>
+									))}
+								</div>
+							</div>
+						)}
+					</form.Field>
+					<form.Field name="amount">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<label htmlFor={field.name}>จำนวน</label>
+								<div className="flex gap-2 items-center">
+									<Input
+										className="w-10 px-0 shrink-0 text-center"
+										type="number"
+										min={minAmount}
+										max={maxAmount}
+										id={field.name}
+										name={field.name}
+										autoComplete="off"
+										value={field.state.value}
+										onChange={(e) => {
+											const newValue = e.target.valueAsNumber;
+											if (newValue >= minAmount && newValue <= maxAmount) {
+												field.handleChange(newValue);
+											}
+										}}
+										onBlur={field.handleBlur}
+									/>
+									<Slider
+										value={[field.state.value]}
+										min={minAmount}
+										max={maxAmount}
+										onValueChange={(value) => {
+											field.handleChange(Number(value[0]));
+										}}
+									/>
+								</div>
+							</div>
+						)}
+					</form.Field>
+				</div>
+				<Button>สุ่มชื่อไทย</Button>
+			</form>
 		</section>
 	);
 }

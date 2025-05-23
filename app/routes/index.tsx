@@ -19,9 +19,9 @@ import {
 	TOOL_CATEGORY_MAP,
 } from "@/constants/tool-categories";
 import { cn } from "@/lib/utils";
-import { pickRandomItem } from "@/utils/random";
 import type { Category, Tool } from "@/types";
 import { getOrigin } from "@/utils/get-origin";
+import { pickRandomItem } from "@/utils/random";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,

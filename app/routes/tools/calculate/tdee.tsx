@@ -1,19 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -27,7 +18,6 @@ import {
 import { GENDERS } from "@/constants/genders";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { seo } from "@/utils/seo";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 export const Route = createFileRoute("/tools/calculate/tdee")({
 	component: RouteComponent,
@@ -111,49 +101,29 @@ const ACTIVITY_LEVELS = [
 	{ value: 1.9, label: "🔥 ออกกำลังกายหนักมาก (เช้า–เย็น หรืองานใช้แรงเยอะ)" },
 ];
 
-const FormSchema = z.object({
-	gender: z.enum(["male", "female"]),
-	age: z.number({
-		message: "กรุณากรอกอายุ",
-	}),
-	weight: z.number({
-		message: "กรุณากรอกน้ำหนัก",
-	}),
-	height: z.number({
-		message: "กรุณากรอกส่วนสูง",
-	}),
-	activity: z.number({
-		message: "กรุณาเลือกระดับกิจกรรม",
-	}),
-});
-
-type FormSchema = z.infer<typeof FormSchema>;
-
 export function TdeeCalculatorSection({
 	setTdee,
 }: {
 	setTdee: (value: number | null) => void;
 }) {
-	const form = useForm<FormSchema>({
-		resolver: zodResolver(FormSchema),
+	const form = useForm({
 		defaultValues: {
 			gender: "male",
 			age: "" as unknown as number,
 			weight: "" as unknown as number,
 			height: "" as unknown as number,
-			activity: 1.2 as number,
+			activity: 1.2,
+		},
+		onSubmit: ({ value }) => {
+			const heightMeters = value.height / 100; // Convert cm to m
+			const bmr =
+				value.gender === "male"
+					? 10 * value.weight + 6.25 * heightMeters - 5 * value.age + 5
+					: 10 * value.weight + 6.25 * heightMeters - 5 * value.age - 161;
+			const tdee = bmr * value.activity;
+			return setTdee(tdee);
 		},
 	});
-
-	const onSubmit = (data: FormSchema) => {
-		const heightMeters = data.height / 100; // Convert cm to m
-		const bmr =
-			data.gender === "male"
-				? 10 * data.weight + 6.25 * heightMeters - 5 * data.age + 5
-				: 10 * data.weight + 6.25 * heightMeters - 5 * data.age - 161;
-		const tdee = bmr * data.activity;
-		return setTdee(tdee);
-	};
 
 	const handleResetClick = () => {
 		form.reset();
@@ -162,129 +132,104 @@ export function TdeeCalculatorSection({
 
 	return (
 		<section>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-					<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
-						<FormField
-							control={form.control}
-							name="gender"
-							render={({ field: { value, onChange } }) => (
-								<FormItem>
-									<FormLabel>เพศ</FormLabel>
-									<FormControl>
-										<RadioGroup
-											onValueChange={onChange}
-											defaultValue={value}
-											className="flex gap-4"
-										>
-											{GENDERS.map((gender) => (
-												<div
-													key={gender.value}
-													className="flex items-center gap-2"
-												>
-													<RadioGroupItem
-														value={gender.value}
-														id={gender.value}
-													/>
-													<Label htmlFor={gender.value}>{gender.name}</Label>
-												</div>
-											))}
-										</RadioGroup>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="age"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>อายุ</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="weight"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>น้ำหนัก (กิโลกรัม)</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="height"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>ส่วนสูง (เซนติเมตร)</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="activity"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>ระดับกิจกรรม</FormLabel>
-									<FormControl>
-										<Select
-											defaultValue={field.value.toString()}
-											onValueChange={(value) => field.onChange(Number(value))}
-										>
-											<SelectTrigger className="w-full">
-												<SelectValue placeholder="เลือกระดับกิจกรรม" />
-											</SelectTrigger>
-											<SelectContent>
-												{ACTIVITY_LEVELS.map((level) => (
-													<SelectItem
-														key={level.value}
-														value={level.value.toString()}
-													>
-														{level.label}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
-					<div className="space-x-2">
-						<Button>คำนวณ TDEE</Button>
-						<Button type="button" onClick={handleResetClick} variant="outline">
-							รีเซ็ต
-						</Button>
-					</div>
-				</form>
-			</Form>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					form.handleSubmit();
+				}}
+				className="space-y-4"
+			>
+				<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+					<form.Field name="age">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>อายุ</Label>
+								<Input
+									type="number"
+									value={field.state.value}
+									onChange={(e) => field.handleChange(e.target.valueAsNumber)}
+								/>
+							</div>
+						)}
+					</form.Field>
+					<form.Field name="weight">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>น้ำหนัก (กิโลกรัม)</Label>
+								<Input
+									type="number"
+									value={field.state.value}
+									onChange={(e) => field.handleChange(e.target.valueAsNumber)}
+								/>
+							</div>
+						)}
+					</form.Field>
+					<form.Field name="height">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>ส่วนสูง (เซนติเมตร)</Label>
+								<Input
+									type="number"
+									value={field.state.value}
+									onChange={(e) => field.handleChange(e.target.valueAsNumber)}
+								/>
+							</div>
+						)}
+					</form.Field>
+					<form.Field name="gender">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>เพศ</Label>
+								<RadioGroup
+									onValueChange={field.handleChange}
+									defaultValue={field.state.value}
+									className="flex gap-4"
+								>
+									{GENDERS.map(({ value, name }) => (
+										<div key={value} className="flex items-center gap-2">
+											<RadioGroupItem value={value} id={value} />
+											<Label htmlFor={value}>{name}</Label>
+										</div>
+									))}
+								</RadioGroup>
+							</div>
+						)}
+					</form.Field>
+					<form.Field name="activity">
+						{(field) => (
+							<div className="flex flex-col gap-2">
+								<Label>ระดับกิจกรรม</Label>
+								<Select
+									defaultValue={field.state.value.toString()}
+									onValueChange={(value) =>
+										field.handleChange(Number.parseInt(value))
+									}
+								>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="เลือกระดับกิจกรรม" />
+									</SelectTrigger>
+									<SelectContent>
+										{ACTIVITY_LEVELS.map((level) => (
+											<SelectItem
+												key={level.value}
+												value={level.value.toString()}
+											>
+												{level.label}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							</div>
+						)}
+					</form.Field>
+				</div>
+				<div className="space-x-2">
+					<Button>คำนวณ TDEE</Button>
+					<Button type="button" onClick={handleResetClick} variant="outline">
+						รีเซ็ต
+					</Button>
+				</div>
+			</form>
 		</section>
 	);
 }

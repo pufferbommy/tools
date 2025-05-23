@@ -1,20 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, useStore } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
@@ -24,12 +15,6 @@ import {
 } from "@/components/ui/select";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { seo } from "@/utils/seo";
-
-const FormSchema = z.object({
-	dateOfBirth: z.date(),
-});
-
-type FormSchema = z.infer<typeof FormSchema>;
 
 type AgeResult = {
 	years: number;
@@ -60,19 +45,25 @@ export const Route = createFileRoute("/tools/calculate/age")({
 
 function RouteComponent() {
 	const { url, category, tool } = Route.useLoaderData();
-
-	const form = useForm<FormSchema>({
-		resolver: zodResolver(FormSchema),
-		defaultValues: {
-			dateOfBirth: new Date(new Date().getFullYear() - 20, 0, 1),
-		},
-	});
-
 	const [age, setAge] = useState<AgeResult | null>(null);
 	const [nextBirthday, setNextBirthday] = useState<AgeResult | null>(null);
 	const [formattedDob, setFormattedDob] = useState("");
+	const form = useForm({
+		defaultValues: {
+			dateOfBirth: new Date(new Date().getFullYear() - 20, 0, 1),
+		},
+		onSubmit: ({ value }) => {
+			setFormattedDob(
+				value.dateOfBirth.toLocaleDateString("th-TH", {
+					dateStyle: "full",
+				}),
+			);
+			setAge(calculateAge(value.dateOfBirth));
+			setNextBirthday(calculateNextBirthday(value.dateOfBirth));
+		},
+	});
 
-	const dateOfBirth = form.watch("dateOfBirth");
+	const dateOfBirth = useStore(form.store, (state) => state.values.dateOfBirth);
 
 	const handleResetClick = () => {
 		form.reset();
@@ -136,16 +127,6 @@ function RouteComponent() {
 		}
 
 		return { years, months, days };
-	};
-
-	const onSubmit = (data: FormSchema) => {
-		setFormattedDob(
-			data.dateOfBirth.toLocaleDateString("th-TH", {
-				dateStyle: "full",
-			}),
-		);
-		setAge(calculateAge(data.dateOfBirth));
-		setNextBirthday(calculateNextBirthday(data.dateOfBirth));
 	};
 
 	const dates = useMemo(() => {
@@ -212,105 +193,100 @@ function RouteComponent() {
 			]}
 			url={url}
 		>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-					<FormField
-						control={form.control}
-						name="dateOfBirth"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>วันเกิด</FormLabel>
-								<FormControl>
-									<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
-										<Select
-											value={field.value.toLocaleDateString("th-TH", {
-												day: "numeric",
-											})}
-											onValueChange={(value) => {
-												const newDate = new Date(field.value);
-												newDate.setDate(Number(value));
-												field.onChange(newDate);
-											}}
-										>
-											<SelectTrigger className="w-full">
-												<SelectValue placeholder="วัน" />
-											</SelectTrigger>
-											<SelectContent>
-												{dates.map((date) => (
-													<SelectItem key={date} value={date}>
-														{date}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-										<Select
-											value={field.value.getMonth().toString()}
-											onValueChange={(selectedMonth) => {
-												const currentDate = new Date(field.value);
-												const updatedDate = new Date(currentDate);
-												updatedDate.setMonth(Number(selectedMonth));
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					form.handleSubmit();
+				}}
+				className="space-y-4"
+			>
+				<form.Field name="dateOfBirth">
+					{(field) => (
+						<div className="flex flex-col gap-2">
+							<Label>วันเกิด</Label>
+							<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+								<Select
+									value={field.state.value.toLocaleDateString("th-TH", {
+										day: "numeric",
+									})}
+									onValueChange={(value) => {
+										const newDate = new Date(field.state.value);
+										newDate.setDate(Number(value));
+										field.handleChange(newDate);
+									}}
+								>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="วัน" />
+									</SelectTrigger>
+									<SelectContent>
+										{dates.map((date) => (
+											<SelectItem key={date} value={date}>
+												{date}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+								<Select
+									value={field.state.value.getMonth().toString()}
+									onValueChange={(selectedMonth) => {
+										const currentDate = new Date(field.state.value);
+										const updatedDate = new Date(currentDate);
+										updatedDate.setMonth(Number(selectedMonth));
 
-												if (updatedDate.getDate() !== currentDate.getDate()) {
-													updatedDate.setDate(0);
+										if (updatedDate.getDate() !== currentDate.getDate()) {
+											updatedDate.setDate(0);
+										}
+
+										field.handleChange(updatedDate);
+									}}
+								>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="เดือน" className="truncate" />
+									</SelectTrigger>
+									<SelectContent>
+										{months.map((month, i) => (
+											<SelectItem key={month} value={i.toString()}>
+												{month}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+								<Select
+									value={field.state.value.getFullYear().toString()}
+									onValueChange={(value) => {
+										const newDate = new Date(field.state.value);
+										newDate.setFullYear(Number(value));
+										field.handleChange(newDate);
+									}}
+								>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="ปี" />
+									</SelectTrigger>
+									<SelectContent>
+										{years.map((year) => (
+											<SelectItem key={year} value={year.toString()}>
+												{
+													new Date(year, 0, 1)
+														.toLocaleDateString("th-TH", {
+															year: "numeric",
+														})
+														.split(" ")[1]
 												}
-
-												field.onChange(updatedDate);
-											}}
-										>
-											<SelectTrigger className="w-full">
-												<SelectValue placeholder="เดือน" className="truncate" />
-											</SelectTrigger>
-											<SelectContent>
-												{months.map((month, i) => (
-													<SelectItem key={month} value={i.toString()}>
-														{month}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-										<Select
-											value={field.value.getFullYear().toString()}
-											onValueChange={(value) => {
-												const newDate = new Date(field.value);
-												newDate.setFullYear(Number(value));
-												field.onChange(newDate);
-											}}
-										>
-											<SelectTrigger className="w-full">
-												<SelectValue placeholder="ปี" />
-											</SelectTrigger>
-											<SelectContent>
-												{years.map((year) => (
-													<SelectItem key={year} value={year.toString()}>
-														{
-															new Date(year, 0, 1)
-																.toLocaleDateString("th-TH", {
-																	year: "numeric",
-																})
-																.split(" ")[1]
-														}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-									</div>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<div className="space-x-2">
-						<Button
-							type="button"
-							onClick={handleResetClick}
-							variant="secondary"
-						>
-							รีเซ็ต
-						</Button>
-						<Button>คำนวณอายุ</Button>
-					</div>
-				</form>
-			</Form>
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							</div>
+						</div>
+					)}
+				</form.Field>
+				<div className="space-x-2">
+					<Button type="button" onClick={handleResetClick} variant="secondary">
+						รีเซ็ต
+					</Button>
+					<Button>คำนวณอายุ</Button>
+				</div>
+			</form>
 			{age && nextBirthday && (
 				<Card>
 					<CardContent>

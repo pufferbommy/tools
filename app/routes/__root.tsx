@@ -17,8 +17,8 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 // @ts-ignore
 import globalsCss from "@/styles/globals.css?url";
-import { seo } from "@/utils/seo";
 import { getOrigin } from "@/utils/get-origin";
+import { seo } from "@/utils/seo";
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;
