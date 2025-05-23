@@ -4,12 +4,13 @@ import ToolCard from "@/components/tools/tool-card";
 import ToolLayout from "@/components/tools/tool-layout";
 import { TOOL_CATEGORY_MAP } from "@/constants/tool-categories";
 import { seo } from "@/utils/seo";
+import { getOrigin } from "@/utils/get-origin";
 
 export const Route = createFileRoute("/tools/$category")({
 	component: RouteComponent,
-	loader: async (context) => {
+	loader: (context) => {
 		const pathname = context.location.pathname;
-		const url = `${process.env.ORIGIN}${pathname}`;
+		const url = `${getOrigin()}${pathname}`;
 		const category = TOOL_CATEGORY_MAP[`/tools/${context.params.category}`];
 		return { url, pathname, category };
 	},

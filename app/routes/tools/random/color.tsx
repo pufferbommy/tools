@@ -45,20 +45,7 @@ type FormSchema = z.infer<typeof FormSchema>;
 
 export const Route = createFileRoute("/tools/random/color")({
 	component: RouteComponent,
-	loader: async (context) => {
-		const pathname = context.location.pathname;
-		const initialColors = Array.from({ length: INITIAL_COLOR_COUNT }, () => {
-			const rgb = formatRgb(random());
-			return {
-				rgb,
-				hex: formatHex(rgb),
-				hsl: formatHsl(rgb),
-				oklch: formatOklch(rgb),
-				name: closest(rgb).name,
-			} as Color;
-		});
-		return { initialColors, ...loadToolData(pathname) };
-	},
+	loader: (context) => loadToolData(context.location.pathname),
 	head: ({ loaderData }) => ({
 		meta: [
 			...seo({
@@ -86,9 +73,9 @@ interface Color {
 }
 
 function RouteComponent() {
-	const { url, initialColors, category, tool } = Route.useLoaderData();
+	const { url, category, tool } = Route.useLoaderData();
 
-	const [colors, setColors] = useState<Color[]>(initialColors);
+	const [colors, setColors] = useState<Color[]>([]);
 
 	const form = useForm<FormSchema>({
 		resolver: zodResolver(FormSchema),
@@ -145,6 +132,7 @@ function RouteComponent() {
 				},
 			]}
 		>
+			{JSON.stringify(Route.useLoaderData())}
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 					<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">

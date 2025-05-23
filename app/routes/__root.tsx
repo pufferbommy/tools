@@ -18,12 +18,13 @@ import { Toaster } from "@/components/ui/sonner";
 // @ts-ignore
 import globalsCss from "@/styles/globals.css?url";
 import { seo } from "@/utils/seo";
+import { getOrigin } from "@/utils/get-origin";
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;
 }>()({
 	loader: () => ({
-		origin: process.env.ORIGIN,
+		origin: getOrigin(),
 		isProduction: process.env.NODE_ENV === "production",
 	}),
 	head: ({ loaderData }) => ({

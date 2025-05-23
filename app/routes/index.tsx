@@ -21,11 +21,12 @@ import {
 import { cn } from "@/lib/utils";
 import { pickRandomItem } from "@/utils/random";
 import type { Category, Tool } from "@/types";
+import { getOrigin } from "@/utils/get-origin";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
-	loader: async ({ location }) => {
-		const url = `${process.env.ORIGIN}${location.pathname}`;
+	loader: ({ location }) => {
+		const url = `${getOrigin()}${location.pathname}`;
 		const categoryKeys = Object.keys(TOOL_CATEGORY_MAP);
 		const randomCategory = TOOL_CATEGORY_MAP[pickRandomItem(categoryKeys)];
 		const randomTool = pickRandomItem(randomCategory.tools);
