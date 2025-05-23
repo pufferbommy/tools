@@ -4,7 +4,7 @@ import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
 
 import Logo from "@/components/logo";
-import { CATEGORY_LIST } from "@/constants/categories";
+import { TOOL_CATEGORY_LIST } from "@/constants/tool-categories";
 
 const fontRegular = fs.readFileSync("./public/NotoSansThai-Regular.ttf");
 const fontSemiBold = fs.readFileSync("./public/NotoSansThai-SemiBold.ttf");
@@ -75,7 +75,7 @@ const generateImage = async ({
 	fs.mkdirSync(path.dirname(filePath), { recursive: true });
 	fs.writeFileSync(filePath, png);
 	console.log("✅ Generated /.png");
-	for (const [pathname, category] of CATEGORY_LIST) {
+	for (const [pathname, category] of TOOL_CATEGORY_LIST) {
 		const png = await generateImage(category);
 		const filePath = path.join("./public/og", `${pathname}.png`);
 		fs.mkdirSync(path.dirname(filePath), { recursive: true });

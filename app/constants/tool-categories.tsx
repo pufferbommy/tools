@@ -1,21 +1,6 @@
-import type { TRoutes } from "@/utils/sitemap";
+import type { Category } from "@/types";
 
-export interface Tool {
-	url: TRoutes;
-	shortTitle: string;
-	title: string;
-	description: string;
-	keywords: string;
-}
-
-export interface Category {
-	title: string;
-	description: string;
-	keywords: string;
-	tools: Tool[];
-}
-
-export const CATEGORY_MAP: Record<string, Category> = {
+export const TOOL_CATEGORY_MAP: Record<string, Category> = {
 	"/tools/random": {
 		title: "เครื่องมือสุ่ม",
 		description:
@@ -110,4 +95,4 @@ export const CATEGORY_MAP: Record<string, Category> = {
 	},
 };
 
-export const CATEGORY_LIST = Object.entries(CATEGORY_MAP);
+export const TOOL_CATEGORY_LIST = Object.entries(TOOL_CATEGORY_MAP);

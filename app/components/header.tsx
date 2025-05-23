@@ -11,7 +11,7 @@ import {
 	NavigationMenuList,
 	NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { CATEGORY_LIST } from "@/constants/categories";
+import { TOOL_CATEGORY_LIST } from "@/constants/tool-categories";
 
 import Logo from "./logo";
 import ThemeSwitcher from "./theme-switcher";
@@ -32,7 +32,7 @@ export default function Header() {
 				</div>
 				<NavigationMenu className="hidden lg:flex">
 					<NavigationMenuList>
-						{CATEGORY_LIST.map(([pathname, category]) => (
+						{TOOL_CATEGORY_LIST.map(([pathname, category]) => (
 							<NavigationMenuItem key={pathname} value={pathname}>
 								<NavigationMenuTrigger
 									onClick={() => {
@@ -76,7 +76,7 @@ export default function Header() {
 							</Button>
 						</DrawerTrigger>
 						<DrawerContent className="px-4">
-							{CATEGORY_LIST.map(([pathname, category]) => (
+							{TOOL_CATEGORY_LIST.map(([pathname, category]) => (
 								<div key={pathname} className="flex flex-col">
 									<Button
 										asChild

@@ -2,7 +2,10 @@ import { Link } from "@tanstack/react-router";
 import { Fragment } from "react";
 
 import { SocialShare } from "@/components/social-share";
-import { CATEGORY_LIST, CATEGORY_MAP } from "@/constants/categories";
+import {
+	TOOL_CATEGORY_LIST,
+	TOOL_CATEGORY_MAP,
+} from "@/constants/tool-categories";
 import { cn } from "@/lib/utils";
 import {
 	Accordion,
@@ -54,7 +57,7 @@ export default function ToolLayout({
 
 	const renderBreadcrumbDropdown = (currentHref?: string) => {
 		if (isCategory) {
-			return CATEGORY_LIST.map(([pathname, category]) => (
+			return TOOL_CATEGORY_LIST.map(([pathname, category]) => (
 				<DropdownMenuItem
 					key={pathname}
 					asChild
@@ -65,7 +68,7 @@ export default function ToolLayout({
 			));
 		}
 
-		const category = CATEGORY_MAP[categoryPathname as string];
+		const category = TOOL_CATEGORY_MAP[categoryPathname as string];
 
 		return category.tools.map((tool) => (
 			<DropdownMenuItem

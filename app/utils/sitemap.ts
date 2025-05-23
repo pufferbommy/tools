@@ -1,7 +1,7 @@
 import type { FileRouteTypes } from "@/routeTree.gen";
 import type { Sitemap } from "tanstack-router-sitemap";
 
-import { CATEGORY_LIST } from "../constants/categories";
+import { TOOL_CATEGORY_LIST } from "../constants/tool-categories";
 
 export type TRoutes = FileRouteTypes["fullPaths"];
 
@@ -17,7 +17,7 @@ const toolConfig = {
 
 const generateRoutesFromCategories = () => {
 	return Object.fromEntries(
-		CATEGORY_LIST.flatMap(([pathname, category]) => [
+		TOOL_CATEGORY_LIST.flatMap(([pathname, category]) => [
 			[pathname, categoryConfig],
 			...category.tools.map((tool) => [tool.url, toolConfig]),
 		]),

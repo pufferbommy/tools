@@ -15,25 +15,24 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
-	CATEGORY_LIST,
-	CATEGORY_MAP,
-	type Category,
-	type Tool,
-} from "@/constants/categories";
+	TOOL_CATEGORY_LIST,
+	TOOL_CATEGORY_MAP,
+} from "@/constants/tool-categories";
 import { cn } from "@/lib/utils";
 import { pickRandomItem } from "@/utils/random";
+import type { Category, Tool } from "@/types";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
 	loader: async ({ location }) => {
 		const url = `${process.env.ORIGIN}${location.pathname}`;
-		const categoryKeys = Object.keys(CATEGORY_MAP);
-		const randomCategory = CATEGORY_MAP[pickRandomItem(categoryKeys)];
+		const categoryKeys = Object.keys(TOOL_CATEGORY_MAP);
+		const randomCategory = TOOL_CATEGORY_MAP[pickRandomItem(categoryKeys)];
 		const randomTool = pickRandomItem(randomCategory.tools);
 
 		return {
 			url,
-			categories: CATEGORY_LIST,
+			categories: TOOL_CATEGORY_LIST,
 			randomToolHref: randomTool.url,
 		};
 	},
@@ -97,6 +96,9 @@ function RouteComponent() {
 					searchQuery={searchQuery}
 					activeCategory={activeCategory}
 					filteredTools={filteredTools}
+					onReset={() => {
+						handleSearch("");
+					}}
 				/>
 			</section>
 		</>
@@ -131,7 +133,7 @@ function AlphaBadge({ className }: { className?: string }) {
 	return (
 		<TooltipProvider>
 			<Tooltip>
-				<TooltipTrigger asChild>
+				<TooltipTrigger asChild aria-hidden="true">
 					<span
 						title="ฟีเจอร์ยังอยู่ในระหว่างการพัฒนา อาจมีบางส่วนที่ไม่สมบูรณ์"
 						className={cn(
@@ -246,28 +248,28 @@ function ToolGrid({
 	searchQuery,
 	activeCategory,
 	filteredTools,
+	onReset,
 }: {
 	searchQuery: string;
 	activeCategory: string;
 	filteredTools: Tool[];
+	onReset: () => void;
 }) {
 	const getEmptyStateMessage = () => {
 		if (searchQuery && activeCategory) {
-			const categoryTitle = CATEGORY_MAP[activeCategory]?.title || "category";
+			const categoryTitle =
+				TOOL_CATEGORY_MAP[activeCategory]?.title || "category";
 			return `ไม่พบเครื่องมือสำหรับ "${searchQuery}" ในหมวด ${categoryTitle}`;
 		}
 		if (searchQuery) {
 			return `ไม่พบเครื่องมือสำหรับ "${searchQuery}"`;
 		}
 		if (activeCategory) {
-			const categoryTitle = CATEGORY_MAP[activeCategory]?.title || "category";
+			const categoryTitle =
+				TOOL_CATEGORY_MAP[activeCategory]?.title || "category";
 			return `ไม่มีเครื่องมือในหมวด ${categoryTitle}`;
 		}
 		return "ไม่พบเครื่องมือที่ค้นหา";
-	};
-
-	const handleReset = () => {
-		// router.navigate({ to: "/", search: { searchQuery: "", category: "" } });
 	};
 
 	return (
@@ -298,7 +300,7 @@ function ToolGrid({
 							</p>
 						</div>
 						{(searchQuery || activeCategory) && (
-							<Button variant="outline" onClick={handleReset}>
+							<Button variant="outline" onClick={onReset}>
 								รีเซ็ตการค้นหา
 							</Button>
 						)}

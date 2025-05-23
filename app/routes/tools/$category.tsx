@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import ToolCard from "@/components/tools/tool-card";
 import ToolLayout from "@/components/tools/tool-layout";
-import { CATEGORY_MAP } from "@/constants/categories";
+import { TOOL_CATEGORY_MAP } from "@/constants/tool-categories";
 import { seo } from "@/utils/seo";
 
 export const Route = createFileRoute("/tools/$category")({
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/tools/$category")({
 	loader: async (context) => {
 		const pathname = context.location.pathname;
 		const url = `${process.env.ORIGIN}${pathname}`;
-		const category = CATEGORY_MAP[`/tools/${context.params.category}`];
+		const category = TOOL_CATEGORY_MAP[`/tools/${context.params.category}`];
 		return { url, pathname, category };
 	},
 	head: ({ loaderData }) => ({
