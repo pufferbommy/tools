@@ -110,7 +110,7 @@ function HeroSection({ randomToolHref }: { randomToolHref: string }) {
 	return (
 		<section className="border-b border-dashed">
 			<div className="container py-16 flex flex-col items-center text-center">
-				<h1 className="text-4xl mb-4 font-semibold inline-block relative">
+				<h1 className="text-4xl mb-4 font-bold inline-block relative">
 					รวมมิตรเครื่องมือ
 					<AlphaBadge className="absolute bottom-[95%] left-[95%]" />
 				</h1>
@@ -293,7 +293,7 @@ function ToolGrid({
 							aria-hidden="true"
 						/>
 						<div className="space-y-2">
-							<CardTitle className="text-xl font-semibold text-foreground">
+							<CardTitle className="text-xl font-bold text-foreground">
 								{getEmptyStateMessage()}
 							</CardTitle>
 							<p className="text-sm text-muted-foreground max-w-md mx-auto">

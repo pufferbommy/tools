@@ -117,7 +117,7 @@ export default function ToolLayout({
 			</div>
 			<div className="container flex-1 py-8 space-y-8">
 				<section>
-					<h1 className="text-2xl font-semibold mb-2">{title}</h1>
+					<h1 className="text-2xl font-bold mb-2">{title}</h1>
 					<h2 className="text-muted-foreground">{description}</h2>
 				</section>
 				{children}

@@ -117,8 +117,27 @@
 	* {
 		@apply border-border outline-ring/50;
 	}
+
 	body {
-		@apply bg-background text-foreground font-["Noto_Sans_Thai_Variable",sans-serif];
+		@apply bg-background text-foreground font-[Noto_Sans_Thai];
+	}
+
+	@font-face {
+		font-family: Noto Sans Thai;
+		font-weight: 400;
+		src: url(/fonts/NotoSansThai-Regular.ttf) format("truetype");
+	}
+
+	@font-face {
+		font-family: Noto Sans Thai;
+		font-weight: 500;
+		src: url(/fonts/NotoSansThai-Medium.ttf) format("truetype");
+	}
+
+	@font-face {
+		font-family: Noto Sans Thai;
+		font-weight: 700;
+		src: url(/fonts/NotoSansThai-Bold.ttf) format("truetype");
 	}
 }
 

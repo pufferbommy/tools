@@ -22,10 +22,10 @@ export default function Header() {
 	const navigate = useNavigate();
 
 	return (
-		<header className="bg-background group sticky top-0 z-50 border-b border-dashed">
-			<div className="container py-3 flex items-center">
+		<header className="bg-background sticky top-0 z-50 border-b border-dashed">
+			<div className="container py-4 flex items-center">
 				<div className="flex-1 flex">
-					<Link to="/" className="inline-flex gap-2 items-center font-semibold">
+					<Link to="/" className="inline-flex gap-2 items-center font-bold">
 						<Logo />
 						รวมมิตรเครื่องมือ
 					</Link>
@@ -82,7 +82,7 @@ export default function Header() {
 										asChild
 										onClick={() => setIsDrawerOpen(false)}
 										variant="ghost"
-										className="font-semibold justify-start"
+										className="font-bold justify-start"
 									>
 										<Link key={pathname} to={pathname}>
 											{category.title}

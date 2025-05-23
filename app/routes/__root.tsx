@@ -1,5 +1,4 @@
 // @ts-ignore
-import fontsourceVariableNotoSansThaiCss from "@fontsource-variable/noto-sans-thai?url";
 import type { QueryClient } from "@tanstack/react-query";
 import {
 	HeadContent,
@@ -48,10 +47,6 @@ export const Route = createRootRouteWithContext<{
 			}),
 		],
 		links: [
-			{
-				rel: "stylesheet",
-				href: fontsourceVariableNotoSansThaiCss,
-			},
 			{ rel: "stylesheet", href: globalsCss },
 			{
 				rel: "apple-touch-icon",

@@ -82,7 +82,7 @@ function RouteComponent() {
 				</CardHeader>
 				<CardContent className="space-y-2">
 					<p className="space-x-2">
-						<span className="text-8xl text-primary font-semibold">
+						<span className="text-8xl text-primary font-bold">
 							{tdee?.toFixed(1) || "?"}
 						</span>
 						{tdee && <span>แคลอรี่</span>}

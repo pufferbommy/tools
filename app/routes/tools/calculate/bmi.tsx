@@ -167,7 +167,7 @@ export function BmiDisplaySection({ bmi }: { bmi: number | null }) {
 			</CardHeader>
 			<CardContent className="space-y-2">
 				<p className="space-x-2">
-					<span className="text-8xl text-primary font-semibold">
+					<span className="text-8xl text-primary font-bold">
 						{bmi?.toFixed(1) || "?"}
 					</span>
 					{bmi && (
@@ -179,9 +179,7 @@ export function BmiDisplaySection({ bmi }: { bmi: number | null }) {
 				<p>
 					อยู่ในเกณฑ์
 					<br />
-					<span className="font-semibold text-primary">
-						{bmiCategory || "?"}
-					</span>
+					<span className="font-bold text-primary">{bmiCategory || "?"}</span>
 				</p>
 			</CardContent>
 		</Card>

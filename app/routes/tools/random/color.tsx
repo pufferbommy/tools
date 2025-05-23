@@ -169,7 +169,7 @@ function RouteComponent() {
 							}}
 						/>
 						<CardContent className="space-y-2">
-							<div className="capitalize font-semibold">{color.name}</div>
+							<div className="capitalize font-bold">{color.name}</div>
 							<div className="space-y-2">
 								<div className="text-muted-foreground text-sm flex w-full justify-between">
 									HEX

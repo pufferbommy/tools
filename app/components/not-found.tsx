@@ -10,7 +10,7 @@ export function NotFound({ children }: { children?: React.ReactNode }) {
 					className="text-yellow-500 dark:text-yellow-400"
 					size={48}
 				/>
-				<h1 className="text-4xl font-semibold text-gray-800 dark:text-gray-100">
+				<h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100">
 					ไม่พบหน้านี้
 				</h1>
 				<p className="text-gray-600 dark:text-gray-400 max-w-md">

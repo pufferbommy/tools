@@ -16,7 +16,7 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
 		<div className="min-w-0 flex-1 p-6 flex flex-col items-center justify-center gap-6 text-center">
 			<div className="flex flex-col items-center gap-2">
 				<AlertTriangle className="w-10 h-10 text-yellow-500" />
-				<h2 className="text-xl font-semibold">เกิดข้อผิดพลาดบางอย่าง</h2>
+				<h2 className="text-xl font-bold">เกิดข้อผิดพลาดบางอย่าง</h2>
 				<p className="text-muted-foreground text-sm max-w-md">
 					ขออภัย ดูเหมือนว่าเกิดข้อผิดพลาดขณะโหลดหน้านี้ กรุณาลองอีกครั้ง
 					หรือลองย้อนกลับไปยังหน้าก่อนหน้า

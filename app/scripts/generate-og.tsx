@@ -6,8 +6,8 @@ import satori from "satori";
 import Logo from "@/components/logo";
 import { TOOL_CATEGORY_LIST } from "@/constants/tool-categories";
 
-const fontRegular = fs.readFileSync("./public/NotoSansThai-Regular.ttf");
-const fontSemiBold = fs.readFileSync("./public/NotoSansThai-SemiBold.ttf");
+const fontRegular = fs.readFileSync("./public/fonts/NotoSansThai-Regular.ttf");
+const fontBold = fs.readFileSync("./public/fonts/NotoSansThai-Bold.ttf");
 
 const generateImage = async ({
 	title,
@@ -31,7 +31,7 @@ const generateImage = async ({
 			}}
 		>
 			<Logo height={96} />
-			<h1 style={{ fontSize: "4rem", fontWeight: 600, margin: 0 }}>{title}</h1>
+			<h1 style={{ fontSize: "4rem", fontWeight: 700, margin: 0 }}>{title}</h1>
 			<p
 				style={{
 					fontSize: "2rem",
@@ -53,8 +53,8 @@ const generateImage = async ({
 				},
 				{
 					name: "NotoSansThai",
-					data: fontSemiBold,
-					weight: 600,
+					data: fontBold,
+					weight: 700,
 					style: "normal",
 				},
 			],

@@ -193,7 +193,7 @@ export function BmrDisplaySection({ bmr }: { bmr: number | null }) {
 			</CardHeader>
 			<CardContent className="space-y-2">
 				<p className="space-x-2">
-					<span className="text-8xl text-primary font-semibold">
+					<span className="text-8xl text-primary font-bold">
 						{bmr?.toFixed(1) || "?"}
 					</span>
 					{bmr && <span>แคลอรี่ต่อวัน</span>}
