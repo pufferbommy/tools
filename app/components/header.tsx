@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 
@@ -23,6 +23,25 @@ export default function Header() {
 	const navigate = useNavigate();
 	const [search, setSearch] = useState("");
 	const [isFocused, setIsFocused] = useState(false);
+	const searchRef = useRef<HTMLDivElement>(null);
+
+	const filteredCategories = TOOL_CATEGORY_LIST.filter(([, category]) =>
+		category.tools.some((tool) =>
+			tool.title.toLowerCase().includes(search.toLowerCase()),
+		),
+	);
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (!searchRef.current?.contains(event.target as Node)) {
+				setIsFocused(false);
+			}
+		};
+
+		if (isFocused) document.addEventListener("mousedown", handleClickOutside);
+
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, [isFocused]);
 
 	return (
 		<header className="bg-background sticky border-b top-0 z-50 border-dashed">
@@ -32,51 +51,60 @@ export default function Header() {
 						<Logo />
 						<span className="font-bold">รวมมิตรเครื่องมือ</span>
 					</Link>
-					{/* <div className="relative flex-1">
+					<div ref={searchRef} className="relative flex-1">
 						<Input
 							placeholder="ค้นหาเครื่องมือ..."
 							value={search}
 							onChange={(e) => setSearch(e.target.value)}
 							onFocus={() => setIsFocused(true)}
-							// onBlur={() => setIsFocused(false)}
 							className={cn(
 								"peer transition-[padding,width,opacity] pl-[calc(12px+10px)] placeholder:opacity-0 placeholder:transition-opacity",
-								isFocused
+								isFocused || search
 									? "w-full pl-[calc(12px+10px+12px)]	placeholder:opacity-100"
 									: "w-9",
 							)}
 						/>
 						<div
 							className={cn(
-								"absolute scale-0 opacity-0  origin-top-left transition-[scale,opacity] rounded-md p-4 top-[calc(100%+0.5rem)] h-80 overflow-y-auto left-0 w-full bg-background border",
+								"absolute scale-0 opacity-0 origin-top-left transition-[scale,opacity] rounded-md p-4 top-[calc(100%+0.5rem)] h-80 overflow-y-auto left-0 w-full bg-background border",
 								isFocused && "opacity-100 scale-100",
 							)}
 						>
-							{TOOL_CATEGORY_LIST.map(([pathname, category]) => (
-								<div key={pathname} className="flex flex-col">
-									<Button
-										asChild
-										variant="ghost"
-										className="font-bold justify-start"
-										onClick={() => setIsFocused(false)}
-									>
-										<Link key={pathname} to={pathname}>
-											{category.title}
-										</Link>
-									</Button>
-									{category.tools.map((tool) => (
+							{filteredCategories.length > 0 ? (
+								filteredCategories.map(([pathname, category]) => (
+									<div key={pathname} className="flex flex-col">
 										<Button
-											variant="ghost"
-											key={tool.url}
-											className="justify-start"
-											onClick={() => setIsFocused(false)}
 											asChild
+											variant="ghost"
+											className="font-bold justify-start"
+											onClick={() => setIsFocused(false)}
 										>
-											<Link to={tool.url}>{tool.title}</Link>
+											<Link key={pathname} to={pathname}>
+												{category.title}
+											</Link>
 										</Button>
-									))}
-								</div>
-							))}
+										{category.tools
+											.filter((tool) =>
+												tool.title.toLowerCase().includes(search.toLowerCase()),
+											)
+											.map((tool) => (
+												<Button
+													variant="ghost"
+													key={tool.url}
+													className="justify-start"
+													onClick={() => setIsFocused(false)}
+													asChild
+												>
+													<Link to={tool.url}>{tool.title}</Link>
+												</Button>
+											))}
+									</div>
+								))
+							) : (
+								<p className="text-sm text-muted-foreground text-center">
+									ไม่พบเครื่องมือที่ตรงกับคำค้นหา 🕵️‍♀️
+								</p>
+							)}
 						</div>
 						<div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 left-2.5 flex items-center justify-center peer-disabled:opacity-50">
 							<Search size={16} aria-hidden="true" />
@@ -91,7 +119,7 @@ export default function Header() {
 						>
 							<X size={16} aria-hidden="true" />
 						</button>
-					</div> */}
+					</div>
 				</div>
 				<div className="flex gap-2 flex-1 justify-end">
 					<NavigationMenu className="hidden lg:flex">
