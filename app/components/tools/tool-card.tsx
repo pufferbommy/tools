@@ -1,43 +1,23 @@
 import { Link } from "@tanstack/react-router";
-import { motion } from "motion/react";
 
 import type { Tool } from "@/types";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import SoftStar from "../icons/soft-star";
 
-export default function ToolCard({
-	tool,
-	noAnimation,
-}: { tool: Tool; noAnimation?: boolean }) {
-	const MotionLink = motion.create(Link);
-
-	const variants = {
-		visible: { opacity: 1, scale: 1 },
-		hidden: { opacity: 0, scale: 0 },
-	};
-
-	const linkProps = noAnimation
-		? {}
-		: {
-				layout: true,
-				variants,
-				initial: "hidden",
-				animate: "visible",
-				exit: "hidden",
-				transition: { duration: 0.15 },
-			};
-
-	const LinkComponent = noAnimation ? Link : MotionLink;
-
+export default function ToolCard({ tool }: { tool: Tool }) {
 	return (
-		<LinkComponent to={tool.url} className="h-full rounded-md" {...linkProps}>
-			<Card className="h-full shadow-[0_-0.125rem_0_inset] transition-colors hover:border-primary [--tw-shadow-color:oklch(from_var(--border)_l_c_h_/_0.5)] hover:shadow-[0.25rem_0.25rem_0]">
+		<Link to={tool.url} className="h-full rounded-md">
+			<Card className="h-full transition-all hover:border-primary group hover:shadow-[0_0_0.25rem_var(--primary)]">
 				<CardHeader>
-					<CardTitle>{tool.shortTitle}</CardTitle>
+					<CardTitle className="group-hover:text-primary transition-colors flex items-center gap-1">
+						{tool.shortTitle}
+						<SoftStar className="scale-0 group-hover:scale-100 transition-transform" />
+					</CardTitle>
 					<CardDescription className="line-clamp-2">
 						{tool.description}
 					</CardDescription>
 				</CardHeader>
 			</Card>
-		</LinkComponent>
+		</Link>
 	);
 }

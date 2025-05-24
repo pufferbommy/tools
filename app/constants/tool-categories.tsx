@@ -1,4 +1,42 @@
-import type { Category } from "@/types";
+import type { Category, Tool } from "@/types";
+
+export const popularTools: Tool[] = [
+	{
+		shortTitle: "สุ่มชื่อไทย",
+		title: "เครื่องมือสุ่มชื่อไทย",
+		url: "/tools/random/thai-name",
+		description: "สุ่มชื่อไทยแบบสุ่ม ใช้สำหรับตั้งชื่อตัวละคร หรือกิจกรรมที่ต้องใช้ชื่อ",
+		keywords:
+			"สุ่มชื่อไทย, ชื่อไทย, ตั้งชื่อตัวละคร, สุ่มชื่อผู้ชาย, สุ่มชื่อผู้หญิง, random thai name",
+	},
+	{
+		shortTitle: "สุ่มสี",
+		title: "เครื่องมือสุ่มสี",
+		url: "/tools/random/color",
+		description:
+			"สุ่มสีแบบสุ่ม พร้อมแสดงรหัส HEX และ RGB ใช้ได้กับงานออกแบบ UX/UI หรือกราฟิก",
+		keywords:
+			"สุ่มสี, random color, สีสำหรับออกแบบ, HEX color, RGB color, โทนสี, สุ่มโทนสี",
+	},
+	{
+		shortTitle: "คำนวณ BMI",
+		title: "เครื่องคำนวณดัชนีมวลกาย (BMI)",
+		url: "/tools/calculate/bmi",
+		description:
+			"คำนวณค่า BMI เพื่อตรวจสอบว่าคุณอยู่ในเกณฑ์น้ำหนักที่เหมาะสมหรือไม่ พร้อมคำแนะนำ",
+		keywords:
+			"คำนวณ BMI, ดัชนีมวลกาย, bmi calculator, ตรวจสุขภาพ, น้ำหนักเกิน, ผอมเกิน",
+	},
+	{
+		shortTitle: "สุ่มอาหาร",
+		title: "เครื่องมือสุ่มอาหาร",
+		url: "/tools/random/food",
+		description:
+			"สุ่มเมนูอาหารแบบไม่ต้องคิดเอง เหมาะสำหรับคนที่เลือกไม่ถูกว่าจะกินอะไรดีวันนี้ ทั้งอาหารคาวหวานก็มีให้เลือกครบ!",
+		keywords:
+			"สุ่มอาหาร, กินอะไรดี, เมนูอาหาร, สุ่มเมนู, random food, ไอเดียอาหาร, เลือกเมนู, ช่วยเลือกอาหาร",
+	},
+];
 
 export const TOOL_CATEGORY_MAP: Record<string, Category> = {
 	"/tools/random": {

@@ -3,7 +3,7 @@ import path from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
 
-import Logo from "@/components/logo";
+import Logo from "@/components/icons/logo";
 import { TOOL_CATEGORY_LIST } from "@/constants/tool-categories";
 
 const fontRegular = fs.readFileSync("./public/fonts/NotoSansThai-Regular.ttf");
