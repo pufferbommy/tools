@@ -77,7 +77,10 @@ export default function Header() {
 											asChild
 											variant="ghost"
 											className="font-bold justify-start"
-											onClick={() => setIsFocused(false)}
+											onClick={() => {
+												setIsFocused(false);
+												setSearch("");
+											}}
 										>
 											<Link key={pathname} to={pathname}>
 												{category.title}
@@ -92,7 +95,10 @@ export default function Header() {
 													variant="ghost"
 													key={tool.url}
 													className="justify-start"
-													onClick={() => setIsFocused(false)}
+													onClick={() => {
+														setIsFocused(false);
+														setSearch("");
+													}}
 													asChild
 												>
 													<Link to={tool.url}>{tool.title}</Link>
