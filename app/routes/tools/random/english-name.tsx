@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 
 import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
-import { ENGLISH_NAMES } from "@/constants/english-names";
+
 import { GENDERS } from "@/constants/genders";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { pickRandomItem } from "@/utils/random";
@@ -64,6 +65,16 @@ export const Route = createFileRoute("/tools/random/english-name")({
 function RouteComponent() {
 	const { url, category, tool } = Route.useLoaderData();
 	const [results, setResults] = useState<Result[]>([]);
+	const { data: englishNames } = useQuery<{
+		maleNames: string[];
+		femaleNames: string[];
+		maleNicknames: string[];
+		femaleNicknames: string[];
+		lastNames: string[];
+	}>({
+		queryKey: ["english-names"],
+		queryFn: () => fetch("/english-names.json").then((r) => r.json()),
+	});
 	const form = useForm({
 		defaultValues: {
 			gender: "both",
@@ -71,18 +82,20 @@ function RouteComponent() {
 			amount: 5,
 		},
 		onSubmit: ({ value }) => {
+			if (!englishNames) return;
+
 			const items = Array.from({ length: value.amount }, () => {
 				const gender =
 					value.gender === "both"
 						? pickRandomItem(GENDERS).value
 						: value.gender;
-				const randomLastName = pickRandomItem(ENGLISH_NAMES.lastNames);
+				const randomLastName = pickRandomItem(englishNames.lastNames);
 				const lastName = value.types.includes("last-name")
 					? randomLastName
 					: null;
 				if (gender === "male") {
-					const maleName = pickRandomItem(ENGLISH_NAMES.maleNames);
-					const maleNickname = pickRandomItem(ENGLISH_NAMES.maleNicknames);
+					const maleName = pickRandomItem(englishNames.maleNames);
+					const maleNickname = pickRandomItem(englishNames.maleNicknames);
 
 					return {
 						name: value.types.includes("name") ? maleName : null,
@@ -91,8 +104,8 @@ function RouteComponent() {
 					};
 				}
 
-				const femaleName = pickRandomItem(ENGLISH_NAMES.femaleNames);
-				const femaleNickname = pickRandomItem(ENGLISH_NAMES.femaleNicknames);
+				const femaleName = pickRandomItem(englishNames.femaleNames);
+				const femaleNickname = pickRandomItem(englishNames.femaleNicknames);
 
 				return {
 					name: value.types.includes("name") ? femaleName : null,

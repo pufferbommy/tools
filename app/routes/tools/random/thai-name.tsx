@@ -13,9 +13,10 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { GENDERS } from "@/constants/genders";
-import { THAI_NAMES } from "@/constants/thai-names";
+
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { pickRandomItem } from "@/utils/random";
+import { useQuery } from "@tanstack/react-query";
 
 interface Result {
 	name: {
@@ -58,7 +59,6 @@ export const Route = createFileRoute("/tools/random/thai-name")({
 
 function RouteComponent() {
 	const { url, category, tool } = Route.useLoaderData();
-
 	const [results, setResults] = useState<Result[]>([]);
 
 	return (
@@ -130,6 +130,31 @@ function FormSection({
 }: {
 	setResults: (value: Result[]) => void;
 }) {
+	const { data: thaiNames } = useQuery<{
+		maleNames: {
+			th: string;
+			en: string;
+		}[];
+		femaleNames: {
+			th: string;
+			en: string;
+		}[];
+		maleNicknames: {
+			th: string;
+			en: string;
+		}[];
+		femaleNicknames: {
+			th: string;
+			en: string;
+		}[];
+		lastNames: {
+			th: string;
+			en: string;
+		}[];
+	}>({
+		queryKey: ["thai-names"],
+		queryFn: () => fetch("/thai-names.json").then((r) => r.json()),
+	});
 	const form = useForm({
 		defaultValues: {
 			gender: "both",
@@ -138,13 +163,15 @@ function FormSection({
 			amount: 5,
 		},
 		onSubmit: ({ value }) => {
+			if (!thaiNames) return;
+
 			const items = Array.from({ length: value.amount }, () => {
 				const gender =
 					value.gender === "both"
 						? pickRandomItem(GENDERS).value
 						: value.gender;
 
-				const randomLastName = pickRandomItem(THAI_NAMES.lastNames);
+				const randomLastName = pickRandomItem(thaiNames.lastNames);
 				const lastName = value.types.includes("last-name")
 					? {
 							th: value.languages.includes("th") ? randomLastName.th : "",
@@ -153,8 +180,8 @@ function FormSection({
 					: null;
 
 				if (gender === "male") {
-					const maleName = pickRandomItem(THAI_NAMES.maleNames);
-					const maleNickname = pickRandomItem(THAI_NAMES.maleNicknames);
+					const maleName = pickRandomItem(thaiNames.maleNames);
+					const maleNickname = pickRandomItem(thaiNames.maleNicknames);
 
 					return {
 						name: value.types.includes("name")
@@ -173,8 +200,8 @@ function FormSection({
 					};
 				}
 
-				const femaleName = pickRandomItem(THAI_NAMES.femaleNames);
-				const femaleNickname = pickRandomItem(THAI_NAMES.femaleNicknames);
+				const femaleName = pickRandomItem(thaiNames.femaleNames);
+				const femaleNickname = pickRandomItem(thaiNames.femaleNicknames);
 
 				return {
 					name: value.types.includes("name")
