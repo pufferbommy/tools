@@ -27,6 +27,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import Asterisk from "../icons/asterisk";
 
 interface ToolLayoutProps {
 	title: string;
@@ -83,41 +84,43 @@ export default function ToolLayout({
 
 	return (
 		<>
-			<div className="border-b border-dashed">
-				<Breadcrumb className="container py-3">
-					<BreadcrumbList>
-						<BreadcrumbItem>
-							<BreadcrumbLink asChild>
-								<Link to="/">หน้าแรก</Link>
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-						{breadcrumbs.map((item, i) => (
-							<Fragment key={item.href}>
-								<BreadcrumbSeparator />
-								<BreadcrumbItem>
-									{i < breadcrumbs.length - 1 ? (
-										<BreadcrumbLink asChild>
-											<Link to={item.href}>{item.label}</Link>
-										</BreadcrumbLink>
-									) : (
-										<BreadcrumbPage>
-											<DropdownMenu>
-												<DropdownMenuTrigger>{item.label}</DropdownMenuTrigger>
-												<DropdownMenuContent>
-													{renderBreadcrumbDropdown(item.href)}
-												</DropdownMenuContent>
-											</DropdownMenu>
-										</BreadcrumbPage>
-									)}
-								</BreadcrumbItem>
-							</Fragment>
-						))}
-					</BreadcrumbList>
-				</Breadcrumb>
-			</div>
-			<div className="container flex-1 py-8 space-y-8">
+			<Breadcrumb className="container pt-4">
+				<BreadcrumbList>
+					<BreadcrumbItem>
+						<BreadcrumbLink asChild>
+							<Link to="/">หน้าแรก</Link>
+						</BreadcrumbLink>
+					</BreadcrumbItem>
+					{breadcrumbs.map((item, i) => (
+						<Fragment key={item.href}>
+							<BreadcrumbSeparator />
+							<BreadcrumbItem>
+								{i < breadcrumbs.length - 1 ? (
+									<BreadcrumbLink asChild>
+										<Link to={item.href}>{item.label}</Link>
+									</BreadcrumbLink>
+								) : (
+									<BreadcrumbPage>
+										<DropdownMenu>
+											<DropdownMenuTrigger>{item.label}</DropdownMenuTrigger>
+											<DropdownMenuContent>
+												{renderBreadcrumbDropdown(item.href)}
+											</DropdownMenuContent>
+										</DropdownMenu>
+									</BreadcrumbPage>
+								)}
+							</BreadcrumbItem>
+						</Fragment>
+					))}
+				</BreadcrumbList>
+			</Breadcrumb>
+			<div className="container pt-8 flex-1 space-y-8 pb-8">
 				<section>
-					<h1 className="text-2xl font-bold mb-2">{title}</h1>
+					<h1 className="font-bold text-2xl mb-2 inline-flex gap-2 items-center">
+						<Asterisk />
+						{title}
+						<Asterisk />
+					</h1>
 					<h2 className="text-muted-foreground">{description}</h2>
 				</section>
 				{children}
@@ -126,20 +129,12 @@ export default function ToolLayout({
 						type="single"
 						defaultValue="1"
 						collapsible
-						className="-space-y-px"
+						className="text-muted-foreground"
 					>
 						{items.map((item) => (
-							<AccordionItem
-								key={item.id}
-								value={item.id}
-								className="has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative border px-4 py-1 outline-none first:rounded-t-md last:rounded-b-md last:border-b has-focus-visible:z-10 has-focus-visible:ring-[3px]"
-							>
-								<AccordionTrigger className="py-2 leading-6 hover:no-underline focus-visible:ring-0">
-									{item.title}
-								</AccordionTrigger>
-								<AccordionContent className="text-muted-foreground pb-2">
-									{item.content}
-								</AccordionContent>
+							<AccordionItem key={item.id} value={item.id}>
+								<AccordionTrigger>{item.title}</AccordionTrigger>
+								<AccordionContent>{item.content}</AccordionContent>
 							</AccordionItem>
 						))}
 					</Accordion>
