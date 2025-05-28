@@ -10,7 +10,6 @@
 		"generate:og": "tsx ./app/scripts/generate-og"
 	},
 	"dependencies": {
-		"@fontsource-variable/noto-sans-thai": "^5.2.5",
 		"@radix-ui/react-accordion": "^1.2.8",
 		"@radix-ui/react-checkbox": "^1.2.3",
 		"@radix-ui/react-collapsible": "^1.1.8",
