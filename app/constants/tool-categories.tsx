@@ -1,4 +1,4 @@
-import type { Category, Tool } from "@/types";
+import type { Category, Tool } from "@/types/index";
 
 export const popularTools: Tool[] = [
 	{

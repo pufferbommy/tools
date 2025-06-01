@@ -16,6 +16,7 @@ import { Toaster } from "@/components/ui/sonner";
 import globalsCss from "@/styles/globals.css?url";
 import { getOrigin } from "@/utils/get-origin";
 import { seo } from "@/utils/seo";
+import { popularTools, TOOL_CATEGORY_LIST } from "@/constants/tool-categories";
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;
@@ -23,6 +24,8 @@ export const Route = createRootRouteWithContext<{
 	loader: () => ({
 		origin: getOrigin(),
 		isProduction: process.env.NODE_ENV === "production",
+		toolCategoryList: TOOL_CATEGORY_LIST,
+		popularTools,
 	}),
 	head: ({ loaderData }) => ({
 		meta: [
@@ -39,8 +42,8 @@ export const Route = createRootRouteWithContext<{
 			},
 			...seo({
 				description:
-					"รวมมิตรเครื่องมือ คือ เว็บรวมเครื่องมือออนไลน์สารพัดประโยชน์ ใช้ง่าย รวดเร็ว ครอบคลุมทุกอย่างที่คุณต้องการ และฟรี 100%",
-				keywords: "เครื่องมือออนไลน์, คำนวณ BMI, รวมเครื่องมือฟรี, เว็บฟรี",
+					"รวมมิตรเครื่องมือออนไลน์ทุกอย่างบนโลกนี้ที่มีประโยชน์และไม่มีประโยชน์ เน้นความรวดเร็ว ใช้งานง่าย และฟรี 100%",
+				keywords: `เครื่องมือออนไลน์ฟรี, เครื่องมือออนไลน์, รวมเครื่องมือ, เครื่องมือออนไลน์ใช้งานฟรี, free web tools, รวมเครื่องมือดีๆ ออนไลน์, online tools, ฟรี tools, ${loaderData.toolCategoryList.map(([_, c]) => c.title).join(", ")}, ${popularTools.map((t) => t.shortTitle).join(", ")}`,
 				image: `${loaderData.origin}/og/.png`,
 			}),
 		],
