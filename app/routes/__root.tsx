@@ -1,4 +1,3 @@
-// @ts-ignore
 import type { QueryClient } from "@tanstack/react-query";
 import {
 	HeadContent,
@@ -14,7 +13,6 @@ import Header from "@/components/header";
 import { NotFound } from "@/components/not-found";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-// @ts-ignore
 import globalsCss from "@/styles/globals.css?url";
 import { getOrigin } from "@/utils/get-origin";
 import { seo } from "@/utils/seo";
