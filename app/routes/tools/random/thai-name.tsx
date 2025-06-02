@@ -15,7 +15,6 @@ import { Slider } from "@/components/ui/slider";
 import { GENDERS } from "@/constants/genders";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { pickRandomItem } from "@/utils/random";
-import Loading from "@/components/loading";
 
 const TYPES = [
 	{
@@ -85,7 +84,6 @@ export const Route = createFileRoute("/tools/random/thai-name")({
 function RouteComponent() {
 	const { url, category, tool } = Route.useLoaderData();
 	const [results, setResults] = useState<Result[]>([]);
-	const [isRandomizing, setIsRandomizing] = useState(false);
 	const { data: thaiNames } = useQuery<{
 		maleNames: {
 			th: string;
@@ -120,8 +118,6 @@ function RouteComponent() {
 		},
 		onSubmit: ({ value }) => {
 			if (!thaiNames) return;
-
-			setIsRandomizing(true);
 
 			const items = Array.from({ length: value.amount }, () => {
 				const gender = pickRandomItem(value.gender);
@@ -175,10 +171,7 @@ function RouteComponent() {
 				};
 			});
 
-			setTimeout(() => {
-				setResults(items);
-				setIsRandomizing(false);
-			}, 1500);
+			setResults(items);
 		},
 	});
 
@@ -358,7 +351,7 @@ function RouteComponent() {
 						</form.Field>
 					</div>
 					<div className="text-center">
-						<Button disabled={isRandomizing} variant="outlinePrimary">
+						<Button variant="outlinePrimary">
 							สุ่มชื่อเลย
 							<Shuffle />
 						</Button>
@@ -367,9 +360,7 @@ function RouteComponent() {
 			</section>
 			<Card className="text-center group relative py-10 min-h-[122px]">
 				<CardContent className="space-y-8 flex flex-col justify-center">
-					{isRandomizing ? (
-						<Loading />
-					) : results.length === 0 ? (
+					{results.length === 0 ? (
 						<p className="text-muted-foreground">ลองสุ่มชื่อดูเลย!</p>
 					) : (
 						results.map((result) => (

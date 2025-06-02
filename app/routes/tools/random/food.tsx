@@ -147,7 +147,7 @@ function RouteComponent() {
 				>
 					<div>
 						<h2 className="mb-2">เลือกประเภทอาหาร</h2>
-						<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+						<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
 							<form.Field
 								name="types"
 								validators={{
@@ -255,7 +255,7 @@ function RouteComponent() {
 					<Button>สุ่มอาหาร</Button>
 				</form>
 			</section>
-			<section className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+			<section className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
 				<AnimatePresence mode="popLayout">
 					{foods.map((food, i) => (
 						<motion.div

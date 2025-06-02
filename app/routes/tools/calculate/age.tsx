@@ -204,7 +204,7 @@ function RouteComponent() {
 					{(field) => (
 						<div className="flex flex-col gap-2">
 							<Label>วันเกิด</Label>
-							<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+							<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
 								<Select
 									value={field.state.value.toLocaleDateString("th-TH", {
 										day: "numeric",

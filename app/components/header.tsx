@@ -150,7 +150,7 @@ export default function Header() {
 															to={tool.url}
 															className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm font-medium"
 														>
-															{tool.shortTitle}
+															{tool.title}
 														</Link>
 													</NavigationMenuLink>
 												</li>

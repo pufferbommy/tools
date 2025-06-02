@@ -42,8 +42,8 @@ export const Route = createRootRouteWithContext<{
 			},
 			...seo({
 				description:
-					"รวมมิตรเครื่องมือออนไลน์ทุกอย่างบนโลกนี้ที่มีประโยชน์และไม่มีประโยชน์ เน้นความรวดเร็ว ใช้งานง่าย และฟรี 100%",
-				keywords: `เครื่องมือออนไลน์ฟรี, เครื่องมือออนไลน์, รวมเครื่องมือ, เครื่องมือออนไลน์ใช้งานฟรี, free web tools, รวมเครื่องมือดีๆ ออนไลน์, online tools, ฟรี tools, ${loaderData.toolCategoryList.map(([_, c]) => c.title).join(", ")}, ${popularTools.map((t) => t.shortTitle).join(", ")}`,
+					"รวมเครื่องมือออนไลน์ฟรีสารพัดประโยชน์ ครบครันทุกหมวดหมู่ ใช้งานง่าย รวดเร็ว ไม่ต้องสมัครสมาชิก",
+				keywords: `เครื่องมือออนไลน์ฟรี, เครื่องมือออนไลน์, รวมเครื่องมือ, เครื่องมือออนไลน์ใช้งานฟรี, free web tools, รวมเครื่องมือดีๆ ออนไลน์, online tools, ฟรี tools, ${loaderData.toolCategoryList.map(([_, c]) => c.title).join(", ")}, ${popularTools.map((t) => t.title).join(", ")}`,
 				image: `${loaderData.origin}/og/.png`,
 			}),
 		],

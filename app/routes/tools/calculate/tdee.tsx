@@ -139,7 +139,7 @@ export function TdeeCalculatorSection({
 				}}
 				className="space-y-4"
 			>
-				<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
 					<form.Field name="age">
 						{(field) => (
 							<div className="flex flex-col gap-2">

@@ -146,7 +146,7 @@ function FormSection({
 					form.handleSubmit();
 				}}
 			>
-				<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start mb-4">
+				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 items-start mb-4">
 					<form.Field
 						name="min"
 						validators={{

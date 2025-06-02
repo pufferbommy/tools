@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { ChevronRight } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
@@ -15,7 +16,6 @@ import PlainLogo from "@/components/icons/plain-logo";
 import ToolLogo from "@/components/icons/tool-logo";
 import Asterisk from "@/components/icons/asterisk";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
 
 export const Route = createFileRoute("/")({
 	component: RouteComponent,
@@ -70,9 +70,9 @@ function RouteComponent() {
 					</div>
 				</div>
 				<h2 className="text-muted-foreground mb-2">
-					เว็บรวมเครื่องมือออนไลน์สารพัดประโยชน์ ใช้ง่าย
+					รวมเครื่องมือออนไลน์ฟรีสารพัดประโยชน์
 					<br />
-					รวดเร็ว ครอบคลุมทุกอย่างที่คุณต้องการ และฟรี 100%
+					ครบครันทุกหมวดหมู่ ใช้งานง่าย รวดเร็ว ไม่ต้องสมัครสมาชิก
 				</h2>
 				<Button onClick={handleStartUsing}>เริ่มต้นใช้งาน</Button>
 			</section>
@@ -88,7 +88,7 @@ function RouteComponent() {
 							<Asterisk />
 						</h3>
 					</div>
-					<div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
 						{popularTools.map((tool) => (
 							<ToolCard key={tool.url} tool={tool} />
 						))}
@@ -110,8 +110,8 @@ function RouteComponent() {
 								<ChevronRight size={16} />
 							</Link>
 						</div>
-						<div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-							{category.tools.slice(0, 8).map((tool) => (
+						<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+							{category.tools.slice(0, 6).map((tool) => (
 								<ToolCard key={tool.url} tool={tool} />
 							))}
 						</div>
