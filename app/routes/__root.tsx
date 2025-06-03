@@ -87,7 +87,11 @@ export const Route = createRootRouteWithContext<{
 				`,
 						},
 					]
-				: []),
+				: [
+						{
+							src: "https://unpkg.com/react-scan/dist/auto.global.js",
+						},
+					]),
 		],
 	}),
 	errorComponent: (props) => {
