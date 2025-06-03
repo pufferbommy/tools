@@ -13,10 +13,10 @@ import Header from "@/components/header";
 import { NotFound } from "@/components/not-found";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { TOOL_CATEGORY_LIST, popularTools } from "@/constants/tool-categories";
 import globalsCss from "@/styles/globals.css?url";
 import { getOrigin } from "@/utils/get-origin";
 import { seo } from "@/utils/seo";
-import { popularTools, TOOL_CATEGORY_LIST } from "@/constants/tool-categories";
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;

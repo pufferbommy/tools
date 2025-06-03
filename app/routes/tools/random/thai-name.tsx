@@ -1,13 +1,12 @@
-import { Shuffle } from "lucide-react";
+import { useForm } from "@tanstack/react-form";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { Shuffle } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "@tanstack/react-form";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { seo } from "@/utils/seo";
 import ToolLayout from "@/components/tools/tool-layout";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +14,7 @@ import { Slider } from "@/components/ui/slider";
 import { GENDERS } from "@/constants/genders";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { pickRandomItem } from "@/utils/random";
+import { seo } from "@/utils/seo";
 
 const TYPES = [
 	{
@@ -358,7 +358,7 @@ function RouteComponent() {
 					</div>
 				</form>
 			</section>
-			<Card className="text-center group relative py-10 min-h-[122px]">
+			<Card className="text-center group relative py-10 min-h-[122px] flex flex-col justify-center">
 				<CardContent className="space-y-8 flex flex-col justify-center">
 					{results.length === 0 ? (
 						<p className="text-muted-foreground">ลองสุ่มชื่อดูเลย!</p>

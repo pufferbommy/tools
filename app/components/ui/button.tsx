@@ -18,7 +18,7 @@ const buttonVariants = cva(
 				outlinePrimary:
 					"border border-primary bg-primary/5 text-primary hover:bg-primary/10 hover:shadow-none shadow-[0_-0.125rem_0_inset] [--tw-shadow-color:oklch(from_var(--primary)_l_c_h/0.25)]",
 				secondary:
-					"bg-secondary text-secondary-foreground hover:bg-secondary/90 hover:shadow-none [--tw-shadow-color:oklch(from_var(--secondary)_calc(l_-_0.0625)_c_h)] shadow-[0_-0.125rem_0_inset]",
+					"border border-secondary bg-secondary text-secondary-foreground hover:bg-secondary/90 hover:shadow-none [--tw-shadow-color:oklch(from_var(--secondary)_calc(l_-_0.0625)_c_h)] shadow-[0_-0.125rem_0_inset]",
 				ghost:
 					"hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
 				link: "text-primary underline-offset-4 hover:underline",

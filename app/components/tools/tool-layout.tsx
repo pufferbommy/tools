@@ -7,6 +7,7 @@ import {
 	TOOL_CATEGORY_MAP,
 } from "@/constants/tool-categories";
 import { cn } from "@/lib/utils";
+import Asterisk from "../icons/asterisk";
 import {
 	Accordion,
 	AccordionContent,
@@ -27,7 +28,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import Asterisk from "../icons/asterisk";
 
 interface ToolLayoutProps {
 	title: string;

@@ -2,7 +2,7 @@ import { Button } from "./ui/button";
 
 export default function Footer() {
 	return (
-		<footer className="border-t border-dashed">
+		<footer className="border-t">
 			<div className="container py-4 flex justify-between text-sm">
 				<p>© {new Date().getFullYear()} RuammitTools - All rights reserved</p>
 				<nav>

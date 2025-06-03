@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loadToolData } from "@/lib/tool/loadToolData";
-import { getRandomInteger } from "@/utils/random";
+import { randomInRange } from "@/utils/random";
 
 export const Route = createFileRoute("/tools/random/number")({
 	component: RouteComponent,
@@ -63,7 +63,7 @@ function RouteComponent() {
 			if (start === null) start = timestamp;
 			const elapsed = timestamp - start;
 
-			const randomNumber = getRandomInteger(data.min, data.max);
+			const randomNumber = randomInRange(data.min, data.max);
 			setNumber(randomNumber);
 
 			if (elapsed < duration) {

@@ -1,13 +1,13 @@
 import { Link } from "@tanstack/react-router";
 
 import type { Tool } from "@/types/index";
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import SoftStar from "../icons/soft-star";
+import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 export default function ToolCard({ tool }: { tool: Tool }) {
 	return (
-		<Link to={tool.url} className="h-full rounded-md">
-			<Card className="h-full transition-all hover:border-primary group hover:shadow-[0_0_0.25rem_var(--primary)]">
+		<Card asChild className="hover:border-primary group">
+			<Link to={tool.url}>
 				<CardHeader>
 					<CardTitle className="group-hover:text-primary transition-colors flex items-center gap-1">
 						{tool.title}
@@ -17,7 +17,7 @@ export default function ToolCard({ tool }: { tool: Tool }) {
 						{tool.description}
 					</CardDescription>
 				</CardHeader>
-			</Card>
-		</Link>
+			</Link>
+		</Card>
 	);
 }
