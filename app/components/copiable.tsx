@@ -25,7 +25,7 @@ export default function Copiable({
 		<div className="relative inline-block">
 			<button
 				type="button"
-				className={cn("peer hover:text-secondary", className)}
+				className={cn("peer hover:text-secondary transition-colors", className)}
 				onClick={handleCopy}
 			>
 				{children}

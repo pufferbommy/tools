@@ -1,4 +1,4 @@
-import { useForm } from "@tanstack/react-form";
+import { type AnyFieldApi, useForm } from "@tanstack/react-form";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Shuffle } from "lucide-react";
@@ -16,6 +16,16 @@ import { loadToolData } from "@/lib/tool/loadToolData";
 import { pickRandomItem } from "@/utils/random";
 import { seo } from "@/utils/seo";
 import Copiable from "@/components/copiable";
+
+function FieldInfo({ field }: { field: AnyFieldApi }) {
+	return (
+		<>
+			{!field.state.meta.isValid ? (
+				<em>{field.state.meta.errors.join(", ")}</em>
+			) : null}
+		</>
+	);
+}
 
 const TYPES = [
 	{
@@ -217,7 +227,13 @@ function RouteComponent() {
 					className="space-y-4"
 				>
 					<div className="grid grid-cols-12 gap-x-4 gap-y-8">
-						<form.Field name="gender">
+						<form.Field
+							name="gender"
+							validators={{
+								onChange: ({ value }) =>
+									value.length === 0 ? "กรุณาเลือกเพศอย่างน้อย 1 เพศ" : undefined,
+							}}
+						>
 							{(field) => (
 								<div className="col-span-full sm:col-span-3 lg:col-span-2 flex flex-col gap-3">
 									<Label>เพศ</Label>
@@ -244,10 +260,19 @@ function RouteComponent() {
 											<Label htmlFor={gender.value}>{gender.name}</Label>
 										</div>
 									))}
+									<FieldInfo field={field} />
 								</div>
 							)}
 						</form.Field>
-						<form.Field name="types">
+						<form.Field
+							validators={{
+								onChange: ({ value }) =>
+									value.length === 0
+										? "กรุณาเลือกประเภทอย่างน้อย 1 เพศ"
+										: undefined,
+							}}
+							name="types"
+						>
 							{(field) => (
 								<div className="col-span-full sm:col-span-3 lg:col-span-2 flex flex-col gap-3">
 									<Label>ประเภท</Label>
@@ -274,10 +299,17 @@ function RouteComponent() {
 											</div>
 										))}
 									</div>
+									<FieldInfo field={field} />
 								</div>
 							)}
 						</form.Field>
-						<form.Field name="languages">
+						<form.Field
+							name="languages"
+							validators={{
+								onChange: ({ value }) =>
+									value.length === 0 ? "กรุณาเลือกภาษาอย่างน้อย 1 ภาษา" : undefined,
+							}}
+						>
 							{(field) => (
 								<div className="col-span-full sm:col-span-3 lg:col-span-2 flex flex-col gap-3">
 									<Label>ภาษา</Label>
@@ -309,6 +341,7 @@ function RouteComponent() {
 											</div>
 										))}
 									</div>
+									<FieldInfo field={field} />
 								</div>
 							)}
 						</form.Field>
@@ -364,10 +397,10 @@ function RouteComponent() {
 					{results.length === 0 ? (
 						<p className="text-muted-foreground">ลองสุ่มชื่อดูเลย!</p>
 					) : (
-						results.map((result) => (
-							<div key={Object.values(result).join()}>
+						results.map((result, i) => (
+							<div key={i}>
 								{(["th", "en"] as const).map((lang) => (
-									<div key={`${Object.values(result).join()}${lang}`}>
+									<div key={i + lang}>
 										{(result.name?.[lang] ||
 											result.lastName?.[lang] ||
 											result.nickname?.[lang]) && (
