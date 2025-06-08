@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { Menu, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -15,8 +15,8 @@ import { TOOL_CATEGORY_LIST } from "@/constants/tool-categories";
 import { cn } from "@/lib/utils";
 import Logo from "./icons/logo";
 import ThemeSwitcher from "./theme-switcher";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function Header() {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -24,6 +24,8 @@ export default function Header() {
 	const [search, setSearch] = useState("");
 	const [isFocused, setIsFocused] = useState(false);
 	const searchRef = useRef<HTMLDivElement>(null);
+	const location = useLocation();
+	const showBorder = location.pathname === "/";
 
 	const filteredCategories = TOOL_CATEGORY_LIST.filter(([, category]) =>
 		category.tools.some((tool) =>
@@ -44,7 +46,12 @@ export default function Header() {
 	}, [isFocused]);
 
 	return (
-		<header className="bg-background sticky border-b top-0 z-50">
+		<header
+			className={cn(
+				"bg-background sticky top-0 z-50",
+				showBorder && "border-b",
+			)}
+		>
 			<div className="container py-4 flex items-center gap-2">
 				<div className="flex flex-1 gap-2 items-center">
 					<Link to="/" className="inline-flex gap-2 items-center">

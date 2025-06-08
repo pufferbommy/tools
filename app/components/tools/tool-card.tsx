@@ -1,8 +1,13 @@
 import { Link } from "@tanstack/react-router";
 
 import type { Tool } from "@/types/index";
-import SoftStar from "../icons/soft-star";
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import SoftStar from "@/components/icons/soft-star";
+import {
+	Card,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 
 export default function ToolCard({ tool }: { tool: Tool }) {
 	return (

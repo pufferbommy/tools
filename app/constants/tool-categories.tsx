@@ -36,7 +36,7 @@ export const popularTools: Tool[] = [
 
 export const TOOL_CATEGORY_MAP: Record<string, Category> = {
 	"/tools/random": {
-		title: "สุ่ม",
+		title: "เครื่องมือสุ่ม",
 		description:
 			"เครื่องมือสุ่มตัวเลขและชื่อแบบง่าย ๆ ใช้งานฟรี เหมาะสำหรับการเล่นเกม การตั้งชื่อ หรือใช้ในกิจกรรมต่าง ๆ",
 		keywords: "สุ่ม, สุ่มตัวเลข, สุ่มชื่อ, สุ่มชื่อไทย, สุ่มชื่ออังกฤษ",
@@ -83,7 +83,7 @@ export const TOOL_CATEGORY_MAP: Record<string, Category> = {
 		],
 	},
 	"/tools/calculate": {
-		title: "คำนวณ",
+		title: "เครื่องมือคำนวณ",
 		description:
 			"รวมเครื่องมือคำนวณพื้นฐานที่จำเป็นในชีวิตประจำวัน เช่น BMI, BMR, อายุ และพลังงานที่ใช้ในแต่ละวัน",
 		keywords: "เครื่องมือคำนวณ, คำนวณ BMI, คำนวณ BMR, คำนวณอายุ, คำนวณ TDEE",

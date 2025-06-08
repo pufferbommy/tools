@@ -84,7 +84,7 @@ function RouteComponent() {
 					<div className="flex items-center justify-between">
 						<h3 className="font-bold text-xl inline-flex gap-2 items-center">
 							<Asterisk />
-							ยอดนิยม
+							เครื่องมือยอดนิยม
 							<Asterisk />
 						</h3>
 					</div>

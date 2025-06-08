@@ -15,6 +15,7 @@ import { GENDERS } from "@/constants/genders";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { pickRandomItem } from "@/utils/random";
 import { seo } from "@/utils/seo";
+import Copiable from "@/components/copiable";
 
 const TYPES = [
 	{
@@ -370,16 +371,20 @@ function RouteComponent() {
 										{(result.name?.[lang] ||
 											result.lastName?.[lang] ||
 											result.nickname?.[lang]) && (
-											<div>
-												{result.name?.[lang]} {result.lastName?.[lang]}{" "}
+											<>
+												<Copiable>
+													{result.name?.[lang]} {result.lastName?.[lang]}
+												</Copiable>{" "}
 												{result.nickname?.[lang] && (
-													<span className="text-muted-foreground hover:text-secondary">
+													<>
 														{(result.name?.[lang] || result.lastName?.[lang]) &&
 															" "}
-														{result.nickname?.[lang]}
-													</span>
+														<Copiable className="text-muted-foreground">
+															{result.nickname?.[lang]}
+														</Copiable>
+													</>
 												)}
-											</div>
+											</>
 										)}
 									</div>
 								))}

@@ -2,11 +2,20 @@ import { Clipboard } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function SocialShare({ url, text }: { url: string; text: string }) {
-	const SOCIALS = [
+	const socials = [
 		{
 			link: `https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`,
+			name: "Line",
 			icon: (
 				<svg
 					width={16}
@@ -24,6 +33,7 @@ export function SocialShare({ url, text }: { url: string; text: string }) {
 		},
 		{
 			link: `https://www.threads.net/intent/post?text=${text}&url=${url}`,
+			name: "Threads",
 			icon: (
 				<svg
 					role="img"
@@ -41,6 +51,7 @@ export function SocialShare({ url, text }: { url: string; text: string }) {
 		},
 		{
 			link: `https://facebook.com/sharer/sharer.php?u=${url}`,
+			name: "Facebook",
 			icon: (
 				<svg
 					width={16}
@@ -58,6 +69,7 @@ export function SocialShare({ url, text }: { url: string; text: string }) {
 		},
 		{
 			link: `fb-messenger://share/?link=${url}`,
+			name: "Messenger",
 			icon: (
 				<svg
 					width={16}
@@ -75,6 +87,7 @@ export function SocialShare({ url, text }: { url: string; text: string }) {
 		},
 		{
 			link: `https://twitter.com/intent/post?url=${url}&text=${text}`,
+			name: "Twitter",
 			icon: (
 				<svg
 					width={16}
@@ -93,41 +106,39 @@ export function SocialShare({ url, text }: { url: string; text: string }) {
 	];
 
 	return (
-		<div>
-			<p className="mb-2 text-sm">แชร์ไปยัง</p>
-			<div className="space-x-2">
-				{SOCIALS.map((social) => (
-					<Button
-						key={social.link}
-						size="icon"
-						variant="outline"
-						style={{
-							color: social.color,
-							borderColor: social.color,
-						}}
-						asChild
-					>
-						<a href={social.link} target="_blank" rel="noreferrer">
+		<DropdownMenu>
+			<DropdownMenuTrigger>แชร์ไปยัง</DropdownMenuTrigger>
+			<DropdownMenuContent>
+				{socials.map((social) => (
+					<DropdownMenuItem key={social.link} asChild>
+						<a
+							style={{
+								color: social.color,
+								borderColor: social.color,
+							}}
+							href={social.link}
+							target="_blank"
+							rel="noreferrer"
+						>
 							{social.icon}
+							{social.name}
 						</a>
-					</Button>
+					</DropdownMenuItem>
 				))}
-				<Button
-					size="icon"
-					variant="outline"
-					style={{
-						color: "#998767",
-						borderColor: "#998767",
-					}}
-					aria-label="Copy link"
+				<DropdownMenuItem
 					onClick={() => {
 						navigator.clipboard.writeText(url);
 						toast.success("คัดลอกลิงก์เรียบร้อย");
 					}}
+					style={{
+						color: "#998767",
+						borderColor: "#998767",
+					}}
 				>
 					<Clipboard />
-				</Button>
-			</div>
-		</div>
+					คัดลอกลิงค์
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
 }
