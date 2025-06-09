@@ -86,7 +86,7 @@ export default function ToolLayout({
 		<>
 			<div className="h-px w-full bg-border sticky top-[68px]" />
 			<div className="container h-px sticky top-[68px] -mt-px bg-background" />
-			<Breadcrumb className="[--rd:calc(var(--radius)-2px)] before:absolute before:size-(--rd) before:aspect-square before:z-10 before:shadow-[calc(var(--rd)*-0.25)_calc(var(--rd)*0.25)_var(--background)] before:rounded-bl-full before:border-l before:border-border before:border-b before:-left-px before:-bottom-px after:absolute after:size-2 after:aspect-square after:z-10 after:shadow-[0.125rem_0.125rem_var(--background)] after:rounded-br-full after:border-r after:border-border after:border-b after:-right-px after:-bottom-px container lg:border-x -mt-px relative py-4">
+			<Breadcrumb className="[--rd:calc(var(--radius)-2px)] before:absolute before:size-(--rd) before:aspect-square before:z-10 before:shadow-[calc(var(--rd)*-0.25)_calc(var(--rd)*0.25)_var(--background)] min-[1164px]:before:rounded-bl-full before:hidden min-[1164px]:before:block before:border-l before:border-border before:border-b before:-left-px before:-bottom-px after:absolute after:size-2 after:aspect-square after:z-10 after:shadow-[0.125rem_0.125rem_var(--background)] min-[1164px]:after:rounded-br-full after:hidden min-[1164px]:after:block after:border-r after:border-border after:border-b after:-right-px after:-bottom-px container min-[1164px]:border-x -mt-px relative py-4">
 				<BreadcrumbList>
 					<BreadcrumbItem>
 						<BreadcrumbLink asChild>
@@ -115,10 +115,10 @@ export default function ToolLayout({
 						</Fragment>
 					))}
 				</BreadcrumbList>
-				<div className="[--rd:calc(var(--radius)-2px)] absolute size-(--rd) aspect-square z-10 shadow-[calc(var(--rd)*0.25)_calc(var(--rd)*-0.25)_var(--background)] rounded-tr-full border-r border-border border-t left-0 -translate-x-full -top-px" />
-				<div className="[--rd:calc(var(--radius)-2px)] absolute size-(--rd) aspect-square z-10 shadow-[calc(var(--rd)*-0.25)_calc(var(--rd)*-0.25)_var(--background)] rounded-tl-full border-l border-border border-t right-0 translate-x-full -top-px" />
+				<div className="hidden min-[1164px]:block [--rd:calc(var(--radius)-2px)] absolute size-(--rd) aspect-square z-10 shadow-[calc(var(--rd)*0.25)_calc(var(--rd)*-0.25)_var(--background)] rounded-tr-full border-r border-border border-t left-0 -translate-x-full -top-px" />
+				<div className="hidden min-[1164px]:block [--rd:calc(var(--radius)-2px)] absolute size-(--rd) aspect-square z-10 shadow-[calc(var(--rd)*-0.25)_calc(var(--rd)*-0.25)_var(--background)] rounded-tl-full border-l border-border border-t right-0 translate-x-full -top-px" />
 			</Breadcrumb>
-			<div className="container h-px sticky rounded-bl-md top-[68px] bg-border" />
+			<div className="container h-px sticky top-[68px] bg-border" />
 			<div className="container space-y-8 pt-8">
 				<section>
 					<h1 className="font-bold text-2xl mb-2 inline-flex gap-2 items-center">
