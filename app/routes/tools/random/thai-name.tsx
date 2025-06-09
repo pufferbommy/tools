@@ -49,7 +49,7 @@ const LANGUAGES = [
 	},
 	{
 		id: "en",
-		name: "อังกฤษ",
+		name: "English",
 	},
 ];
 
