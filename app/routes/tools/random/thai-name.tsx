@@ -1,4 +1,4 @@
-import { type AnyFieldApi, useForm } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Shuffle } from "lucide-react";
@@ -16,16 +16,7 @@ import { loadToolData } from "@/lib/tool/loadToolData";
 import { pickRandomItem } from "@/utils/random";
 import { seo } from "@/utils/seo";
 import Copiable from "@/components/copiable";
-
-function FieldInfo({ field }: { field: AnyFieldApi }) {
-	return (
-		<>
-			{!field.state.meta.isValid ? (
-				<em>{field.state.meta.errors.join(", ")}</em>
-			) : null}
-		</>
-	);
-}
+import FieldInfo from "@/components/field-info";
 
 const TYPES = [
 	{
@@ -238,7 +229,10 @@ function RouteComponent() {
 								<div className="col-span-full sm:col-span-3 lg:col-span-2 flex flex-col gap-3">
 									<Label>เพศ</Label>
 									{GENDERS.map((gender) => (
-										<div key={gender.value} className="flex gap-3 items-center">
+										<Label
+											key={gender.value}
+											className="flex gap-3 items-center"
+										>
 											<Checkbox
 												id={gender.value}
 												checked={field.state.value.includes(gender.value)}
@@ -257,8 +251,8 @@ function RouteComponent() {
 													}
 												}}
 											/>
-											<Label htmlFor={gender.value}>{gender.name}</Label>
-										</div>
+											{gender.name}
+										</Label>
 									))}
 									<FieldInfo field={field} />
 								</div>
@@ -278,7 +272,7 @@ function RouteComponent() {
 									<Label>ประเภท</Label>
 									<div className="flex flex-col gap-4">
 										{TYPES.map((type) => (
-											<div key={type.id} className="flex gap-3 items-center">
+											<Label key={type.id} className="flex gap-3 items-center">
 												<Checkbox
 													id={type.id}
 													checked={field.state.value.includes(type.id)}
@@ -295,8 +289,8 @@ function RouteComponent() {
 														}
 													}}
 												/>
-												<Label htmlFor={type.id}>{type.name}</Label>
-											</div>
+												{type.name}
+											</Label>
 										))}
 									</div>
 									<FieldInfo field={field} />
@@ -315,7 +309,7 @@ function RouteComponent() {
 									<Label>ภาษา</Label>
 									<div className="flex flex-col gap-3">
 										{LANGUAGES.map((language) => (
-											<div
+											<Label
 												key={language.id}
 												className="flex gap-3 items-center"
 											>
@@ -337,8 +331,8 @@ function RouteComponent() {
 														}
 													}}
 												/>
-												<Label htmlFor={language.id}>{language.name}</Label>
-											</div>
+												{language.name}
+											</Label>
 										))}
 									</div>
 									<FieldInfo field={field} />

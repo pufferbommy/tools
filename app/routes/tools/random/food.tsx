@@ -20,6 +20,7 @@ import { Slider } from "@/components/ui/slider";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { pickRandomItem } from "@/utils/random";
 import { seo } from "@/utils/seo";
+import FieldInfo from "@/components/field-info";
 
 const foodTypes = [
 	{ value: "savory", label: "อาหารคาว", emoji: "🍛" },
@@ -205,10 +206,8 @@ function RouteComponent() {
 												</CardContent>
 											</Card>
 										))}
-										{!field.state.meta.isValid && isSubmitted && (
-											<em className="col-span-full text-sm text-destructive">
-												{field.state.meta.errors.join(", ")}
-											</em>
+										{isSubmitted && (
+											<FieldInfo field={field} className="col-span-full" />
 										)}
 									</>
 								)}

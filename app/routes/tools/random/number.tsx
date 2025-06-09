@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loadToolData } from "@/lib/tool/loadToolData";
 import { randomInRange } from "@/utils/random";
+import FieldInfo from "@/components/field-info";
 
 export const Route = createFileRoute("/tools/random/number")({
 	component: RouteComponent,
@@ -169,11 +170,7 @@ function FormSection({
 										)
 									}
 								/>
-								{isSubmitted && !field.state.meta.isValid && (
-									<em className="text-sm text-destructive">
-										{field.state.meta.errors.join(", ")}
-									</em>
-								)}
+								{isSubmitted && <FieldInfo field={field} />}
 							</div>
 						)}
 					</form.Field>
@@ -199,11 +196,7 @@ function FormSection({
 										)
 									}
 								/>
-								{isSubmitted && !field.state.meta.isValid && (
-									<em className="text-sm text-destructive">
-										{field.state.meta.errors.join(", ")}
-									</em>
-								)}
+								{isSubmitted && <FieldInfo field={field} />}
 							</div>
 						)}
 					</form.Field>
